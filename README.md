@@ -49,15 +49,6 @@
 ```
 
 
-
-::: tip 提示
-
-不要忘记自定义`Maven Home`和`Repository`的位置哦
-
-:::
-
-
-
 ### 1.2 Project Struct
 
 ​	　对于**Servlet项目**或者**前后端未分离**的项目，资源是部署在`webapp`目录下的，此时，还需要点击`funtl`下的`Web`，在`Deployment Descriptors`中配置 `web.xml` 的位置 和 在`Web Resource Directories`中配置webapp资源目录位置、资源部署的根目录为 `/`才能正常加载资源 。
