@@ -62,7 +62,7 @@
 
 ​	　对于**Servlet项目**或者**前后端未分离**的项目，资源是部署在`webapp`目录下的，此时，还需要点击`funtl`下的`Web`，在`Deployment Descriptors`中配置 `web.xml` 的位置 和 在`Web Resource Directories`中配置webapp资源目录位置、资源部署的根目录为 `/`才能正常加载资源 。
 
-![1_demo_01](../images/demo/1_demo_01.png)
+![01](./docs/images/01.png)
 
 
 
@@ -272,4 +272,4 @@ public class LoginController extends HttpServlet {
 
 ​	　最后，参考[1.2.3 Tomcat部署](https://github.com/sh086/funtl/blob/main/docs/monolith.md#123-tomcat%E9%83%A8%E7%BD%B2)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 http://localhost:8080 显示如下：
 
-![1_demo_02](../images/demo/1_demo_02.png)
+![02](./docs/images/02.png)
