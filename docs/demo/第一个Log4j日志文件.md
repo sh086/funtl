@@ -1,6 +1,4 @@
----
-sidebar: false
----
+
 
 # 第一个Log4j日志文件
 

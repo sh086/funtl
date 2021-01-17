@@ -10,10 +10,9 @@
 
 **指南：**
 
-- [开篇](./docs/introduction.md)
 - [走进单体地狱](./docs/monolith.md)
 - [微服务解决复杂问题](./docs/microservice.md)
-- [云计算服务](./docs/cloudservice.md)
+- [微服务解决方案](./docs/cloudservice.md)
 - [服务网格化](./docs/servicemesh.md)
 - [区块链即未来]()
 - [面试宝典](./docs/interview.md)
@@ -32,6 +31,8 @@
 
 
 
-## 参考链接
+## 参考资料
 
-- [Vuepress](https://vuepress.vuejs.org/zh/guide/getting-started.html)
+- [微服务从设计到部署](https://github.com/senghoo/golang-design-pattern)
+- [重构-改善既有代码的设计](http://gdut_yy.gitee.io/doc-refact2/)
+- 研磨设计模式

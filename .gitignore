@@ -1,10 +1,7 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 #通用禁用提交的文件
 node_modules
 dist
 *.lock
 .idea/
 *.log
-*.lock
 

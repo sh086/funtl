@@ -1,14 +1,16 @@
----
-sidebar: false
----
-
 # 使用Servlet实现简单的登录功能
 
-​	　采用**MVC+三层架构**的方式创建一个**Maven项目**，用于实现简单的登录功能。
+​	　采用**MVC+三层架构**的方式新建一个**Maven项目**，用于实现简单的登录功能。项目前端采用`JSP`页面实现，后端通过`Servlet`进行跳转。
 
-## 项目基本配置
 
-### 新建Maven项目
+
+> Ref：[代码示例](https://github.com/sh086/funtl/tree/feature/servlet-example)
+
+
+
+## 1 项目基本配置
+
+### 1.1 新建Maven项目
 
 ​	　在`File` -> `New Project`中选择`Maven`，然后根据提示新建Maven项目，并完成如下文件结构的建立。
 
@@ -18,8 +20,9 @@ sidebar: false
 ----src：源码目录
 --------main
 -------------java：Java代码
--------------------com.shooter.test.mvc
+-------------------com.shooter.funtl
 ------------------------entiry  数据实体
+----------------------------User.java
 ------------------------dao 	数据访问层
 ----------------------------UserDao.java
 ----------------------------impl
@@ -37,7 +40,7 @@ sidebar: false
 -----------------------web.xml	请求路径映射
 -------------------index.jsp	登录页面
 -------------------fail.jsp		登录失败页面
--------------------index.jsp	登录成功页面
+-------------------success.jsp	登录成功页面
 --------test
 -------------java：测试用例
 ----pom.xml：pom配置文件
@@ -55,15 +58,15 @@ sidebar: false
 
 
 
-### Project Struct
+### 1.2 Project Struct
 
-​	　对于**Servlet项目**或者**前后端未分离**的项目，资源是部署在`webapp`目录下的，此时，还需要点击`mvc`下的`Web`，在`Deployment Descriptors`中配置 `web.xml` 的位置 和 在`Web Resource Directories`中配置webapp资源目录位置、资源部署的根目录为 `/`才能正常加载资源 。
+​	　对于**Servlet项目**或者**前后端未分离**的项目，资源是部署在`webapp`目录下的，此时，还需要点击`funtl`下的`Web`，在`Deployment Descriptors`中配置 `web.xml` 的位置 和 在`Web Resource Directories`中配置webapp资源目录位置、资源部署的根目录为 `/`才能正常加载资源 。
 
-![1601133488003](../images/30_demo_01.png)
+![1_demo_01](./images/1_demo_01.png)
 
 
 
-### POM对象
+### 1.3 POM对象
 
 ​	　修改 `pom.xml` 配置，添加开发Servlet项目需要使用的`javax.servlet-api`依赖和打印日志所需的`log4j-over-slf4j`依赖。
 
@@ -93,7 +96,7 @@ sidebar: false
 
 
 
-## 编写业务代码
+## 2 编写业务代码
 
 ​	　首先，在**User类**中，增加`loginId`（登录ID）、`loginPwd`（登录密码）、`userName`（用户名）三个属性，来描述用户信息。
 
@@ -108,9 +111,9 @@ public class User {
 
 
 
-### 数据访问层
+### 2.1 数据访问层
 
-**1、UserDao**
+（1）UserDao
 
 ```java
 public interface UserDao {
@@ -118,7 +121,7 @@ public interface UserDao {
 }
 ```
 
-**2、UserDaoImpl**
+（2）UserDaoImpl
 
 ```java
 public class UserDaoImpl implements UserDao {
@@ -141,9 +144,9 @@ public class UserDaoImpl implements UserDao {
 
 
 
-### 业务逻辑层
+### 2.2 业务逻辑层
 
-**1、UserService**
+（1）UserService
 
 ```java
 public interface UserService {
@@ -151,7 +154,7 @@ public interface UserService {
 }
 ```
 
-**2、UserServiceImpl**
+（2）UserServiceImpl
 
 ```java
 public class UserServiceImpl implements UserService {
@@ -165,9 +168,9 @@ public class UserServiceImpl implements UserService {
 
 
 
-### 前端控制层
+### 2.3 前端控制层
 
-**1、LoginController**
+（1）LoginController
 
 ```java
 public class LoginController extends HttpServlet {
@@ -193,7 +196,9 @@ public class LoginController extends HttpServlet {
 }
 ```
 
-**2、配置web.xml**
+
+
+（2）配置web.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -207,7 +212,7 @@ public class LoginController extends HttpServlet {
     <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>
-            com.shooter.test.mvc.web.controller.LoginController
+            com.shooter.funtl.web.controller.LoginController
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -219,9 +224,11 @@ public class LoginController extends HttpServlet {
 
 
 
-### 视图层
+### 2.4 视图层
 
-**1、index.jsp登录页面**
+
+
+（1）index.jsp登录页面
 
 ​	　`index.jsp`是Servlet项目默认的欢迎页面，无需在`web.xml`中显示配置，项目部署成功后，访问根路径会直接跳转到`index.jsp`页面。
 
@@ -233,15 +240,17 @@ public class LoginController extends HttpServlet {
 </head>
 <body>
     <form action="/login" method="post">
-        <input name="loginId" type="text"/>
-        <input name="loginPwd" type="password"/>
+        用户名：<input name="loginId" type="text"/><br/>
+        密码：<input name="loginPwd" type="password"/><br/>
         <input type="submit" value="登录"/>
     </form>
 </body>
 </html>
 ```
 
-**2、success.jsp 和 fail.jsp登录跳转页面**
+
+
+（2）success.jsp 和 fail.jsp登录跳转页面
 
 ```html
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -259,8 +268,8 @@ public class LoginController extends HttpServlet {
 
 
 
-## 测试运行
+## 3 测试运行
 
-​	　配置完 `Tomcat` 后直接运行，打开浏览器访问 http://localhost:8080 显示如下：
+​	　最后，参考[Tomcat部署](https://github.com/sh086/funtl/blob/main/docs/guide/monolith.md#tomcat%E9%83%A8%E7%BD%B2)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 http://localhost:8080 显示如下：
 
-![1600517007919](../images/30_demo_02.png)
+![1_demo_02](./images/1_demo_02.png)

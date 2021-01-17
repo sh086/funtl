@@ -1,6 +1,3 @@
----
-sidebar: false
----
 
 # 第一个SpringWeb应用
 
@@ -85,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
 ​	　由于项目中包含`Spring`配置，还需要在`Project Settings` 中配置Spring的xml配置文件的位置。
 
-![1601133761833](./images/1601133761833.png)
+
 
 ​	　最后，在 `MyTest` 测试类中，测试对象是否能够通过 Spring 来创建。
 

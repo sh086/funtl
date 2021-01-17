@@ -1,6 +1,4 @@
----
-sidebar: false
----
+
 # 第一个Junit单元测试
 
 ​	　首先，创建一个工程名为 `junit-demo` 的`maven`项目，并新建如下项目目录结构：
