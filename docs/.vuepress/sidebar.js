@@ -38,6 +38,7 @@ module.exports = {
                 ['vue.md', 'Vue渐进式JavaScript框架'],
                 ['springsecurityoauth2.md', 'Spring Security Oauth2'],
                 ['gitflow.md', 'GitFlow工作流指南'],
+                ['interview.md', '面试宝典'],
             ]
         },
     ],

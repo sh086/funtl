@@ -28,11 +28,12 @@ startup.bat -init
 yarn dev
 ```
 
-​	　启动完成后，即可通过<a>http://localhost:8001/funtl/</a>访问本项目。若想终止运行，请输入`ctrl + c` 。
-
-​	　最后，您可以参考[这里](https://vuepress.vuejs.org/zh/theme/default-theme-config.html)对文档的默认主题（包括导航栏、侧边栏）进行修改。修改完成后，可以通过如下命令，将修改结果部署到`GitHub Pages`上，部署原理请参照[这里](https://vuepress.vuejs.org/zh/guide/deploy.html#github-pages)。
+​	　启动完成后，即可通过<a>http://localhost:8001/funtl/</a>访问本项目。若想终止运行，请输入`ctrl + c` 。最后，您可以参考[这里](https://vuepress.vuejs.org/zh/theme/default-theme-config.html)对文档的默认主题（包括导航栏、侧边栏）进行修改。修改完成后，可以通过如下命令，将修改结果部署到`GitHub Pages`上，部署原理请参照[这里](https://vuepress.vuejs.org/zh/guide/deploy.html#github-pages)。
 
 ```shell
 # 推送文件到GitHub Pages中
-startup.bat -push
+# -push :固定参数 
+# git@github.com:sh086 :仓库的SSH地址
+startup.bat -push git@github.com:sh086
 ```
+

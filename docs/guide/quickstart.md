@@ -1,6 +1,6 @@
 # 快速开始
 
-​	　使用 **Intellij IDEA**、**Maven**搭建单体应用开发环境，然后采用**MVC三层架构**，通过`Servlet`和`JSP页面`实现一个简单的登录功能。
+​	　首先，使用 **Intellij IDEA**、**Maven**搭建单体应用开发环境，然后采用**MVC三层架构**，实现一个简单的登录功能。
 
 > **Ref**：[讲义](https://www.funtl.com/zh/guide/%E8%B5%B0%E5%90%91%E5%8D%95%E4%BD%93%E5%9C%B0%E7%8B%B1.html) | [视频合辑](https://www.bilibili.com/video/av29299488) 
 
