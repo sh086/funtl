@@ -1,16 +1,16 @@
+---
+sidebar: auto
+---
+
 # 使用Servlet实现简单的登录功能
 
 ​	　采用**MVC+三层架构**的方式新建一个**Maven项目**，用于实现简单的登录功能。项目前端采用`JSP`页面实现，后端通过`Servlet`进行跳转。
 
 
 
-> Ref：[代码示例](https://github.com/sh086/funtl/tree/main/repository/servlet-example)
+## 项目基本配置
 
-
-
-## 1 项目基本配置
-
-### 1.1 新建Maven项目
+### 新建Maven项目
 
 ​	　在`File` -> `New Project`中选择`Maven`，然后根据提示新建Maven项目，并完成如下文件结构的建立。
 
@@ -50,15 +50,7 @@
 
 
 
-::: tip 提示
-
-不要忘记自定义`Maven Home`和`Repository`的位置哦
-
-:::
-
-
-
-### 1.2 Project Struct
+### Project Struct
 
 ​	　对于**Servlet项目**或者**前后端未分离**的项目，资源是部署在`webapp`目录下的，此时，还需要点击`funtl`下的`Web`，在`Deployment Descriptors`中配置 `web.xml` 的位置 和 在`Web Resource Directories`中配置webapp资源目录位置、资源部署的根目录为 `/`才能正常加载资源 。
 
@@ -66,7 +58,7 @@
 
 
 
-### 1.3 POM对象
+### POM对象
 
 ​	　修改 `pom.xml` 配置，添加开发Servlet项目需要使用的`javax.servlet-api`依赖和打印日志所需的`log4j-over-slf4j`依赖。
 
@@ -78,8 +70,8 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.shooter.test</groupId>
-    <artifactId>mvc</artifactId>
+    <groupId>com.shooter.funtl</groupId>
+    <artifactId>servlet-example</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
@@ -96,7 +88,7 @@
 
 
 
-## 2 编写业务代码
+## 编写业务代码
 
 ​	　首先，在**User类**中，增加`loginId`（登录ID）、`loginPwd`（登录密码）、`userName`（用户名）三个属性，来描述用户信息。
 
@@ -111,7 +103,7 @@ public class User {
 
 
 
-### 2.1 数据访问层
+### 数据访问层
 
 （1）UserDao
 
@@ -144,7 +136,7 @@ public class UserDaoImpl implements UserDao {
 
 
 
-### 2.2 业务逻辑层
+### 业务逻辑层
 
 （1）UserService
 
@@ -168,7 +160,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-### 2.3 前端控制层
+### 前端控制层
 
 （1）LoginController
 
@@ -224,7 +216,7 @@ public class LoginController extends HttpServlet {
 
 
 
-### 2.4 视图层
+### 视图层
 
 
 
@@ -268,8 +260,8 @@ public class LoginController extends HttpServlet {
 
 
 
-## 3 测试运行
+## 测试运行
 
-​	　最后，参考[Tomcat部署](https://github.com/sh086/funtl/blob/main/docs/guide/monolith.md#tomcat%E9%83%A8%E7%BD%B2)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 http://localhost:8080 显示如下：
+​	　最后，参考[Tomcat部署](https://sh086.github.io/funtl/guide/quickstart.html#tomcat%E9%83%A8%E7%BD%B2)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 <a href ="http://localhost:8080" target="view_window"> http://localhost:8080</a>
 
 ![1_demo_02](./images/1_demo_02.png)

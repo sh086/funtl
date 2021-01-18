@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 
 # 第一个Spring应用程序
 

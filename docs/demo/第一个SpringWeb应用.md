@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 
 # 第一个SpringWeb应用
 

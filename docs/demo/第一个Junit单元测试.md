@@ -1,3 +1,6 @@
+---
+sidebar: auto
+---
 
 # 第一个Junit单元测试
 

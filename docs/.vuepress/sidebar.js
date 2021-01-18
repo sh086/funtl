@@ -5,10 +5,10 @@ module.exports = {
             title: '走进单体地狱',
             collapsable: false,
             children: [
-                ['quickstart.md', '快速开始'],
+                ['quickstart.md', '快速入门'],
                 ['bootstrap.md', 'BootStrap'],
-                ['framework.md', '基础框架入门'],
                 ['common.md', '通用工具类'],
+                ['framework.md', '基础框架入门'],
             ]
         },
         {

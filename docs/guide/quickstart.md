@@ -8,7 +8,8 @@
 
 **实战：**
 
-- [使用Servlet实现简单的登录功能](../project/servlet.md)
+- [使用Servlet实现简单的登录功能](../demo/使用Servlet实现简单的登录功能.md)
+
 
 
 
@@ -18,9 +19,9 @@
 
 ### IDEA Setting
 
-​	　IDEA中的环境配置有`Setting`和`Default Setting`，两种配置项相同，只是作用范围不同。Setting用于特定的项目中，Default Setting是共用的配置。
+​	　IDEA中的环境配置有`Setting`和`Default Setting`，两种配置项相同，只是作用范围不同。`Setting`用于特定的项目中，`Default Setting`是共用的配置。
 
-（1） 快捷键
+#### 快捷键简介
 
 ```
 [代码编辑]
@@ -51,7 +52,7 @@
 
  
 
-（2）Plugins
+#### Plugins安装
 
 ​	　在`File` -> `Plugins`中下载如下IDEA插件，有助于提升开发效率。
 
@@ -65,39 +66,19 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 
 
-### 构建Maven项目
+#### Maven设置
 
-#### 导入Maven项目
-
-​	　在`File` -> `New Project`中选择`Maven`，然后根据提示就可以**新建Maven项目** 或者 通过  `FILE` -> `import Setting`导入一个**已经存在的Maven项目**。
-
-```text
-// Maven项目的目录
-----target：可执行的CLASS文件
-----src：源码目录
---------main
--------------java：Java代码
--------------------Application.java:启动类
--------------resources：资源目录
--------------------application.properties:配置文件
---------test
--------------java：测试用例
-----pom.xml：pom配置文件
-----.gitignore：git忽略名单
-----工程名.iml
-```
-
-​	　接着，在IDEA中配置Maven（建议配置在`Default Setting`中），需要**配置Maven主目录**、**勾选Override重置setting文件目录**、**勾选Override重置本地仓库**目录三步。
+​	　在IDEA中自定义配置Maven（建议配置在`Default Setting`中），需要**配置Maven主目录**、**勾选Override重置setting文件目录**、**勾选Override重置本地仓库**目录三步。
 
 ![11_idea_01](./images/monolith/11_idea_01.png)
 
-​	　最后，配置完成后，还需要点击IDEA右侧`Maven Projects`，刷新Pom来**导入项目依赖**。至此，一个Maven项目就已经建立成功了。
 
 
 
-#### Project Struct
 
-（1）Project SDK
+### Project Struct
+
+#### ProjectSDK
 
 ​	　选择 `File` -> `Project Structure`，在弹出的窗口中，设定**JDK 的安装路径**以及**项目语言级别**。
 
@@ -105,17 +86,17 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 
 
-（2）Modules
+#### Modules
 
-​	　需要将项目中目录`Mark As`不同的含义，`Sources`表示代码、`Resources`表示资源目录、`Test`表示测试用例、`Test Resources`表示测试资源、`Excluded`表是编译目录。
+​	　需要将项目中目录`Mark As`不同的含义，`Sources`表示代码、`Resources`表示资源目录、`Test`表示测试用例、`Test Resources`表示测试资源。
 
-**① 标记文件目录**
+（1）标记文件目录
 
 ![11_idea_03](./images/monolith/11_idea_03.png)
 
 
 
-② 设置Web Resource Directory
+（2）设置Web Resource Directory
 
 ​	　对于**Servlet项目**或者**前后端未分离**的项目，资源是部署在`webapp`目录下的，此时，还需要点击`myshop`下的`Web`，在`Deployment Descriptors`中配置 `web.xml` 的位置 和 在`Web Resource Directories`中配置webapp资源目录位置、资源部署的根目录为 `/`才能正常加载资源 。
 
@@ -123,7 +104,7 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 
 
-③ 配置Spring Context
+（3） 配置Spring Context
 
 ​	　若项目中包含`Spring`配置，还需要配置Spring的xml配置文件的位置。
 
@@ -131,7 +112,7 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 
 
-（3） Artifacts
+####  Artifacts
 
 ​	　对于需要部署到Tomcat的项目，还需要`Web Application`。首先需要在`Artifacts`中点击 `+`  号，选择`Web Application:Exploded`，然后选择`Form Modules` ，在弹出的窗口中选择当前项目`myshop`即可。
 
@@ -143,9 +124,9 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 
 
-#### Tomcat部署
+### Tomcat部署
 
-（1）配置Server
+#### Server
 
 ​	　对于需要部署在Tomcat中的项目，还需要配置Tomcat运行环境。首先在IDEA的顶部工具栏中选择 `Run` -> `Edit Configurations`，然后在弹出页面的左上方选择 `+` 号 -> `Tomcat Server` -> `Local`，最后填写Tomcat的名称、配置自动更新、选择 Tomcat 的安装、发布路径。
 
@@ -155,7 +136,7 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 
 
-**（2）配置Deployment**
+#### Deployment
 
 ​	　继续上一步，选择 [Deployment] ->[+] 号 ->[Artifact]后，点击[apply]保存配置，完成 Tomcat 本地部署
 
@@ -164,7 +145,7 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 ​	　`artifact:war exploded`表示项目以**虚拟化目录**（即将 `/projectName` -> `Application context自定义的路径 / 上`）的形式发布到Web服务器上，如以上的配置通过<a>http://localhost:8080/</a>即可访问项目。而`artifact:war`是以真实目录进行发布的，发布路径是`/projectName`，不建议使用`artifact:war`进行部署。
 
 ::: tip 注意
-若点击[+] 号后，没有exploded的Artifact，需要在Project Structure的Artifacts中进行配置
+若点击[+] 号后，没有exploded的Artifact，则需要在Project Structure的Artifacts中进行配置 或者 点击 `Fix`按钮自动添加
 :::
 
 
@@ -173,19 +154,33 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 ​	　 Maven由Apache公司采用Java语言编写，是一个**项目管理和综合工具**，提供了可以构建一个完整的**生命周期**框架。Maven 使用**标准的目录结构**和**默认构建生命周期**，**简化**和**标准化**项目**自动构建过程**，增加`可重用性`并负责建立相关的任务，使编译、分配、文档、团队协作和其他任务可以无缝连接。
 
+
+
 ### 快速开始
 
 ::: warning 环境准备
 确保JDK 为1.8 及以上版本，并已设置JAVA_HOME 环境变量
 :::
 
-​	　 首先在[maven官网](https://maven.apache.org/download.cgi)下载 Maven 的 zip 文件，然后解压到安装目录后，在`config/settings.xml`配置文件中修改`localRepository`标签值(可选)，来自定义Maven本地仓库路径。
+​	　 首先在[maven官网](https://maven.apache.org/download.cgi)下载 Maven 的 zip 文件，然后解压到安装目录后，在`config/settings.xml`配置文件中修改`localRepository`元素值(可选)，来自定义Maven本地仓库路径。
 
 ```xml
  <localRepository>F:/Reference/mave/Respository</localRepository>
 ```
 
-​	　 最后，在环境变量中新增`MAVEN_HOME`值为Maven安装路口（如：E:\Server\apache-maven-3.5.3），然后**追加**`%MAVEN_HOME%\bin`到`path`中即可。配置完成后，可以在cmd中运行`mvn -version`命令验证是否已经安装成功。
+​	　 接着，找到`mirrors`元素， 在它里面添加子元素`mirror`，设置Maven镜像为阿里云镜像，从而加快从中央仓库下载`Jar`包的速率。
+
+```xml
+<!-- 阿里云中央仓库 -->
+<mirror>
+    <id>nexus-aliyun</id>
+    <mirrorOf>central</mirrorOf>
+    <name>Nexus aliyun</name>
+    <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+</mirror>
+```
+
+​	　 最后，在环境变量中新增`MAVEN_HOME`值为Maven安装路径（如：E:\Server\apache-maven-3.5.3），然后**追加**`%MAVEN_HOME%\bin`到`path`中即可。配置完成后，可以在cmd中运行`mvn -version`命令验证是否已经安装成功。
 
 ```
 C:\Users\User>mvn -version
@@ -199,13 +194,11 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 
 
-### 依赖机制
+### POM对象
 
-​	　 Maven在**依赖机制**的帮助下会根据`pom.xml` 文件中的`坐标信息`，在`maven仓库`中自动下载、更新所有必需的依赖库，并保持版本升级。
+​	　POM（**项目对象模型**）位于**项目的基本目录**中，是 Maven 工作的**基本单位**。每个项目只有**一个** POM 文件，POM以XML方式配置Jar包、插件等的坐标信息。
 
-#### POM对象
-
-​	　POM（**项目对象模型**）位于**项目的基本目录**中，是 Maven 工作的**基本单位**。每个项目只有**一个** POM 文件，POM以XML方式配置目标、插件等信息，Maven 会根据项目的POM文件获取所需要的配置信息。
+（1）POM主要节点
 
 ​	　POM的根元素是[**project**]，由`groupId`**，**`artifactId`和`version`三个主要节点（必填）组成，这三个属性是项目仓库的唯一标识，项目在仓库中的项目符号由`groupId:artifactId:version`表示。 
 
@@ -227,6 +220,10 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
   
 <project>
 ```
+
+
+
+（2）POM其他节点
 
 ​	　此外，POM的根元素是[**project**]下还有`packaging`（打包格式）、`name`（表示项目名称）、`description`（项目描述信息）、`dependencies`（项目依赖配置）和`properties` (自定义属性)等节点信息。
 
@@ -260,7 +257,7 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 
 
-#### 语义化版本
+（3）语义化版本规范
 
 ​	　Java版本号常使用**语义化版本规范**或者**逢十进一**的方式，建议使用语义化版本规范。如初始版本号为`1.0.0` ，接下来版本命名方式如下：
 
@@ -269,6 +266,10 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 1.1.0 在第一个版本上新增功能
 2.0.0 结构发生变更
 ```
+
+
+
+### Maven快照
 
 ​	　在使用**版本**时，如果 Maven 下载所提到的版本为 `data-service:1.0`，那么它永远不会尝试在库中下载已经更新的版本 1.0。要下载更新的代码，data-service 的版本**必须要升级到 1.1**。这样需要数据服务团在发布更新时每次都要告诉应用程序 UI 团队，请UI 团队更新一下 `pom.xml` 以获得更新应用的版本。为了处理这类情况，引入快照的概念。
 
@@ -283,9 +284,11 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 
 
-#### Maven仓库
+### Maven仓库
 
-​	　 Maven 的本地仓库是用来存储所有项目的依赖关系(插件 Jar 和其他文件)，Maven首先从**本地Maven仓库**获取依赖，如果没有找到，会从[Maven中央存储库](http://repo1.maven.org/maven2/) 查找下载到本地仓库中。此外，如果在 pom.xml 中定义了远程仓库，最后还会在 **Maven 远程仓库**搜索。
+​	　 Maven在**依赖机制**的帮助下会根据`pom.xml` 文件中的`坐标信息`，在`maven仓库`中自动下载、更新所有必需的依赖库，并保持版本升级。
+
+​	　 Maven 的本地仓库是用来存储所有项目的依赖关系(插件 Jar 和其他文件)， Maven首先从**本地Maven仓库**获取依赖，如果没有找到，会从[Maven中央存储库](http://repo1.maven.org/maven2/) 查找下载到本地仓库中。此外，如果在 `pom.xml` 中定义了远程仓库，最后还会在 **Maven 远程仓库**搜索。
 
 ::: tip 提示
 可以使用 [MVNrepository](https://mvnrepository.com/) 查询Maven中央仓库中包含的依赖
@@ -295,18 +298,23 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 ### Maven命令
 
-
-#### Plugins
-
-​	　Maven插件分为 **构建插件** 和 **报告插件** 两种类型插件。构建插件是在**生成过程中执行**，报告插件在**网站生成期间执行**。Maven插件首先需要在 `pom.xml` 中的 元素进行配置，才能使用。
-
 ​	　Maven 是一个**执行插件**的框架，每一个任务实际上是由插件完成的。一个Maven插件通常提供了一组目标，可使用以下语法来执行：
 
 ```
 mvn [plugin-name]:[goal-name]
 ```
 
-​	　Maven 插件通常用于创建 jar 文件、创建 war文件、编译代码文件、进行代码单元测试、创建项目文档、创建项目报告。Maven常用命令如下：
+
+
+（1）Maven插件
+
+​	　Maven插件分为 **构建插件** 和 **报告插件** 两种类型插件。构建插件是在**生成过程中执行**，报告插件在**网站生成期间执行**。Maven插件首先需要在 `pom.xml` 中的 元素进行配置，才能使用。
+
+​	　Maven 插件通常用于创建 jar 文件、创建 war文件、编译代码文件、进行代码单元测试、创建项目文档、创建项目报告。
+
+
+
+（2）常见的Maven命令
 
 ```
 mvn clean：调用maven-clean-plugin，删除根目录下target目录
@@ -322,9 +330,9 @@ mvn tomcat:run	通过maven命令将web项目发布到Tomcat
 
 
 
-#### LifeCycle
+（3）Maven生命周期
 
-​	　 maven在项目构建中存在`cleanLifeCycle`（清理生命周期）、`defaultLifeCycle`（默认生命周期)、`siteLifeCycle`（站点生命周期）三类生命周期，这三类生命周期间相互独立、互不影响，在一类生命周期之内，执行后面的命令前面的操作会自动执行。
+​	　 Maven在项目构建中存在`cleanLifeCycle`（清理生命周期）、`defaultLifeCycle`（默认生命周期)、`siteLifeCycle`（站点生命周期）三类生命周期，这三类生命周期间相互独立、互不影响，在一类生命周期之内，执行后面的命令前面的操作会自动执行。
 
 ```
 - defaultLifeCycle：是默认生命周期，包含compile、test、package、install、deploy四个节点
@@ -341,7 +349,7 @@ mvn tomcat:run	通过maven命令将web项目发布到Tomcat
 
 ![31_mvc_01](./images/monolith/31_mvc_01.png)
 
-​	　为了更好的降低各层间的耦合度，在三层架构程序设计中，采用**面向抽象编程**。即上层对下层的调用，是通过接口实现的。而下层对上层的真正服务提供者，是下层接口的实现类。服务标准（接口）是相同的，服务提供者（实现类）可以更换。这就实现了**层间解耦合**。是相同的，服务提供者（实现类）可以更换。这就实现了**层间解耦合**。
+​	　为了更好的降低各层间的耦合度，在三层架构程序设计中，采用**面向抽象编程**。即上层对下层的调用，是通过接口实现的。而下层对上层的真正服务提供者，是上层接口的实现类。服务标准（接口）是相同的，服务提供者（实现类）可以更换。这就实现了**层间解耦合**。
 
 
 
