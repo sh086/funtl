@@ -12,13 +12,9 @@
 
 ## 项目初始化
 
-### 新建Maven项目
-
-​	　首选，在`File` -> `New Project`中选择`Maven`，根据提示就可以**新建Maven项目** 。新建完成后，参考如下完善MyShop的目录：
+​	　首先在IDEA的`File` -> `New Project`中选择`Maven`，然后根据提示新建`ssm-myshop`项目 。新建完成后，接着需要完成**配置文件初始化**，以及引入**前端框架`AdminLT`**。
 
 ```text
-----.idea：idea配置文件
-----target：可执行的CLASS文件
 ----src：源码目录
 --------main
 -------------java：Java代码
@@ -48,25 +44,59 @@
 ----工程名.iml
 ```
 
-​	接着，需要还配置**Maven仓库**、**Project Struct**、**Tomcat服务器**等项目开发环境（[参加这里](../service/idea.html)）。
 
-### 初始化配置文件
 
-**1、pom.xml**
+### pom
+
+#### spring
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.shooter.test</groupId>
-    <artifactId>myshop</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</project>
+ <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-context</artifactId>
+     <version>4.3.17.RELEASE</version>
+ </dependency>
+ <dependency>
+     <groupId>javax.servlet</groupId>
+     <artifactId>javax.servlet-api</artifactId>
+     <version>4.0.1</version>
+     <scope>provided</scope>
+ </dependency>
 ```
 
-**2、log4j.properties**
+
+
+#### mybatis
+
+```xml
+
+```
+
+
+
+#### common
+
+```xml
+ <dependency>
+     <groupId>junit</groupId>
+     <artifactId>junit</artifactId>
+     <version>4.12</version>
+     <scope>test</scope>
+ </dependency>
+ <dependency>
+     <groupId>org.slf4j</groupId>
+     <artifactId>slf4j-log4j12</artifactId>
+     <version>1.7.25</version>
+ </dependency>
+```
+
+
+
+### resources
+
+​	　在`resource`资源目录中，新建`web.xml`配置文件 、日志文件 `log4j.properties` 、Spring配置文件`spring-context.xml`。
+
+#### log4j.properties
 
 ```properties
 log4j.rootLogger=INFO, console, file
@@ -83,7 +113,9 @@ log4j.appender.A3.MaxBackupIndex=10
 log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 ```
 
-**3、spring-context.xml**
+
+
+#### spring-context.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -96,7 +128,24 @@ log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 </beans>
 ```
 
-**4、web.xml**
+
+
+### webapp
+
+​	　在`src/main`目录下新建`webapp`目录，用于存放网络资源。`webapp`具体目录结构如下：
+
+```
+webapp
+---assets
+---WEB-INF
+------web.xml
+```
+
+
+
+#### web.xml
+
+​	　新建`web.xml`完成后，还需要再设置`Web Resource Directory`（参考[这里](https://sh086.github.io/funtl/guide/quickstart.html#project-struct)的`Modules`中的第(2)点）。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -111,7 +160,7 @@ log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 
 
 
-### AdminLTE模板
+#### AdminLTE
 
 ​	**AdminLTE**是一个基于BootStrap的管理模板，首先[下载](https://github.com/ColorlibHQ/AdminLTE/releases)`AdminLTE-2.4.18`版本，下载完成后解压文件，得到如下目录：
 

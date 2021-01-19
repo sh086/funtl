@@ -7,8 +7,8 @@ module.exports = {
             children: [
                 ['quickstart.md', '快速入门'],
                 ['bootstrap.md', 'BootStrap'],
-                ['common.md', '通用工具类'],
-                ['framework.md', '基础框架入门'],
+                ['common.md', '基础框架入门'],
+                ['ssm.md', 'Spring生态'],
             ]
         },
         {

@@ -1,12 +1,13 @@
-# 通用工具类
+# 基础框架入门
 
 ## Junit单元测试
 
 ​	　JUnit 是用于编写和运行可重复的**自动化测试**的开源测试框架，这样可以保证我们的代码按预期工作。
 
-**参考资料：**
+**实战：**
 
-- [第一个Junit单元测试]()
+- [第一个Junit单元测试](../demo/第一个Junit单元测试.md)
+
 
 
 
@@ -19,7 +20,7 @@
 压力测试：专门用于测试应用最大可以承载多少并发
 疲劳强度测试：测试程序能否长期（72时 ~ 7天）稳定运行
 冒烟测试：对主要流程(支付环节)进行频繁、高强度的测试
-集成测试：对完整功能的进行测，最重要的是测试整体业务流程
+集成测试：对完整功能进行测试，最重要的是测试整体业务流程
 回归测试：若测试完后，应用又新增了一个功能或BugFix，需要针对这个功能或BugFix进行回归测试
 ```
 
@@ -61,7 +62,7 @@ public void after() {
 
 （3）@BeforeClass和 @AfterClass
 
-​	　`@BeforeClass` 和 `@AfterClass`注解只能在**测试用例类执行** `之前/之后` 执行**一次,** 方法必须声明为`public static`。
+​	　`@BeforeClass` 和 `@AfterClass`注解只能在**测试用例类执行** `之前/之后` 执行**一次,** 方法必须声明为`public static`。多用于开启资源和关闭资源。
 
 ```java
 @BeforeClass
@@ -161,9 +162,9 @@ void assertArrayEquals([String message], expectedArray, resultArray)
 
 ​	　`Log4j` ( `Log for java`)是专门用于 Java 语言的日志记录工具。`Log4j`是通过**日志输出控制文件(**`log4j.properties`)来控制日志输出，代码中只要设置好**日志信息内容**及**日志级别**，即可在开发、测试、维护、运行等环节，向控制台或文件等位置输出**大量**日志信息。
 
-**参考资料：**
+**实战：**
 
-- [第一个Log4j日志文件]()
+- [第一个Log4j日志文件](../demo/第一个Log4j日志文件.md)
 
 
 
@@ -263,7 +264,7 @@ log4j.appender.console.layout.ConversionPattern=%d %p [%c] - %m%n
 
 （2）日志信息内容
 
-​	　slf4j (`Simple Loging Facade For Java`) 是为 Java 程序提供**日志输出的统一接口**，slf4j须搭配其他具体的日志实现方案，比如 apache 的 `org.apache.log4j.Logger`、JDK 自带的 `java.util.logging.Logger` 或者 目前比较流行的是`Logback`框架。
+​	　slf4j (`Simple Loging Facade For Java`) 是为 Java 程序提供**日志输出的统一接口**，slf4j须搭配其他具体的日志实现方案，比如 apache 的 `org.apache.log4j.Logger`、JDK 自带的 `java.util.logging.Logger` 或者 目前比较流行的是`Logback`框架，我们这边以 apache 的 `org.apache.log4j.Logger`为例。
 
 ```java
 logger.info("slf4j message is : {}", "message");

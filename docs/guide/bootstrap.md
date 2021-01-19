@@ -333,7 +333,7 @@ BootStrap
 
 ## 字体图标
 
-​	　字体图标是使用**字体格式**的字形做成了图标。字体图标是矢量图标，用于形象展示功能的含义，增强用户体验，放大和缩写都不会使字体图标失真。字体图标分为**线性图标**和**填充图标**。
+​	　字体图标是使用**字体格式**的字形做成了图标。字体图标是矢量图标，用于**形象展示功能的含义**，增强用户体验，放大和缩写都不会使字体图标失真。字体图标分为**线性图标**和**填充图标**，未选中是展示线下图标，选中时展示填充图标。
 
 ### Bootstrap字体图标
 
@@ -348,14 +348,16 @@ BootStrap
 ​	　可以在[这里](https://v3.bootcss.com/components/)找到所需的Bootstrap字体图标名称，然后引入到项目中使用即可，具体引用方式如下：
 
 ```css
-<span class="glyphicon glyphicon-search"></span>
+<span class="glyphicon glyphicon-search"
+	style="font-size: 100px; color: rebeccapurple;">
+</span>
 ```
 
 
 
 ### 其它字体图标
 
-- [阿里巴巴矢量图标库](http://www.iconfont.cn/)
+- [阿里巴巴矢量图标库(推荐)](http://www.iconfont.cn/)
 
 - [SocialIcons](http://www.socicon.com/chart.php)
 
