@@ -6,13 +6,6 @@
 
 
 
-**实战：**
-
-- [使用Servlet实现简单的登录功能](../demo/使用Servlet实现简单的登录功能.md)
-
-
-
-
 ## Intellij IDEA
 
 ​	　IDEA 全称 IntelliJ IDEA，是互联网公司主流的 Java 集成开发环境，在智能代码助手、代码自动提示、重构、J2EE 支持、各类版本同步工具(`git`、`svn`、`github`等)、JUnit、CVS 整合、代码分析、 创新的 GUI 设计等方面的功能拥有着卓越的效率。

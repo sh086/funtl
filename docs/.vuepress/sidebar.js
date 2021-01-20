@@ -47,8 +47,8 @@ module.exports = {
             title: '单体项目',
             collapsable: false,
             children: [
-                ['servlet.md','简单的用户登录功能'],
-                ['myshop.md','MyShop实战'],
+                ['spring-login.md','简单的登录功能'],
+                ['ssm-myshop.md','MyShop实战'],
             ]
         },
         {

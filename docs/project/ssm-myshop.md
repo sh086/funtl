@@ -1,102 +1,58 @@
 # MyShop实战
 
-::: tip 技术栈
 
-开发环境：JDK8、Tomcat8
 
-前端框架：AdminLTE模板
+**参考资料：**
 
-后台框架：Servlet + MVC
+- [Google Fonts加速](https://sb.sb/blog/css-cdn/)
+- [AdminLTE模板](https://adminlte.io/)
 
-:::
 
-## 项目初始化
+
+## 快速开始
 
 ​	　首先在IDEA的`File` -> `New Project`中选择`Maven`，然后根据提示新建`ssm-myshop`项目 。新建完成后，接着需要完成**配置文件初始化**，以及引入**前端框架`AdminLT`**。
 
-```text
-----src：源码目录
---------main
--------------java：Java代码
--------------------com.shooter.myshop
-----------------------common   公共组件
-----------------------dao  	   数据模型层
-----------------------service  业务逻辑层
-----------------------web      前端控制器
--------------resources：资源目录
--------------------application.properties   SpringBoot配置文件
--------------------log4j.properties         日志配置文件
--------------------spring-context.xml       Spring配置文件
---------webapp
--------------assets: AdminLTE模板
--------------------bower_components
--------------------plugins
--------------------css
--------------------img
--------------------js
--------------WEB-INF
--------------------web.xml:web配置
--------------index.html:欢迎页面
---------test
--------------java：测试用例
-----pom.xml：pom配置文件
-----.gitignore：git忽略名单
-----工程名.iml
-```
 
 
+### 配置文件
 
-### pom
+#### pom.xml
 
-#### spring
+​	　在`pom.xml`中引入常用jar包，如spring、mybatis、mysql、junit、log4j等Jar包。
 
 ```xml
- <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-context</artifactId>
-     <version>4.3.17.RELEASE</version>
- </dependency>
- <dependency>
-     <groupId>javax.servlet</groupId>
-     <artifactId>javax.servlet-api</artifactId>
-     <version>4.0.1</version>
-     <scope>provided</scope>
- </dependency>
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>4.3.17.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.7.25</version>
+    </dependency>
+</dependencies>
 ```
 
 
-
-#### mybatis
-
-```xml
-
-```
-
-
-
-#### common
-
-```xml
- <dependency>
-     <groupId>junit</groupId>
-     <artifactId>junit</artifactId>
-     <version>4.12</version>
-     <scope>test</scope>
- </dependency>
- <dependency>
-     <groupId>org.slf4j</groupId>
-     <artifactId>slf4j-log4j12</artifactId>
-     <version>1.7.25</version>
- </dependency>
-```
-
-
-
-### resources
-
-​	　在`resource`资源目录中，新建`web.xml`配置文件 、日志文件 `log4j.properties` 、Spring配置文件`spring-context.xml`。
 
 #### log4j.properties
+
+​	　在在`resource`资源目录中，新建`log4j.properties`日志文件，如下：
 
 ```properties
 log4j.rootLogger=INFO, console, file
@@ -117,6 +73,8 @@ log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 
 #### spring-context.xml
 
+​	　在在`resource`资源目录中，新建Spring配置文件`spring-context.xml`，如下：
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -130,22 +88,9 @@ log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 
 
 
-### webapp
-
-​	　在`src/main`目录下新建`webapp`目录，用于存放网络资源。`webapp`具体目录结构如下：
-
-```
-webapp
----assets
----WEB-INF
-------web.xml
-```
-
-
-
 #### web.xml
 
-​	　新建`web.xml`完成后，还需要再设置`Web Resource Directory`（参考[这里](https://sh086.github.io/funtl/guide/quickstart.html#project-struct)的`Modules`中的第(2)点）。
+​	　在在`src/main`目录下新建`webapp`目录，用于存放网络资源。然后在`webapp`目录下新建`WEB-INF/web.xml`，如下：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -158,11 +103,15 @@ webapp
 </web-app>
 ```
 
+​	　新建`web.xml`完成后，还需要再设置`Web Resource Directory`（参考[这里](https://sh086.github.io/funtl/guide/quickstart.html#project-struct)的`Modules`中的第(2)点）。
 
 
-#### AdminLTE
 
-​	**AdminLTE**是一个基于BootStrap的管理模板，首先[下载](https://github.com/ColorlibHQ/AdminLTE/releases)`AdminLTE-2.4.18`版本，下载完成后解压文件，得到如下目录：
+### AdminLTE 2.4
+
+#### 引入模板文件
+
+​	　**AdminLTE**是一个基于BootStrap的管理模板，首先[下载](https://github.com/ColorlibHQ/AdminLTE/releases)`AdminLTE-2.4.18`版本，下载完成后解压文件，得到如下目录：
 
 ```
 bower_components 浏览器组件(需引入到项目）
@@ -171,27 +120,17 @@ dist 源码
 -----img(需引入到项目）
 -----js (需引入到项目）
 documentation 文档
-pages demo示例
+pages demo 示例
 plugins 插件(需引入到项目）
 ```
 
-​	将`bower_components`、`plugins` 和 dist目录下面的`css`、`img`、`js`共5个目录，全部复制到项目的`assets`目录下，即可完成AdminLTE的安装。
-
-**参考资料：**
-
-- [GitHub仓库](https://github.com/ColorlibHQ/AdminLTE/)
-- [AdminLTE文档](https://adminlte.io/)
-- [Google Fonts加速](https://sb.sb/blog/css-cdn/)
-- [Google 字体库](https://cdn.baomitu.com/index/fonts)
+​	　接着在`webapp`目录下新建`assets`目录，然后将AdminLTE`需引入到项目`的5个目录，全部复制到项目的`assets`目录下，即可使用AdminLTE模板。
 
 
 
+#### 使用AdminLTE
 
-## 用户登录
-
-### 登录页面
-
-​	模仿AdminLTE中Examples的Login页面，编写登录页面。
+​	接着，我们需要模仿AdminLTE中`pages\examples\login.html`页面，编写登录页面，测试AdminLTE 模板是否引入成功 。特别注意，修改Google Font的地址请参考[这里](https://sb.sb/blog/css-cdn/)。
 
 ```html
 <!DOCTYPE html>
@@ -282,4 +221,40 @@ plugins 插件(需引入到项目）
 </html>
 ```
 
+​	　然后，配置Tomcat
 
+
+
+### 测试运行
+
+​	　至此，MyShop项目**已经完成**了配置文件初始化 ，并成功引入了前端框架`AdminLT`。MyShop的项目结构如下所示。最后，我们还需要编写一个用户登录功能，联动测试整个项目初始化配置是否成功。
+
+```.
+src/main（顶层目录）
+java
+--com.shooter.myshop                          _
+----common                 ---公共组件          |
+----config                 ---配置模块          |-→ 代码目录
+----module                 ---业务逻辑          |
+----security               ---认证模块         _⌋
+----Application.java  
+resources
+--log4j.properties         ---日志配置文件
+--spring-context.xml       ---Spring配置文件
+webapp
+--assets                   ---引入的AdminLTE-2.4.18模板
+----bower_components
+----css
+----img
+----js
+----plugins
+--WEB-INF
+----web.xml                ---Web配置
+--index.html               ---登录页面
+```
+
+
+
+#### 用户登录业务
+
+#### 登录页面设计
