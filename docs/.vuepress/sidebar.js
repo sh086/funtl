@@ -5,7 +5,7 @@ module.exports = {
             title: '走进单体地狱',
             collapsable: false,
             children: [
-                ['quickstart.md', '快速入门'],
+                ['quickstart.md', '开发环境'],
                 ['bootstrap.md', 'BootStrap'],
                 ['common.md', '基础框架入门'],
                 ['ssm.md', 'Spring生态'],
@@ -47,7 +47,7 @@ module.exports = {
             title: '单体项目',
             collapsable: false,
             children: [
-                ['spring-login.md','简单的登录功能'],
+                ['login-example.md','简单的登录功能'],
                 ['ssm-myshop.md','MyShop实战'],
             ]
         },

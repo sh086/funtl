@@ -5,4 +5,7 @@
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--DAO-->
+    <bean id="userDao" class="com.shooter.myshop.module.dao.impl.UserDaoImpl"/>
+
 </beans>

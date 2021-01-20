@@ -237,7 +237,6 @@ java
 ----config                 ---配置模块          |-→ 代码目录
 ----module                 ---业务逻辑          |
 ----security               ---认证模块         _⌋
-----Application.java  
 resources
 --log4j.properties         ---日志配置文件
 --spring-context.xml       ---Spring配置文件
