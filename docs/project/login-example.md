@@ -6,12 +6,9 @@ sidebar: auto
 
 **目录：**
 
-- v1.0.0 使用Servlet + JSP实现简单的登录功能
+- v1.0 使用Servlet + JSP实现简单的登录功能
 
 - v1.1 使用BootStrap重写登录页面
-
-  - v1.1.1登录页面采用BootStrap编写
-  - v1.1.2 登录页面引入AdminLTE模板重写
 
 - v1.2 引入基础框架
 
@@ -25,7 +22,7 @@ sidebar: auto
 
   ​
 
-## v1.0.0 Servlet + JSP
+## v1.0 Servlet + JSP
 
 ### 新建Maven项目
 
@@ -121,10 +118,10 @@ public class UserDaoImpl implements UserDao {
         User user = null;
         //先根据loginId查询出用户信息，再比对loginPwd
         //不可直接根据loginId和loginPwd直接查询，防止SQL注入
-        if("admin".equals(loginId)){
+        if("admin@qq.com".equals(loginId)){
             if("admin".equals(loginPwd)){
                 user = new User();
-                user.setLoginId("admin");
+                user.setLoginId("admin@qq.com");
                 user.setLoginPwd("admin");
                 user.setUserName("TEST");
             }
@@ -268,17 +265,7 @@ public class LoginController extends HttpServlet {
 
 ## v1.1 BootStrap
 
-### 原生BootStrap
-
-#### 引入BootStrap
-
-#### 编写登录页面
-
-#### 测试运行
-
-### AdminLTE模板
-
-#### 引入AdminLTE模板
+### 引入AdminLTE模板
 
 ​	　**AdminLTE**是一个基于BootStrap的管理模板，首先[下载](https://github.com/ColorlibHQ/AdminLTE/releases)`AdminLTE-2.4.18`版本，下载完成后解压文件，得到如下目录：
 
@@ -297,77 +284,79 @@ plugins 插件(需引入到项目）
 
 
 
-#### 编写登录页面
+### 编写登录页面
 
 ​	接着，我们需要模仿AdminLTE中`pages\examples\login.html`页面，编写登录页面，测试AdminLTE 模板是否引入成功 。特别注意，修改Google Font的地址请参考[这里](https://sb.sb/blog/css-cdn/)。
 
 ```html
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>我的商城 | 登录</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="assets/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="assets/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
-  <!-- iCheck checkbox样式-->
-  <link rel="stylesheet" href="assets/plugins/iCheck/square/blue.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的商城 | 登录</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="assets/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+    <!-- iCheck checkbox样式-->
+    <link rel="stylesheet" href="assets/plugins/iCheck/square/blue.css">
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.loli.net/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.loli.net/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
-  <div class="login-logo">
-    <a href="">我的商城</a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">欢迎管理员登录</p>
+    <div class="login-logo">
+        <a href="">我的商城</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">欢迎管理员登录</p>
 
-    <form action="#" method="post">
-      <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="邮箱">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="密码">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> 记住我
-            </label>
-          </div>
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">登入</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
-    <a href="#">忘记密码？</a><br>
+        <form action="/login" method="post">
+            <div class="form-group has-feedback">
+                <input type="email" class="form-control" name="loginId" placeholder="邮箱">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" name="loginPwd" placeholder="密码">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input type="checkbox"> 记住我
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">登入</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+        <a href="#">忘记密码？</a><br>
 
-  </div>
-  <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
 
@@ -378,13 +367,13 @@ plugins 插件(需引入到项目）
 <!-- iCheck -->
 <script src="assets/plugins/iCheck/icheck.min.js"></script>
 <script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' /* optional */
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+        });
     });
-  });
 </script>
 </body>
 </html>
@@ -392,17 +381,17 @@ plugins 插件(需引入到项目）
 
 
 
-#### 测试运行
+### 测试运行
 
 ![login_2](./images/login_2.png)
 
 
 
-## v1.2 BootStrap
+## v1.2 引入基础框架
 
-### Junit
+### Junit单元测试
 
-### Log4j
+### Log4j日志文件
 
 
 
