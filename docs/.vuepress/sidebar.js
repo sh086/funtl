@@ -5,7 +5,8 @@ module.exports = {
             title: '走进单体地狱',
             collapsable: false,
             children: [
-                ['quickstart.md', '开发环境'],
+                ['introduce.md', '开篇'],
+                ['quickstart.md', '快速入门'],
                 ['bootstrap.md', 'BootStrap'],
                 ['common.md', '基础框架入门'],
                 ['ssm.md', 'Spring生态'],
