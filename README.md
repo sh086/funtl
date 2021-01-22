@@ -32,6 +32,10 @@ startup.bat -push git@github.com:sh086
 
 
 
+​	　**特别注意**：项目中`repository`目录是练习代码，可以通过WebStom的`Make as Directory As` 为`Excluded`，这样就可以避免被IDEA索引该目录了。
+
+
+
 ## 参考资料
 
 - [funtl在线文档](https://sh086.github.io/funtl/)

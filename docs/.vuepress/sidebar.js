@@ -8,8 +8,8 @@ module.exports = {
                 ['introduce.md', '开篇'],
                 ['quickstart.md', '快速入门'],
                 ['bootstrap.md', 'BootStrap'],
+                ['ssm.md', 'SpringFrame'],
                 ['common.md', '基础框架入门'],
-                ['ssm.md', 'Spring生态'],
             ]
         },
         {
