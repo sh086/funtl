@@ -15,13 +15,14 @@ sidebar: auto
 
   - 引入AdminLTE模板，重新登录页面
   - 登录页面加入错误信息提示功能
-  - 加入日志输入和单元测试
+  - 采用SpringWeb装配Bean
+  - 添加记住我的功能
 
 - v1.2 引入Spring框架
 
   - 采用SpringWeb装配Bean
 
-  ​
+  
 
 ## v1.0 项目初始化
 
@@ -210,6 +211,16 @@ public class LoginController extends HttpServlet {
 ```
 
 ​	　**特别注意**：配置`web.xml`完成后，还需要再设置`Web Resource Directory`（参考[这里](https://sh086.github.io/funtl/guide/quickstart.html#project-struct)的`Modules`中的第(2)点）。
+
+
+
+### 编写测试用例
+
+#### 单元测试Junit
+
+
+
+#### 日志框架Log4j
 
 
 

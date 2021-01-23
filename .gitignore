@@ -7,3 +7,5 @@ dist
 out
 target
 assets
+*.iml
+repository/ssm-myshop/ssm-myshop.iml
