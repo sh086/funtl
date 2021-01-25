@@ -10,18 +10,25 @@ sidebar: auto
 
   - 新建Maven项目
   - 使用Servlet + JSP实现简单的登录功能
-  - 编写测试用例
-
 - v1.1 登录页面
 
-  - 引入AdminLTE模板，重新登录页面
+  - 引入AdminLTE模板，重写登录页面
+
   - 登录页面加入错误信息提示
-  - 采用SpringWeb装配Bean
-  - 添加记住我的功能
+- v1.2 日志单元测试用例
 
-- v1.2 
-
+  - Junit单元测试
+  - Log4j日志文件
+- v1.3 Sprin整合SpringWeb
+  - SpringContext装配JavaBean
+  - SpringWeb配置装配JavaBean
+  - SpringWeb注解装配JavaBean
+- v1.4 添加记住我的功能
+- v1.5 Spring整合SpringMvc
+- v1.6 Spring整合Mybatis
   -   ​
+
+
 
 
 ## v1.0 项目初始化
@@ -195,12 +202,12 @@ public class LoginController extends HttpServlet {
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <display-name>ssm-myshop</display-name>
+    <display-name>myshop</display-name>
 
     <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>
-            com.shooter.funtl.web.controller.LoginController
+            com.shooter.funtl.module.web.controller.LoginController
         </servlet-class>
     </servlet>
     <servlet-mapping>
@@ -211,59 +218,6 @@ public class LoginController extends HttpServlet {
 ```
 
 ​	　**特别注意**：配置`web.xml`完成后，还需要再设置`Web Resource Directory`（参考[这里](https://sh086.github.io/funtl/guide/quickstart.html#project-struct)的`Modules`中的第(2)点）。
-
-
-
-### 编写测试用例
-
-#### 引入Jar包
-
-```xml
- <!--Junit-->
-     <dependency>
-     <groupId>junit</groupId>
-     <artifactId>junit</artifactId>
-     <version>4.12</version>
- </dependency>
- <!--Log4j-->
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.25</version>
-</dependency>
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-log4j12</artifactId>
-    <version>1.7.25</version>
-</dependency>
-```
-
-#### 编写代码
-
-```java
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class JUnitLog4jTest {
-
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-    private UserService userService;
-
-    @Before
-    public void testBefore(){
-        userService = new UserServiceImpl();
-    }
-
-    @Test
-    public void testUserService(){
-        User user  = userService.login("admin@qq.com","admin");
-        logger.info("用户：{}",user.getEmail());
-    }
-}
-```
 
 
 
@@ -351,49 +305,10 @@ webapp/assets目录
 
 #### 登录页面
 
-​	　接着，我们需要模仿AdminLTE中`pages\examples\login.html`页面，重写登录页面`index.jsp` ，特别注意，修改Google Font的地址请参考[这里](https://sb.sb/blog/css-cdn/)。此外，还加入了登录错误信息的展示，实现的方法有两种，具体方式如下：
-
-（1）方法一 ： 通过修改style样式的方式实现
-
-```html
-<div class="alert alert-danger alert-dismissible"
-     ${message == null ? "style='display:none'": ""}>
-        <button type="button" class="close" 
-                data-dismiss="alert" aria-hidden="true">&times;</button>
-            ${message}
- </div>
-```
-
-（2）方法二：通过JSTL表达式实现
-
-```xml
-<!-- 第一步： 需要引入JSTL的Jar包 -->
-<dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>jstl</artifactId>
-    <version>1.2</version>
-</dependency>
-
-<!-- 第二步： 需要在index.jsp的头部引入jstl表达式的支持。 -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    
-<!-- 第三步： 就可以使用JSTL表达式了 -->
-<c:if test="${message != null}">
-   <div class="alert alert-danger alert-dismissible">
-       <button type="button" class="close" 
-               data-dismiss="alert" aria-hidden="true">&times;</button>
-           ${message}
-     </div>
-</c:if>
-```
-
-
-
-（3）具体实现代码如下：
+​	　首先，我们需要模仿AdminLTE中`pages\examples\login.html`页面，重写登录页面`index.jsp` ，特别注意，修改Google Font的地址请参考[这里](https://sb.sb/blog/css-cdn/)。
 
 ```html
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -434,18 +349,6 @@ webapp/assets目录
         <p class="login-box-msg">欢迎管理员登录</p>
 
         <form action="/login" method="post">
-            <!--第一种方法：使用style样式-->
-            <div class="alert alert-danger alert-dismissible" ${message == null ? "style='display:none'": ""}>
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                ${message}
-            </div>
-            <!--第二种方法：使用JSTL表达式-->
-            <%--<c:if test="${message != null}">--%>
-                <%--<div class="alert alert-danger alert-dismissible">--%>
-                    <%--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>--%>
-                        <%--${message}--%>
-                <%--</div>--%>
-            <%--</c:if>--%>
             <div class="form-group has-feedback">
                 <input type="email" class="form-control" name="loginId" placeholder="邮箱">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -497,6 +400,46 @@ webapp/assets目录
 
 
 
+#### 登录错误信息
+
+​	　然后，加入登录错误信息的展示，实现的方法有两种，具体方式如下：
+
+（1）方法一 ： 通过修改style样式的方式实现
+
+```html
+<div class="alert alert-danger alert-dismissible"
+     ${message == null ? "style='display:none'": ""}>
+        <button type="button" class="close" 
+                data-dismiss="alert" aria-hidden="true">&times;</button>
+            ${message}
+ </div>
+```
+
+（2）方法二：通过JSTL表达式实现
+
+```xml
+<!-- 第一步： 需要引入JSTL的Jar包 -->
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+</dependency>
+
+<!-- 第二步： 需要在index.jsp的头部引入jstl表达式的支持。 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
+<!-- 第三步： 就可以使用JSTL表达式了 -->
+<c:if test="${message != null}">
+   <div class="alert alert-danger alert-dismissible">
+       <button type="button" class="close" 
+               data-dismiss="alert" aria-hidden="true">&times;</button>
+           ${message}
+     </div>
+</c:if>
+```
+
+
+
 #### 前端控制器
 
 ​	　首先修改页面跳转逻辑，将登录失败跳转为`index.jsp`页面(`fail.jsp`可以删除了)。
@@ -542,7 +485,92 @@ public class LoginController extends HttpServlet{
 
 
 
-## v1.2 Spring整合SpringWeb
+## v1.2 编写测试用例
+
+### 引入Jar包
+
+```xml
+ <!--Junit-->
+     <dependency>
+     <groupId>junit</groupId>
+     <artifactId>junit</artifactId>
+     <version>4.12</version>
+ </dependency>
+ <!--Log4j-->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.25</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-log4j12</artifactId>
+    <version>1.7.25</version>
+</dependency>
+```
+
+​	　特别的：在JavaSE项目中，打印日志只需装载`slf4j-log4j12`，但是在web容器中，还需要装载所有slf4相关的jar包才行。
+
+
+
+### 编写业务代码
+
+#### log4j.properties
+
+​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件。
+
+```properties
+log4j.rootLogger=INFO, console, file
+
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d %p [%c] - %m%n
+
+log4j.appender.file=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.file.File=logs/log.log
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.A3.MaxFileSize=1024KB
+log4j.appender.A3.MaxBackupIndex=10
+log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
+```
+
+
+
+#### 测试用例
+
+```java
+import com.shooter.funtl.module.entiry.User;
+import com.shooter.funtl.module.service.UserService;
+import com.shooter.funtl.module.service.impl.UserServiceImpl;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class JUnitLog4jTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(JUnitLog4jTest.class);
+
+    private UserService userService;
+
+    @Before
+    public void testBefore(){
+        userService = new UserServiceImpl();
+    }
+
+    @Test
+    public void testUserService(){
+        User user  = userService.login("admin@qq.com","admin");
+        logger.info("用户：{}",user.getEmail());
+    }
+}
+```
+
+
+
+
+
+## v1.3 Spring整合Web
 
 ​	　Spring中装配JavaBean的方式有两类，第一类通过**Spring在JavaSE容器中装配JavaBean**，这一类不常用；第二类是通过**SpringWeb在Web容器中装配JavaBean**，该类型有两种方法，第一种是通过**XML配置**的方式，第二种是通过**注解**的方式，目流行的是**通过SpringWeb注解的方式装配JavaBean**。
 
@@ -657,13 +685,15 @@ public class SpringContextTest {
 
 ##### web.xml
 
-​	　在JavaSE中是通过main方法完成`ApplicationContext`初始化的。但是在Web容器中，入口是web.xml，所以，要将`ApplicationContext`的初始化工作交于`web.xml`。
+​	　在JavaSE中是通过main方法完成`ApplicationContext`初始化的。但是在Web容器中，入口是`web.xml`，所以，要将`ApplicationContext`的初始化工作交于`web.xml`，Spring 提供的 `ContextLoaderListener` 就是为了自动装配 `ApplicationContext` 的配置信息。
 
 ```xml
+<!--JavaBean的配置信息-->
 <context-param>
    <param-name>contextConfigLocation</param-name>
    <param-value>classpath:spring-context*.xml</param-value>
 </context-param>
+<!--自动装配ApplicationContext的配置信息-->
 <listener>
    <listener-class>
        org.springframework.web.context.ContextLoaderListener
@@ -745,7 +775,7 @@ public class LoginController extends HttpServlet
 * 根据beanId获取实例
 * */
 public class UserServiceImpl implements UserService {
-    private UserDao userDao = SpringContext.getBean("userService");
+    private UserDao userDao = SpringContext.getBean("userDao");
 }
 ```
 
@@ -790,7 +820,7 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{}
 
 
 
-## v1.3 记住我
+## v1.4 记住我
 
 ### CooickUtils
 
@@ -1087,10 +1117,10 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 ​	　在邮箱、密码和记住我组件上加入`value`属性，就可以展示保存的用户登录信息了。至此使用Cooick保存用户登录信息以及开发完毕了。
 
 ```html
-<input type="email" class="form-control" 
-					name="loginId" value="${loginId}" placeholder="邮箱">
-<input type="password" class="form-control" 
-					name="loginPwd" value="${loginPwd}" placeholder="密码">
+<input type="email" 
+       class="form-control" name="loginId" value="${loginId}" placeholder="邮箱">
+<input type="password" 
+       class="form-control" name="loginPwd" value="${loginPwd}" placeholder="密码">
 <input type="checkbox" name="isRemember" ${isRemember == true ? "checked" :""}> 记住我
 ```
 
@@ -1098,17 +1128,17 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
 ### 测试运行
 
-​	　使用正确的用户名、密码，并勾选记住我，登录成功后，再次访问登录页面，就可以展示已保存的用户登录信息了。
+​	　使用正确的用户名、密码，并勾选记住我，登录成功后，再次访问http://localhost:8080/login，就可以展示已保存的用户登录信息了。不勾选记住我，登录成功后，也不会记录用户信息了。
 
 ![login_5](./images/login_5.png)
 
 
 
-## v1.4 Spring整合SpringMvc
+## v1.5 Spring整合SpringMvc
 
 
 
 ### 测试运行
 
-## v1.5 Mybatis
+## v1.6 Mybatis
 

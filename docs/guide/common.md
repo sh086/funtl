@@ -165,6 +165,8 @@ void assertArrayEquals([String message], expectedArray, resultArray)
 **实战：**
 
 - [第一个Log4j日志文件](../demo/第一个Log4j日志文件.md)
+- [JavaWeb使用Log4j日志]()
+
 
 
 
@@ -278,7 +280,7 @@ String.format("meaasge is : %s %s",message1,message2);
 
 
 
-## Cache
+
 
 ## HttpClient
 
