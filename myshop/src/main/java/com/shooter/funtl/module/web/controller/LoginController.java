@@ -1,5 +1,6 @@
 package com.shooter.funtl.module.web.controller;
 
+import com.shooter.funtl.common.context.SpringContext;
 import com.shooter.funtl.module.entiry.User;
 import com.shooter.funtl.module.service.UserService;
 import com.shooter.funtl.module.service.impl.UserServiceImpl;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 public class LoginController extends HttpServlet{
 
-    private UserService userService = new UserServiceImpl();
+    private UserService userService = SpringContext.getBean(UserServiceImpl.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

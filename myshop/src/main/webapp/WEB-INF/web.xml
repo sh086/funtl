@@ -6,6 +6,17 @@
          version="4.0">
     <display-name>myshop</display-name>
 
+    <!--SpringWeb配置-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-context*.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>LoginController</servlet-name>
         <servlet-class>
