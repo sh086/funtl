@@ -21,9 +21,8 @@ sidebar: auto
 
 - v1.2 
 
-  -   
+  -   ​
 
-  
 
 ## v1.0 项目初始化
 
@@ -543,7 +542,7 @@ public class LoginController extends HttpServlet{
 
 
 
-## v1.2 JavaBean装配
+## v1.2 Spring整合SpringWeb
 
 ​	　Spring中装配JavaBean的方式有两类，第一类通过**Spring在JavaSE容器中装配JavaBean**，这一类不常用；第二类是通过**SpringWeb在Web容器中装配JavaBean**，该类型有两种方法，第一种是通过**XML配置**的方式，第二种是通过**注解**的方式，目流行的是**通过SpringWeb注解的方式装配JavaBean**。
 
@@ -732,15 +731,21 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 
 ##### 修改Bean装载方式
 
-​	　接着，需要采用`SpringContext.getBean`方法，修改`LoginController`和`UserServiceImpl`中实例化对象的方式。特别的：项目已经使用`Spring-Web`修改了Bean的装配方式，原先`new`的方式已经不能正常使用了的。
+​	　接着，需要采用`SpringContext.getBean`方法，修改`LoginController`和`UserServiceImpl`中实例化对象的方式。以下分别展示了根据类获取实例 和 根据beanId获取实例的两种写法。特别的：项目已经使用`Spring-Web`修改了Bean的装配方式，原先`new`的方式已经不能正常使用了的。
 
 ```java
+/**
+* 根据类获取实例
+* */
 public class LoginController extends HttpServlet
     private UserService userService = SpringContext.getBean(UserServiceImpl.class);
 }
 
+/**
+* 根据beanId获取实例
+* */
 public class UserServiceImpl implements UserService {
-    private UserDao userDao = SpringContext.getBean(UserDaoImpl.class);
+    private UserDao userDao = SpringContext.getBean("userService");
 }
 ```
 
@@ -1096,4 +1101,14 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 ​	　使用正确的用户名、密码，并勾选记住我，登录成功后，再次访问登录页面，就可以展示已保存的用户登录信息了。
 
 ![login_5](./images/login_5.png)
+
+
+
+## v1.4 Spring整合SpringMvc
+
+
+
+### 测试运行
+
+## v1.5 Mybatis
 
