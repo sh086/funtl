@@ -2,7 +2,9 @@ package com.shooter.funtl.module.dao.impl;
 
 import com.shooter.funtl.module.dao.UserDao;
 import com.shooter.funtl.module.entiry.User;
+import org.springframework.stereotype.Repository;
 
+@Repository(value = "userDao")
 public class UserDaoImpl implements UserDao {
 
     public User getUser(String email, String passWord) {
