@@ -1,0 +1,6 @@
+#通用禁用提交的文件
+.idea/
+*.log
+out
+target
+*.iml
