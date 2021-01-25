@@ -12,4 +12,6 @@ public class User implements Serializable {
     private String passWd;
 
     private String email;
+
+    private Boolean isRemember;
 }
