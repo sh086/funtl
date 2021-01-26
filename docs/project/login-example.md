@@ -46,7 +46,7 @@ src\main 目录
 ------common                 ---公共组件          |
 ------config                 ---配置模块          |-→ 代码目录
 ------module                 ---业务逻辑         _⌋
----------entiry                        ---数据实体
+---------entity                        ---数据实体
 ----------User.java
 --------dao                            ---数据访问层
 ----------UserDao.java
@@ -509,7 +509,7 @@ public class LoginController extends HttpServlet{
 </dependency>
 ```
 
-​	　特别的：在JavaSE项目中，打印日志只需装载`slf4j-log4j12`，但是在web容器中，还需要装载所有slf4相关的jar包才行。
+​	　特别的：在JavaSE项目中，打印日志只需装载`slf4j-log4j12`，**但是在web容器中，还需要装载所有slf4相关的jar包才行**。
 
 
 
@@ -517,7 +517,7 @@ public class LoginController extends HttpServlet{
 
 #### log4j.properties
 
-​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件。
+​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件。`log4j.appender.file.File`在JavaSE中默认当前路径是当前项目主目录，在Web容器中默认路径是Tomcat下面的`bin`目录，所以在Web中需要自定义该目录。
 
 ```properties
 log4j.rootLogger=INFO, console, file
@@ -527,7 +527,7 @@ log4j.appender.console.layout=org.apache.log4j.PatternLayout
 log4j.appender.console.layout.ConversionPattern=%d %p [%c] - %m%n
 
 log4j.appender.file=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.file.File=logs/log.log
+log4j.appender.file.File=E:/WorkPlace/funtl/myshop/logs/log.log
 log4j.appender.file.layout=org.apache.log4j.PatternLayout
 log4j.appender.A3.MaxFileSize=1024KB
 log4j.appender.A3.MaxBackupIndex=10
@@ -539,29 +539,32 @@ log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 #### 测试用例
 
 ```java
-import com.shooter.funtl.module.entiry.User;
-import com.shooter.funtl.module.service.UserService;
-import com.shooter.funtl.module.service.impl.UserServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
+package com.shooter.funtl.module.dao.impl;
+
+import com.shooter.funtl.module.dao.UserDao;
+import com.shooter.funtl.module.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JUnitLog4jTest {
+public class UserDaoImpl implements UserDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(JUnitLog4jTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
-    private UserService userService;
+    public User getUser(String email, String passWord) {
 
-    @Before
-    public void testBefore(){
-        userService = new UserServiceImpl();
-    }
-
-    @Test
-    public void testUserService(){
-        User user  = userService.login("admin@qq.com","admin");
-        logger.info("用户：{}",user.getEmail());
+        //先根据loginId查询出用户信息，再比对loginPwd
+        //不可直接根据loginId和loginPwd直接查询，防止SQL注入
+        if("admin@qq.com".equals(email)){
+            if("admin".equals(passWord)){
+                logger.info("用户：{} 登录成功",email);
+                User user = new User();
+                user.setEmail("admin@qq.com");
+                user.setPassWd("admin");
+                user.setUserName("admin");
+                return user;
+            }
+        }
+        return null;
     }
 }
 ```
@@ -614,10 +617,17 @@ public class JUnitLog4jTest {
  　新建`SpringContextTest`测试类，测试`UserService`对象是否能够通过 Spring 来创建。
 
 ```java
-/**
-* 输出结果：Email：admin@qq.com
-*/
+import com.shooter.funtl.module.entity.User;
+import com.shooter.funtl.module.service.UserService;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class SpringContextTest {
+
+    /**
+    * 输出结果：Email：admin@qq.com
+    */
     @Test
     public void login() {
         // 获取 Spring 容器
@@ -629,6 +639,7 @@ public class SpringContextTest {
         User user = userService.login("admin@qq.com","admin");
         System.out.println("Email："+user.getEmail());
     }
+    
 }
 ```
 

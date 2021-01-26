@@ -52,15 +52,47 @@
 - **依赖查找**`（Dependency Lookup`，`DL`），容器提供回调接口和上下文环境给组件，程序代码则需要提供具体的查找方式。比较典型的是依赖于 **JNDI 系统的查找**。
 - **依赖注入** (`Dependency Injection`，`DI`) 是指在对象初始化时不等对象请求，Spring容器就主动创建对象实例，并将依赖注入到调用者中。
 
-		　依赖注入和 依赖查找 两种方法都是将对象控制权交于外部容器统一装配和管理，区别在于当对象初始化时，依赖查找需要**程序主动调用**容器提供的回调接口，从容器中查找所需要的依赖。
+​	　依赖注入和 依赖查找 两种方法都是将对象控制权交于外部容器统一装配和管理，区别在于当对象初始化时，依赖查找需要**程序主动调用**容器提供的回调接口，从容器中查找所需要的依赖。
 
-		　而依赖注入在对象初始化时不等对象请求，Spring容器就主动创建对象实例，并将依赖注入到调用者中。**Spring 依赖对调用者与被调用者几乎没有任何要求**，完全支持 POJO 之间依赖关系的管理。**依赖注入是目前最优秀的解耦方式**。
+​	　而依赖注入在对象初始化时不等对象请求，Spring容器就主动创建对象实例，并将依赖注入到调用者中。**Spring 依赖对调用者与被调用者几乎没有任何要求**，完全支持 POJO 之间依赖关系的管理。**依赖注入是目前最优秀的解耦方式**。
+
 
 
 
 ## SpringWeb
 
+
+
+**参考资料：**
+
+- [第一个SpringWeb应用](../demo/第一个SpringWeb应用.md)
+
+
+
+### Spring整合web
+
+启动容器时需要自动装载 `ApplicationContext`，Spring 提供的 `ContextLoaderListener` 就是为了自动装配 `ApplicationContext` 的配置信息
+
+​	　代码编写完成后，还需要在Spring的配置文件`spring-context.xml`中，将类的实例化工作交给 Spring 容器管理（`IoC`）。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="userService" class="service.impl.UserServiceImpl" />
+</beans>
+```
+
+​	　`<bean/>`元素用于定义一个实例对象，**一个实例对应一个 bean 元素**；`id`属性是 Bean 实例的**唯一标识**，程序通过 id 属性访问 Bean，Bean 与 Bean 间的依赖关系也是通过 id 属性关联的；`class`属性指定该 Bean 所属的类，注意这里**只能是类**，不能是接口。
+
+
+
 ## SpringMvc
+
+
 
 ## Mybatis
 
