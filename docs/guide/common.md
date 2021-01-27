@@ -165,7 +165,6 @@ void assertArrayEquals([String message], expectedArray, resultArray)
 **实战：**
 
 - [第一个Log4j日志文件](../demo/第一个Log4j日志文件.md)
-- [v1.2 JavaWeb使用Log4j日志]()
 
 
 

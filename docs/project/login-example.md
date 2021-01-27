@@ -19,14 +19,8 @@ sidebar: auto
 
   - Junit单元测试
   - Log4j日志文件
-- v1.3 Sprin整合SpringWeb
-  - SpringContext装配JavaBean
-  - SpringWeb配置装配JavaBean
-  - SpringWeb注解装配JavaBean
-- v1.4 添加记住我的功能
-- v1.5 Spring整合SpringMvc
-- v1.6 Spring整合Mybatis
-  -   ​
+
+  
 
 
 
@@ -407,6 +401,7 @@ webapp/assets目录
 （1）方法一 ： 通过修改style样式的方式实现
 
 ```html
+<!-- 在 [欢迎管理员登录] 下一行加入代码 -->
 <div class="alert alert-danger alert-dismissible"
      ${message == null ? "style='display:none'": ""}>
         <button type="button" class="close" 
@@ -428,7 +423,7 @@ webapp/assets目录
 <!-- 第二步： 需要在index.jsp的头部引入jstl表达式的支持。 -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
-<!-- 第三步： 就可以使用JSTL表达式了 -->
+<!-- 第三步： 就可以使用JSTL表达式了（在 [欢迎管理员登录] 下一行加入代码） -->
 <c:if test="${message != null}">
    <div class="alert alert-danger alert-dismissible">
        <button type="button" class="close" 
@@ -487,16 +482,44 @@ public class LoginController extends HttpServlet{
 
 ## v1.2 编写测试用例
 
-### 引入Jar包
+### Junit单元测试
+
+#### 引入Jar包
 
 ```xml
- <!--Junit-->
-     <dependency>
-     <groupId>junit</groupId>
-     <artifactId>junit</artifactId>
-     <version>4.12</version>
- </dependency>
- <!--Log4j-->
+<!--Junit-->
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+</dependency>
+```
+
+#### 测试用例
+
+​	　在`test/java`目录下新建MyTest，用于测试junit是否已经正确引入了。
+
+```java
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class MyTest {
+    @Test
+    public void testHelloLog4j() {
+        System.out.println("Hello Log4j");
+    }
+}
+```
+
+
+
+### log4j日志
+
+#### 引入Jar包
+
+```xml
+<!--Log4j-->
 <dependency>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-api</artifactId>
@@ -509,15 +532,11 @@ public class LoginController extends HttpServlet{
 </dependency>
 ```
 
-​	　特别的：在JavaSE项目中，打印日志只需装载`slf4j-log4j12`，**但是在web容器中，还需要装载所有slf4相关的jar包才行**。
 
-
-
-### 编写业务代码
 
 #### log4j.properties
 
-​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件。`log4j.appender.file.File`在JavaSE中默认当前路径是当前项目主目录，在Web容器中默认路径是Tomcat下面的`bin`目录，所以在Web中需要自定义该目录。
+​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件，并自定义`log4j.appender.file.File`的位置。
 
 ```properties
 log4j.rootLogger=INFO, console, file
@@ -538,11 +557,9 @@ log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 
 #### 测试用例
 
-```java
-package com.shooter.funtl.module.dao.impl;
+​	在`UserDaoImpl`中打印`email`和`passWord`信息。
 
-import com.shooter.funtl.module.dao.UserDao;
-import com.shooter.funtl.module.entity.User;
+```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -551,35 +568,19 @@ public class UserDaoImpl implements UserDao {
     private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     public User getUser(String email, String passWord) {
-
-        //先根据loginId查询出用户信息，再比对loginPwd
-        //不可直接根据loginId和loginPwd直接查询，防止SQL注入
-        if("admin@qq.com".equals(email)){
-            if("admin".equals(passWord)){
-                logger.info("用户：{} 登录成功",email);
-                User user = new User();
-                user.setEmail("admin@qq.com");
-                user.setPassWd("admin");
-                user.setUserName("admin");
-                return user;
-            }
-        }
-        return null;
+        
+         logger.info("email：{} passWord：{}",email,passWord);
+		// 其余代码省略
     }
 }
+
 ```
 
 
 
+## v1.3 Spring
 
-
-## v1.3 Spring整合Web
-
-​	　Spring中装配JavaBean的方式有两类，第一类通过**Spring在JavaSE容器中装配JavaBean**，这一类不常用；第二类是通过**SpringWeb在Web容器中装配JavaBean**，该类型有两种方法，第一种是通过**XML配置**的方式，第二种是通过**注解**的方式，目流行的是**通过SpringWeb注解的方式装配JavaBean**。
-
-### SpringContext装配
-
-#### 引入Jar包
+### 引入Jar包
 
 ```xml
 <!--引入Spring所需的spring-context包-->
@@ -591,6 +592,8 @@ public class UserDaoImpl implements UserDao {
 ```
 
 
+
+### 编写业务代码
 
 #### spring-context.xml
 
@@ -614,7 +617,7 @@ public class UserDaoImpl implements UserDao {
 
 #### 测试运行
 
- 　新建`SpringContextTest`测试类，测试`UserService`对象是否能够通过 Spring 来创建。
+​	　新建`SpringContextTest`测试类，测试`UserService`对象是否能够通过 Spring 来创建。
 
 ```java
 import com.shooter.funtl.module.entity.User;
@@ -645,7 +648,9 @@ public class SpringContextTest {
 
 
 
-### SpringWeb配置装配
+## v1.4 SpringWeb
+
+### Spring整合Web
 
 #### 引入Jar包
 
@@ -664,13 +669,27 @@ public class SpringContextTest {
 </dependency>
 ```
 
+#### web.xml
+
+```xml
+<!--JavaBean的配置信息-->
+<context-param>
+   <param-name>contextConfigLocation</param-name>
+   <param-value>classpath:spring-context*.xml</param-value>
+</context-param>
+<!--自动装配ApplicationContext的配置信息-->
+<listener>
+   <listener-class>
+       org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+</listener>
+```
 
 
-#### xml配置
 
-##### spring-context.xml
+### 基于配置的装配方式
 
-​	　在resource目录下新建Spring的配置文件`spring-context.xml`，将类的实例化工作交给 Spring 容器管理（`IoC`）。
+#### spring-context.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -694,33 +713,7 @@ public class SpringContextTest {
 
 
 
-##### web.xml
-
-​	　在JavaSE中是通过main方法完成`ApplicationContext`初始化的。但是在Web容器中，入口是`web.xml`，所以，要将`ApplicationContext`的初始化工作交于`web.xml`，Spring 提供的 `ContextLoaderListener` 就是为了自动装配 `ApplicationContext` 的配置信息。
-
-```xml
-<!--JavaBean的配置信息-->
-<context-param>
-   <param-name>contextConfigLocation</param-name>
-   <param-value>classpath:spring-context*.xml</param-value>
-</context-param>
-<!--自动装配ApplicationContext的配置信息-->
-<listener>
-   <listener-class>
-       org.springframework.web.context.ContextLoaderListener
-    </listener-class>
-</listener>
-```
-
-
-
-#### 编写业务代码
-
-##### SpringContext工具类
-
-​	　　在`common.context`中新建`SpringContext`工具类，通过实现`ApplicationContextAware`接口的`setApplicationContext`方法初始化`ApplicationContext`，通过实现`DisposableBean`接口的`destroy`方法销毁`ApplicationContext`。
-
-​	　我们可以通过`类名`或者`beanId`调用`getBean`方法获取Spring容器中已经实例化的对象。
+#### SpringContext工具类
 
 ```java
 package com.shooter.funtl.common.context;
@@ -770,9 +763,9 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 
 
 
-##### 修改Bean装载方式
+#### 修改Bean装载方式
 
-​	　接着，需要采用`SpringContext.getBean`方法，修改`LoginController`和`UserServiceImpl`中实例化对象的方式。以下分别展示了根据类获取实例 和 根据beanId获取实例的两种写法。特别的：项目已经使用`Spring-Web`修改了Bean的装配方式，原先`new`的方式已经不能正常使用了的。
+​	　接着，需要采用`SpringContext.getBean`方法，修改`LoginController`和`UserServiceImpl`中实例化对象的方式。
 
 ```java
 /**
@@ -792,9 +785,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-### SpringWeb注解装配
-
-​	　采用SpringWeb注解的方式装配JavaBean，无需每次当Class新增的时候就在`spring-context.xml`中新增一个bean的XML配置，而是采用了**自动扫描目录下注解**的方式装配JavaBean。
+### 基于注解的装配方式
 
 #### spring-context.xml
 
@@ -816,22 +807,45 @@ public class UserServiceImpl implements UserService {
 
 
 
-#### 编写业务代码
+#### 修改Bean装载方式
+
+（1）DAO层的装配
 
 ```java
-@Service(value = "userService")
-public class UserServiceImpl implements UserService {}
-
-@Repository(value = "userDao")
+@Repository
 public class UserDaoImpl implements UserDao {}
 
-@Component
-public class SpringContext implements ApplicationContextAware,DisposableBean{}
+/**
+* 根据类获取实例
+* */
+@Autowired
+private UserDao userDao;
 ```
 
 
 
-## v1.4 记住我
+（2）Service层的装配
+
+​	由于目前项目还没有整合SpringMvc，所以在Controller中无法使用`@Autowired`获取UserService实例。
+
+```java
+@Service
+public class UserServiceImpl implements UserService {}
+
+@Component
+public class SpringContext implements ApplicationContextAware,DisposableBean{}
+
+/**
+* 根据类获取实例
+* */
+public class LoginController extends HttpServlet
+    private UserService userService = SpringContext.getBean(UserServiceImpl.class);
+}
+```
+
+
+
+## v1.5 记住我
 
 ### CooickUtils
 
@@ -1091,6 +1105,8 @@ if(isRemember){
 
 ![login_4](./images/login_4.png)
 
+
+
 #### 获取Cooick
 
 ​	　由于**Cooick只能通过Get方法获取**，需要改成`/login`的[`GET`请求获取Cooick、`POST`设置Cooick]。所以再使用`index.jsp`作为登录页面已经不合适了（因为`index.jsp`是访问路径 `/` 请求的页面），此时，需要登录页面改名成`login.jsp`（代码中的相关跳转也需要修改），`index.jsp`仅作为一个跳转页面。
@@ -1145,11 +1161,15 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
 
 
-## v1.5 Spring整合SpringMvc
+## v1.6 SpringMvc
+
+### Spring整合Mvc
 
 
 
 ### 测试运行
 
-## v1.6 Mybatis
+
+
+## v1.7 Mybatis
 

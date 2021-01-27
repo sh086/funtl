@@ -74,8 +74,6 @@ public class UserServiceImpl implements UserService {
 
 ​	　`<bean/>`元素用于定义一个实例对象，**一个实例对应一个 bean 元素**；`id`属性是 Bean 实例的**唯一标识**，程序通过 id 属性访问 Bean，Bean 与 Bean 间的依赖关系也是通过 id 属性关联的；`class`属性指定该 Bean 所属的类，注意这里**只能是类**，不能是接口。
 
-
-
 ## 测试运行
 
 ​	　在 `MyTest` 测试类中，测试对象是否能够通过 Spring 来创建。
