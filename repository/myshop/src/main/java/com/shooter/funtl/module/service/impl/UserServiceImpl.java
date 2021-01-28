@@ -1,14 +1,17 @@
 package com.shooter.funtl.module.service.impl;
 
-import com.shooter.funtl.common.context.SpringContext;
 import com.shooter.funtl.module.dao.UserDao;
-import com.shooter.funtl.module.dao.impl.UserDaoImpl;
 import com.shooter.funtl.module.entity.User;
 import com.shooter.funtl.module.service.UserService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
+@Service
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao = SpringContext.getBean("userDao");
+    @Resource
+    private UserDao userDao;
 
     /**
      * 调用数据访问层中login的实现

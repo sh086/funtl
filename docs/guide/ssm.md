@@ -1,4 +1,4 @@
-# Spring生态
+##### Spring生态
 
 ## Spring
 
@@ -63,6 +63,8 @@
 
 ​	　Spring中装配JavaBean的方式有两类，第一类通过**Spring在JavaSE容器中装配JavaBean**，这一类不常用；第二类是通过**SpringWeb在Web容器中装配JavaBean**，该类型有两种方法，第一种是通过**XML配置**的方式，第二种是通过**注解**的方式，目流行的是**通过SpringWeb注解的方式装配JavaBean**。
 
+​	　注解方式 **配置方便、直观**，但以硬编码的方式写入到了 Java 代码中，其修改是需要重新编译代码的。XML 配置方式的最大好处是，对其所做修改**无需编译代码**，只需重启服务器即可将新的配置加载。若注解与 XML 同用，**XML 的优先级要高于注解**。
+
 
 
 **实战：**
@@ -92,7 +94,7 @@
 
 
 
-### 基于配置的装配方式
+### 基于配置装配
 
 #### spring-context.xml
 
@@ -121,7 +123,9 @@
 
 #### SpringContext 
 
-​	　当一个类实现了这个接口（`ApplicationContextAware`）之后，这个类就可以方便获得 `ApplicationContext` 中的所有 bean。换句话说，就是这个类可以直接获取 Spring 配置文件中，所有有引用到的 Bean 对象。
+ 　　`SpringContext`工具类通过实现`ApplicationContextAware`接口的`setApplicationContext`方法初始化`ApplicationContext`，通过实现`DisposableBean`接口的`destroy`方法销毁`ApplicationContext`。 
+
+ 　　Bean 的装配方式可以通过`类名`或者`beanId`调用`getBean`的方式从容器获取指定的 Bean 实例，容器首先会调用 Bean 类的无参构造器，创建空值的实例对象。
 
 ```java
 package com.shooter.funtl.common.context;
@@ -171,7 +175,7 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 
 
 
-### 基于注解的装配方式
+### 基于注解装配
 
 #### spring-context.xml
 
@@ -195,33 +199,93 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 
 
 
-#### SpringWeb注解
+#### bean实例装配注解
 
-(1) 指定class与bean之间关系的注解
+（1）指定class与bean之间关系的注解
 
 ```
-- @Component：用于 组件 或者 class  实现类进行注解
+- @Component：用于 Component 或者 class 实现类进行注解
 - @Repository：用于对 DAO 实现类进行注解
 - @Service：用于对 Service 实现类进行注解
 - @Controller：用于对 Controller 实现类进行注解
-- @Scope：需要在类上使用注解 @Scope，其 value 属性用于指定作用域。默认为 singleton。
+
+- @Scope：该注解的 value 属性用于指定作用域，默认为 singleton。
+```
+
+​	　Spring 提供的这个四个注解除语义外，功能上是等效注解，只有例如SpringDataJpa等会对不同的注解做出区别。特别的，这些注解都具有默认属性 `value` 用于指定该 bean 的 id 值。
+
+```java
+/**
+* 相当于
+* <bean id = "userDao" 
+*    class="com.shooter.funtl.module.dao.impl.UserDaoImpl" scope="singleton"/>
+* */
+@Scope("singleton")
+@Repository
+public class UserDaoImpl implements UserDao {}
+
+
+/**
+* 相当于
+* <bean id = "userDaoTest" 
+*    class="com.shooter.funtl.module.dao.impl.UserDaoImpl" scope="prototype"/>
+* */
+@Scope("prototype")
+@Repository(value = "userDaoTest")
+public class UserDaoImpl implements UserDao {}
 ```
 
 
 
-（2）bean实例装配注解
+（2）Bean 的实例化注入
 
+```java
+- @Autowired: 按类型自动装配，可用于属性、方法或者构造器。
+- @Resource: 按beanId(可由name属性指定)自动装配，可用于属性、方法或者构造器。
+- @Value：该注解的 value 属性用于指定要注入的值，可用于属性、方法或者构造器。
+- @PostConstruct：在方法上使用 @PostConstruct 相当于初始化，会在构造器之前调用。
 ```
-- @Autowired
-- @Resource
-- @PostConstruct
+
+​	　`@Autowired`和`@Resource`用于属性的**自动装配**，`@Value`和`@PostConstruct`用于**属性的初始化**。示例代码如下：
+
+```java
+/**
+* 根据类型装配
+*/
+@Autowired
+private Student student;
+
+/**
+* 根据beanId装配
+*/
+@Resource(name="student")
+private Student student;
+
+/**
+* 初始化student类的userName和passWd属性
+*/
+@Component
+public class Student implements Serializable{
+
+    @Value("userName")
+    private String userName;
+    
+    private String passWd;
+    
+    @Value("passWd")
+    public void setPassWd(String passWd) {
+        this.passWd = passWd;
+    }
+}
 ```
 
 
 
 ### 容器中 Bean的作用域
 
-​	　当通过 Spring 容器创建一个 Bean 实例时，不仅可以完成 Bean 的实例化，还可以通过 scope 属性，为 Bean 指定特定的作用域。Spring 支持 5 种作用域：
+​	　当通过 Spring 容器创建一个 Bean 实例时，不仅可以完成 Bean 的实例化，还可以通过 scope 属性，为 Bean 指定特定的作用域。
+
+#### Bean 5 种作用域
 
 - `singleton`：**单态模式（默认）**，Bean 实例在容器被创建时即被装配好了。
 - `prototype`：**原型模式**，Bean 实例在代码中使用该 Bean 实例时才进行装配的。
@@ -230,6 +294,29 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 - `global session`：每个全局的 HTTP session 对应一个 Bean 实例。典型情况下，仅在使用 portlet 集群时有效，多个 Web 应用共享一个 session。一般应用中，global-session 与 session 是等同的。
 
 **注意事项**：对于 scope 的值 request、session 与 global session，只有在 Web 应用中使用 Spring 时，该作用域才有效。
+
+
+
+#### 作用域实现方式
+
+​	　需要在类上使用注解 `@Scope`，其 value 属性用于指定作用域。默认为 singleton。
+
+```java
+/**
+* 方式一 ：基于配置的装配方式可以通过 scope属性 指定
+*/
+<bean id = "userDao" 
+    class="com.shooter.funtl.module.dao.impl.UserDaoImpl" scope="prototype"/>
+
+/**
+* 方式二 ：基于注解的装配方式可以通过 @Scope注解 指定
+*/
+@Scope("singleton")
+public class Student{
+}
+```
+
+
 
 
 

@@ -4,26 +4,6 @@ sidebar: auto
 
 # 简单的登录功能
 
-**目录：**
-
-- v1.0 项目初始化
-
-  - 新建Maven项目
-  - 使用Servlet + JSP实现简单的登录功能
-- v1.1 登录页面
-
-  - 引入AdminLTE模板，重写登录页面
-
-  - 登录页面加入错误信息提示
-- v1.2 日志单元测试用例
-
-  - Junit单元测试
-  - Log4j日志文件
-
-  
-
-
-
 
 ## v1.0 项目初始化
 
@@ -671,6 +651,8 @@ public class SpringContextTest {
 
 #### web.xml
 
+​	　web.xml配置中新增如下配置信息：
+
 ```xml
 <!--JavaBean的配置信息-->
 <context-param>
@@ -812,13 +794,22 @@ public class UserServiceImpl implements UserService {
 （1）DAO层的装配
 
 ```java
+/**
+* 示例一：根据类获取实例
+* */
 @Repository
 public class UserDaoImpl implements UserDao {}
 
-/**
-* 根据类获取实例
-* */
 @Autowired
+private UserDao userDao;
+
+/**
+* 示例二：根据beanId获取实例
+* */
+@Repository(value = "userDao")
+public class UserDaoImpl implements UserDao {}
+
+@Resource(name="userDao")
 private UserDao userDao;
 ```
 
@@ -826,7 +817,7 @@ private UserDao userDao;
 
 （2）Service层的装配
 
-​	由于目前项目还没有整合SpringMvc，所以在Controller中无法使用`@Autowired`获取UserService实例。
+​	由于目前项目还没有整合SpringMvc，所以在Controller中无法使用`@Autowired`获取UserService实例，只能先使用SpringContext的getBean方法。
 
 ```java
 @Service
@@ -983,9 +974,11 @@ public final class CookieUtils {
                 cookieValue = URLEncoder.encode(cookieValue, "utf-8");
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
-            if (cookieMaxage > 0)
+            if (cookieMaxage > 0){
                 cookie.setMaxAge(cookieMaxage);
-            if (null != request) {// 设置域名的cookie
+            }
+            // 设置域名的cookie
+            if (null != request) {
                 String domainName = getDomainName(request);
                 if (!"localhost".equals(domainName)) {
                     cookie.setDomain(domainName);
@@ -1012,9 +1005,11 @@ public final class CookieUtils {
                 cookieValue = URLEncoder.encode(cookieValue, encodeString);
             }
             Cookie cookie = new Cookie(cookieName, cookieValue);
-            if (cookieMaxage > 0)
+            if (cookieMaxage > 0){
                 cookie.setMaxAge(cookieMaxage);
-            if (null != request) {// 设置域名的cookie
+            }
+            // 设置域名的cookie
+            if (null != request) {
                 String domainName = getDomainName(request);
                 if (!"localhost".equals(domainName)) {
                     cookie.setDomain(domainName);
@@ -1072,7 +1067,7 @@ public final class CookieUtils {
 
 ​	　在`User`中新增`isRemember`属性，用于保存`是否记住我`。
 
-```java
+```java{6}
 @Data
 public class User implements Serializable {
     private String userName;
@@ -1088,17 +1083,40 @@ public class User implements Serializable {
 
 ​	　在`LoginController`的`doPost`方法中，`icheck`在`选中时`设置Cooick键值对生效时间为7天；若`未选中`则删除原先的Cooick键值对。特别注意：**cookie不支持分号**。
 
-```java
- //icheck在选中时传值为：on ，未选中时传值为：null
-boolean isRemember = "on".equals(req.getParameter("isRemember"));
-if(isRemember){
-    //设置Cooick键值对，以及生效时间为7天
-    CookieUtils.setCookie(req,resp,
-                "userInfo",String.format("%s:%s",loginId,loginPwd),
-                 7 * 24 * 60 * 60);
-}else {
-     CookieUtils.deleteCookie(req,resp,"userInfo");
+```java{12,22,23,24,25,26,27,20,21}
+
+public class LoginController extends HttpServlet{
+
+    private UserService userService = SpringContext.getBean(UserServiceImpl.class);
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String loginId = req.getParameter("loginId");
+        String loginPwd = req.getParameter("loginPwd");
+        //icheck在选中时传值为：on ，未选中时传值为：null
+        boolean isRemember = "on".equals(req.getParameter("isRemember"));
+        
+        User user = userService.login(loginId, loginPwd);
+        if(user == null){
+            req.setAttribute("message","用户名或密码错误！");
+            req.getRequestDispatcher("/index.jsp").forward(req,resp);
+        }
+        else {
+            if(isRemember){
+                //设置Cooick键值对，以及生效时间为7天
+                CookieUtils.setCookie(req,resp,
+                        "userInfo",String.format("%s:%s",loginId,loginPwd),
+                        7 * 24 * 60 * 60);
+            }else {
+                CookieUtils.deleteCookie(req,resp,"userInfo");
+            }
+            req.setAttribute("message","登陆成功！");
+            req.getRequestDispatcher("/success.jsp").forward(req,resp);
+        }
+    }
 }
+
 ```
 
 ​	　设置完成后，重启项目，按`F12`即可在console中看到设置的Cookies的键值对，如下示例：
