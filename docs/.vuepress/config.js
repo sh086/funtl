@@ -1,7 +1,7 @@
 const nav = require('./nav.js');
 const sidebar = require('./sidebar');
 module.exports = {
-    title: '鲁斯菲尔-李卫民',
+    title: '千锋教育',
     description: '有道无术，术尚可求，有术无道，止于术',
     port: '8001',
     base:'/funtl/',

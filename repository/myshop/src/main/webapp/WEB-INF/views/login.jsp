@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,15 +9,15 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="assets/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/assets/bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="assets/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="static/assets/bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="static/assets/css/AdminLTE.min.css">
     <!-- iCheck checkbox样式-->
-    <link rel="stylesheet" href="assets/plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="static/assets/plugins/iCheck/square/blue.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,21 +44,13 @@
                     data-dismiss="alert" aria-hidden="true">&times;</button>
             ${message}
         </div>
-        <!-- 方法二：通过JSTL表达式实现 -->
-        <%--<c:if test="${message != null}">--%>
-        <%--<div class="alert alert-danger alert-dismissible">--%>
-        <%--<button type="button" class="close"--%>
-        <%--data-dismiss="alert" aria-hidden="true">&times;</button>--%>
-        <%--${message}--%>
-        <%--</div>--%>
-        <%--</c:if>--%>
         <form action="/login" method="post">
             <div class="form-group has-feedback">
-                <input type="email" class="form-control" value="${loginId}"name="loginId" placeholder="邮箱">
+                <input type="email" class="form-control" value="${email}"name="email" placeholder="邮箱">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" value="${loginPwd}" name="loginPwd" placeholder="密码">
+                <input type="password" class="form-control" value="${password}" name="password" placeholder="密码">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">
@@ -85,11 +76,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery 3 -->
-<script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="static/assets/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="static/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script src="assets/plugins/iCheck/icheck.min.js"></script>
+<script src="static/assets/plugins/iCheck/icheck.min.js"></script>
 <script>
     $(function () {
         $('input').iCheck({

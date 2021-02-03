@@ -1,62 +1,46 @@
 package com.shooter.funtl.module.web.controller;
-
-import com.shooter.funtl.common.context.SpringContext;
 import com.shooter.funtl.common.utils.CookieUtils;
 import com.shooter.funtl.module.entity.User;
 import com.shooter.funtl.module.service.UserService;
-import com.shooter.funtl.module.service.impl.UserServiceImpl;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-public class LoginController extends HttpServlet{
+@Controller
+public class LoginController {
 
-    private UserService userService = SpringContext.getBean(UserServiceImpl.class);
+    @Autowired
+    private UserService userService;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String userInfo = CookieUtils.getCookieValue(req, "userInfo");
-        if(StringUtils.isNotBlank(userInfo)){
-            String[] userInfoArray = userInfo.split(":");
-            req.setAttribute("loginId",userInfoArray[0]);
-            req.setAttribute("loginPwd",userInfoArray[1]);
-            req.setAttribute("isRemember",true);
-        }
-        req.getRequestDispatcher("/login.jsp").forward(req,resp);
+    /**
+     * 跳转登陆页面
+     * */
+    @RequestMapping(value = {"", "login"}, method = RequestMethod.GET)
+    public String login() {
+        return "login";
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        //获取参数
-        String loginId = req.getParameter("loginId");
-        String loginPwd = req.getParameter("loginPwd");
-        //icheck在选中时传值为：on ，未选中时传值为：null
-        boolean isRemember = "on".equals(req.getParameter("isRemember"));
+    /**
+     * 登陆逻辑
+     * */
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String login(@RequestParam(required = true) String email,
+                        @RequestParam(required = true) String password,
+                        HttpServletRequest httpServletRequest) {
         //查询用户信息
-        User user = userService.login(loginId, loginPwd);
+        User user = userService.login(email, password);
         //登录失败的处理
         if(user == null){
-            req.setAttribute("message","用户名或密码错误！");
-            req.getRequestDispatcher("/index.jsp").forward(req,resp);
+            return "login";
         }
         //登录成功的处理
         else {
-            if(isRemember){
-                //设置Cooick键值对，以及生效时间为7天
-                CookieUtils.setCookie(req,resp,
-                        "userInfo",String.format("%s:%s",loginId,loginPwd),
-                        7 * 24 * 60 * 60);
-            }else {
-                CookieUtils.deleteCookie(req,resp,"userInfo");
-            }
-            req.setAttribute("message","登陆成功！");
-            req.getRequestDispatcher("/success.jsp").forward(req,resp);
+            return "redirect:/main";
         }
     }
 }

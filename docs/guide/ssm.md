@@ -76,6 +76,21 @@
 
 ### Spring整合Web
 
+#### 引入Jar包
+
+```xml
+<!-- Spring Web -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>4.3.17.RELEASE</version>
+</dependency>
+```
+
+
+
+#### ApplicationContext
+
 ​	　在JavaSE中是通过`main`方法完成`ApplicationContext`初始化的，参见[这里](../demo/第一个Spring应用程序.md)。但是在Web容器中，入口是`web.xml`，所以，要将`ApplicationContext`的初始化工作交于`web.xml`。
 
 ```xml
@@ -175,6 +190,26 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 
 
 
+#### bean实例注入
+
+```java
+/**
+* 根据类获取实例
+* */
+public class LoginController extends HttpServlet
+    private UserService userService = SpringContext.getBean(UserServiceImpl.class);
+}
+
+/**
+* 根据beanId获取实例
+* */
+public class UserServiceImpl implements UserService {
+    private UserDao userDao = SpringContext.getBean("userDao");
+}
+```
+
+
+
 ### 基于注解装配
 
 #### spring-context.xml
@@ -199,7 +234,7 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 
 
 
-#### bean实例装配注解
+#### bean实例注入
 
 （1）指定class与bean之间关系的注解
 
@@ -208,8 +243,6 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 - @Repository：用于对 DAO 实现类进行注解
 - @Service：用于对 Service 实现类进行注解
 - @Controller：用于对 Controller 实现类进行注解
-
-- @Scope：该注解的 value 属性用于指定作用域，默认为 singleton。
 ```
 
 ​	　Spring 提供的这个四个注解除语义外，功能上是等效注解，只有例如SpringDataJpa等会对不同的注解做出区别。特别的，这些注解都具有默认属性 `value` 用于指定该 bean 的 id 值。
@@ -262,20 +295,25 @@ private Student student;
 private Student student;
 
 /**
-* 初始化student类的userName和passWd属性
+* 初始化userName属性值为：userName
 */
-@Component
-public class Student implements Serializable{
+@Value("userName")
+private String userName;
 
-    @Value("userName")
-    private String userName;
-    
-    private String passWd;
-    
-    @Value("passWd")
-    public void setPassWd(String passWd) {
-        this.passWd = passWd;
-    }
+/**
+* 初始化入参passWd值为：passWd
+*/
+@Value("passWd")
+public void setPassWd(String passWd) {
+    this.passWd = passWd;
+}
+
+/**
+* 根据类型初始化入参user值
+*/
+@Autowired
+public void setUser(User user) {
+    this.user = user;
 }
 ```
 
@@ -299,7 +337,7 @@ public class Student implements Serializable{
 
 #### 作用域实现方式
 
-​	　需要在类上使用注解 `@Scope`，其 value 属性用于指定作用域。默认为 singleton。
+​	　需要在类上使用注解 `@Scope`，其 value 属性用于指定作用域。默认为 `singleton`。
 
 ```java
 /**
@@ -318,12 +356,59 @@ public class Student{
 
 
 
+## SpringMVC
+
+​	　**Spring MVC** (或称Spring Web MVC)属于**Spring**中的**展示层框架**，其提供了**MVC模式**使得Web应用在输入逻辑、业务逻辑和 UI 逻辑实现**松散耦合**。Spring MVC通过**DispatcherServlet组件类**处理所有的 HTTP 请求和响应， 具体的工作流如下图所示：
+
+![ssm_dispatcherservlet](./images/monolith/ssm_dispatcherservlet.jpg)
+
+​	　　`DispatcherServlet`分发器在接收到 HTTP 请求后，会先查询 `HandlerMapping` 调用相应的`Controller`。**Controller**根据请求的 `GET` 或 `POST` 方法调用相应的**服务方法**，服务方法将基于定义的业务逻辑设置模型数据，并将**模型**和**逻辑视图名称**返回给 DispatcherServlet。DispatcherServlet 通过**ViewResolver**（视图解析器） 获取请求的**定义视图**。最后，DispatcherServlet 将模型数据传递到最终的**视图**，并在浏览器上呈现。
+
+​	　特别的， `HandlerMapping`，`Controller` 和 `ViewResolver` 是 `WebApplicationContext` 的一部分，它是普通 ApplicationContext 的扩展，带有 Web 应用程序所需的一些额外功能。
 
 
-## SpringMvc
+
+**实战：**
+
+- [v1.6 SpringMVC]()
+
+
+
+### Spring整合MVC
+
+#### 引入Jar包
+
+```xml
+<!--Spring MVC-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>4.3.17.RELEASE</version>
+</dependency>
+```
+
+​	　特别的，`spring-webmvc`已经依赖了`spring-web` 、`spring-context`等Jar包。所以，被依赖的这些Jar包可以删除，但是为了表明所使用的框架，建议保留。
+
+#### web.xml
+
+
+
+### SpringMVC控制器
+
+
+
+### SpringMVC拦截器
+
+
 
 
 
 ## Mybatis
 
+### 数据持久化
+
+
+
 ## Spring事物管理
+
+

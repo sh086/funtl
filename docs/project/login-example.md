@@ -794,30 +794,18 @@ public class UserServiceImpl implements UserService {
 （1）DAO层的装配
 
 ```java
-/**
-* 示例一：根据类获取实例
-* */
 @Repository
 public class UserDaoImpl implements UserDao {}
 
 @Autowired
-private UserDao userDao;
-
-/**
-* 示例二：根据beanId获取实例
-* */
-@Repository(value = "userDao")
-public class UserDaoImpl implements UserDao {}
-
-@Resource(name="userDao")
-private UserDao userDao;
+private UserDao userDao
 ```
 
 
 
 （2）Service层的装配
 
-​	由于目前项目还没有整合SpringMvc，所以在Controller中无法使用`@Autowired`获取UserService实例，只能先使用SpringContext的getBean方法。
+​	　由于目前项目还没有整合SpringMvc，所以在Controller中无法使用`@Autowired`获取UserService实例，只能先使用SpringContext的getBean方法。
 
 ```java
 @Service
@@ -1116,7 +1104,6 @@ public class LoginController extends HttpServlet{
         }
     }
 }
-
 ```
 
 ​	　设置完成后，重启项目，按`F12`即可在console中看到设置的Cookies的键值对，如下示例：
@@ -1179,9 +1166,158 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
 
 
-## v1.6 SpringMvc
+## v1.6 SpringMVC
 
-### Spring整合Mvc
+### Spring整合MVC
+
+#### 引入Jar包
+
+```xml
+<!--Spring MVC-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>4.3.17.RELEASE</version>
+</dependency>
+```
+
+#### web.xml
+
+​	　在`web.xml`中去除Servlet拦截器配置，并引入Spring MVC需要分发器`DispatcherServlet` 和 字符集过滤器`CharacterEncodingFilter`。
+
+```xml {21-54}
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <display-name>myshop</display-name>
+
+    <!--JavaBean的配置信息-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-context*.xml</param-value>
+    </context-param>
+    <!--自动装配ApplicationContext的配置信息-->
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+
+    <!--配置字符集过滤器CharacterEncodingFilter，用于解决中文编码问题-->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--配置 Spring 的 Servlet 分发器DispatcherServlet处理所有 HTTP 的请求和响应-->
+    <servlet>
+        <servlet-name>springServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:/spring-mvc*.xml</param-value>
+        </init-param>
+        <!--优先启动，设置优先级为1（最高） -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!--拦截所有请求，交于DispatchServlet处理 -->
+    <servlet-mapping>
+        <servlet-name>springServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+</web-app>
+```
+
+
+
+#### spring-mvc.xml
+
+​	　在resource目录下新建`sprin-mvc.xml`文件来配置 MVC。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <description>Spring MVC Configuration</description>
+
+    <!-- 加载配置属性文件 -->
+    <context:property-placeholder ignore-unresolvable="true" 
+                                  location="classpath:myshop.properties"/>
+
+    <!-- 使用 Annotation 自动注册 Bean,只扫描 @Controller -->
+    <context:component-scan base-package="com.shooter.funtl" use-default-filters="false">
+        <context:include-filter type="annotation" 
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 默认的注解映射的支持 -->
+    <mvc:annotation-driven />
+
+    <!-- 定义视图文件解析 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="${web.view.prefix}"/>
+        <property name="suffix" value="${web.view.suffix}"/>
+    </bean>
+
+    <!-- 静态资源映射 -->
+    <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
+</beans>
+```
+
+
+
+#### myshop.properties
+
+​	　在resource目录下新建`myshop.properties`文件用于动态加载属性配置文件。
+
+```properties
+web.view.prefix=/WEB-INF/views/
+web.view.suffix=.jsp
+```
+
+
+
+#### 去掉 Spring 配置的重复扫描
+
+​	　将 `@Controller` 注解的扫描配置在`spring-context.xml`中排除。
+
+```xml
+<!--配置组件扫描器，用于在指定的基本包中扫描注解-->
+    <context:component-scan base-package="com.shooter.funtl">
+        <!--Controller交于spring-mvc.xml管理-->
+        <context:exclude-filter type="annotation" 
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+```
+
+
+
+### SpringMVC控制器
+
+
+
+### SpringMVC拦截器
 
 
 
