@@ -191,7 +191,7 @@ public class LoginController extends HttpServlet {
 </web-app>
 ```
 
-​	　**特别注意**：配置`web.xml`完成后，还需要再设置`Web Resource Directory`（参考[这里](https://sh086.github.io/funtl/guide/quickstart.html#project-struct)的`Modules`中的第(2)点）。
+​	　**特别注意**：配置`web.xml`完成后，还需要再指定`Web Resource Directory`（参考[这里](https://sh086.github.io/funtl/guide/quickstart.html#project-struct)的`Modules`中的第(2)点）中webapp和web.xml的位置。
 
 
 
@@ -419,7 +419,7 @@ webapp/assets目录
 
 ​	　首先修改页面跳转逻辑，将登录失败跳转为`index.jsp`页面(`fail.jsp`可以删除了)。
 
-```java
+```java{13,14,18,19}
 public class LoginController extends HttpServlet{
     private UserService userService = new UserServiceImpl();
     @Override
@@ -516,7 +516,7 @@ public class MyTest {
 
 #### log4j.properties
 
-​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件，并自定义`log4j.appender.file.File`的位置。
+​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件，并指定`log4j.appender.file.File`的位置。
 
 ```properties
 log4j.rootLogger=INFO, console, file
@@ -537,9 +537,9 @@ log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
 
 #### 测试用例
 
-​	在`UserDaoImpl`中打印`email`和`passWord`信息。
+​	　在`UserDaoImpl`中打印`email`和`passWord`信息。
 
-```java
+```java{6,10}
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1183,7 +1183,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
 #### web.xml
 
-​	　在`web.xml`中去除Servlet拦截器配置，并引入Spring MVC需要分发器`DispatcherServlet` 和 字符集过滤器`CharacterEncodingFilter`。
+​	　在`web.xml`中去除Servlet拦截器配置，并引入Spring MVC需要的`DispatcherServlet` 分发器 和 字符集过滤器`CharacterEncodingFilter`。
 
 ```xml {21-54}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1298,26 +1298,228 @@ web.view.suffix=.jsp
 
 
 
-#### 去掉 Spring 配置的重复扫描
-
-​	　将 `@Controller` 注解的扫描配置在`spring-context.xml`中排除。
+#### spring-context.xml
 
 ```xml
-<!--配置组件扫描器，用于在指定的基本包中扫描注解-->
-    <context:component-scan base-package="com.shooter.funtl">
-        <!--Controller交于spring-mvc.xml管理-->
-        <context:exclude-filter type="annotation" 
-                                expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+<context:component-scan base-package="com.shooter.funtl">
+    <!--@Controller交于spring-mvc.xml管理，扫描配置在从spring-context.xml中排除-->
+    <context:exclude-filter type="annotation" 
+                            expression="org.springframework.stereotype.Controller"/>
+</context:component-scan>
 ```
+
+
+
+#### 页面静态资源
+
+​	　首先，在`webapp/WEB-INF`目录下新建`views`目录作为JSP页面目录，在`webapp`目录下新建`static`目录，用于存放静态资源。接着，删除`index.jsp`、修改`success.jsp`为`main.jsp`、并将`login.jsp`和`main.jsp`移至`webapp/WEB-INF/views/`下、以及将`assets`目录移至`webapp/static/`下。最后，还需要修改`index.jsp`中静态资源的引用路径地址(略)。
 
 
 
 ### SpringMVC控制器
 
+​	　目前，项目中有login.jsp和main.jsp，对应LoginController和MainController。
+
+#### LoginController
+
+```java
+package com.shooter.funtl.module.web.controller;
+import com.shooter.funtl.common.utils.CookieUtils;
+import com.shooter.funtl.module.entity.User;
+import com.shooter.funtl.module.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Controller
+public class LoginController {
+
+    @Autowired
+    private UserService userService;
+
+    /**
+     * 跳转登陆页面
+     * */
+    @RequestMapping(value = {"", "login"}, method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
+
+    /**
+     * 登陆逻辑
+     * */
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String login(@RequestParam(required = true) String loginId,
+                        @RequestParam(required = true) String loginPwd,
+                        HttpServletRequest httpServletRequest) {
+        //查询用户信息
+        User user = userService.login(loginId, loginPwd);
+        //登录失败的处理
+        if(user == null){
+            return login();
+        }
+        //登录成功的处理
+        else {
+            httpServletRequest.getSession().setAttribute("user",user);
+            return "redirect:/main";
+        }
+    }
+}
+```
+
+
+
+#### MainController
+
+```java
+package com.shooter.funtl.module.web.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class MainController {
+
+    /**
+     * 跳转登陆页面
+     * */
+    @RequestMapping(value = "main", method = RequestMethod.GET)
+    public String login() {
+        return "main";
+    }
+}
+```
+
 
 
 ### SpringMVC拦截器
+
+​	　SpringMVC中不能使用Servlet过滤器，只能使用SpringMVC拦截器做日志记录、权限管理等。如，设置拦截器 ，实现  **未登陆的只能访问登录页**（登陆拦截器）和 **已经登陆的不能再访问登录页**（权限拦截器） 。
+
+#### 登录拦截器
+
+##### web.xml
+
+```xml
+<!-- 拦截器配置，拦截顺序：先执行后定义的，排在第一位的最后执行。-->
+<mvc:interceptors>
+   <!-- 登录拦截器：登陆和静态资源不做拦截-->
+    <mvc:interceptor>
+        <mvc:mapping path="/**"/>
+        <mvc:exclude-mapping path="/static/**"/>
+        <mvc:exclude-mapping path="/login"/>
+        <bean class="com.shooter.funtl.module.web.interceptor.LoginInterceptor"/>
+    </mvc:interceptor>
+</mvc:interceptors>
+```
+
+
+
+##### LoginInterceptor
+
+```java
+package com.shooter.funtl.module.web.interceptor;
+
+import com.shooter.funtl.module.entity.User;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * 登录拦截器
+ * */
+public class LoginInterceptor implements HandlerInterceptor {
+
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        User user = (User)httpServletRequest.getSession().getAttribute("user");
+        //未登录
+        if(user == null){
+            // 用户未登录，重定向到登录页
+            httpServletResponse.sendRedirect("/login");
+            return false;
+        }
+        //放行
+        return true;
+    }
+
+    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+
+    }
+}
+```
+
+
+
+#### 权限拦截器
+
+##### web.xml
+
+```xml{10-14}
+ <!-- 拦截器配置，拦截顺序：先执行后定义的，排在第一位的最后执行。-->
+ <mvc:interceptors>
+     <!-- 登录拦截器-->
+     <mvc:interceptor>
+         <mvc:mapping path="/**"/>
+         <mvc:exclude-mapping path="/static/**"/>
+         <mvc:exclude-mapping path="/login"/>
+         <bean class="com.shooter.funtl.module.web.interceptor.LoginInterceptor"/>
+     </mvc:interceptor>
+     <!-- 权限拦截器-->
+     <mvc:interceptor>
+         <mvc:mapping path="/**"/>
+         <bean class="com.shooter.funtl.module.web.interceptor.PermissionIterceptorterceptor"/>
+     </mvc:interceptor>
+ </mvc:interceptors>
+```
+
+
+
+##### PermissionIterceptorterceptor
+
+```java
+package com.shooter.funtl.module.web.interceptor;
+
+import com.shooter.funtl.module.entity.User;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * 权限拦截器
+ * */
+public class PermissionIterceptorterceptor implements HandlerInterceptor {
+
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        //放行
+        return true;
+    }
+
+    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+
+        if(modelAndView.getViewName().endsWith("login")){
+            User user = (User)httpServletRequest.getSession().getAttribute("user");
+            if(user != null){
+                httpServletResponse.sendRedirect("/main");
+            }
+        }
+    }
+
+    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+
+    }
+}
+```
 
 
 

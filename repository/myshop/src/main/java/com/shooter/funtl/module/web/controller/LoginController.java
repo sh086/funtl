@@ -1,4 +1,5 @@
 package com.shooter.funtl.module.web.controller;
+import com.shooter.funtl.common.constant.SessionConstant;
 import com.shooter.funtl.common.utils.CookieUtils;
 import com.shooter.funtl.module.entity.User;
 import com.shooter.funtl.module.service.UserService;
@@ -29,17 +30,18 @@ public class LoginController {
      * 登陆逻辑
      * */
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@RequestParam(required = true) String email,
-                        @RequestParam(required = true) String password,
+    public String login(@RequestParam(required = true) String loginId,
+                        @RequestParam(required = true) String loginPwd,
                         HttpServletRequest httpServletRequest) {
         //查询用户信息
-        User user = userService.login(email, password);
+        User user = userService.login(loginId, loginPwd);
         //登录失败的处理
         if(user == null){
-            return "login";
+            return login();
         }
         //登录成功的处理
         else {
+            httpServletRequest.getSession().setAttribute(SessionConstant.SESSION_USER,user);
             return "redirect:/main";
         }
     }

@@ -46,11 +46,11 @@
         </div>
         <form action="/login" method="post">
             <div class="form-group has-feedback">
-                <input type="email" class="form-control" value="${email}"name="email" placeholder="邮箱">
+                <input type="email" class="form-control" value="${loginId}"name="loginId" placeholder="邮箱">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" value="${password}" name="password" placeholder="密码">
+                <input type="password" class="form-control" value="${loginPwd}" name="loginPwd" placeholder="密码">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">

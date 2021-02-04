@@ -27,4 +27,21 @@
 
     <!-- 静态资源映射 -->
     <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
+
+    <!-- 拦截器配置，拦截顺序：先执行后定义的，排在第一位的最后执行。-->
+    <mvc:interceptors>
+        <!-- 登录拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/login"/>
+            <bean class="com.shooter.funtl.module.web.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+        <!-- 权限拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.shooter.funtl.module.web.interceptor.PermissionIterceptorterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>
