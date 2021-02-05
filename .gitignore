@@ -10,3 +10,4 @@ assets
 *.iml
 resource
 example
+*.log

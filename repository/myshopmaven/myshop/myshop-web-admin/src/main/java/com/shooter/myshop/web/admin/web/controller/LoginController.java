@@ -1,17 +1,15 @@
-package com.shooter.funtl.module.web.controller;
-import com.shooter.funtl.common.constant.SessionConstant;
-import com.shooter.funtl.common.utils.CookieUtils;
-import com.shooter.funtl.module.entity.User;
-import com.shooter.funtl.module.service.UserService;
+package com.shooter.myshop.web.admin.web.controller;
+
+import com.shooter.myshop.commons.constant.SessionConstant;
+import com.shooter.myshop.commons.utils.CookieUtils;
+import com.shooter.myshop.domain.User;
+import com.shooter.myshop.web.admin.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,7 +24,7 @@ public class LoginController {
      * */
     @RequestMapping(value = {"", "login"}, method = RequestMethod.GET)
     public String login(HttpServletRequest req) {
-        String userInfo = CookieUtils.getCookieValue(req,SessionConstant.SESSION_USER);
+        String userInfo = CookieUtils.getCookieValue(req, SessionConstant.SESSION_USER);
         if(StringUtils.isNotBlank(userInfo)){
             String[] userInfoArray = userInfo.split(":");
             req.setAttribute("loginId",userInfoArray[0]);

@@ -1,7 +1,3 @@
----
-sidebar: auto
----
-
 # 简单的登录功能
 
 
@@ -1092,7 +1088,7 @@ public class LoginController extends HttpServlet{
         }
         else {
             if(isRemember){
-                //设置Cooick键值对，以及生效时间为7天
+                //设置Cookie键值对，以及生效时间为7天
                 CookieUtils.setCookie(req,resp,
                         "userInfo",String.format("%s:%s",loginId,loginPwd),
                         7 * 24 * 60 * 60);
@@ -1318,23 +1314,26 @@ web.view.suffix=.jsp
 
 ### SpringMVC控制器
 
-​	　目前，项目中有login.jsp和main.jsp，对应LoginController和MainController。
+​	　目前，项目中有`login.jsp`和`main.jsp`，对应`LoginController`和`MainController`。使用SpringMVC重写记住我的功能，并新增退出登录的功能。
 
 #### LoginController
 
 ```java
 package com.shooter.funtl.module.web.controller;
+import com.shooter.funtl.common.constant.SessionConstant;
 import com.shooter.funtl.common.utils.CookieUtils;
 import com.shooter.funtl.module.entity.User;
 import com.shooter.funtl.module.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class LoginController {
@@ -1343,31 +1342,59 @@ public class LoginController {
     private UserService userService;
 
     /**
-     * 跳转登陆页面
+     * 跳转登录页面
      * */
     @RequestMapping(value = {"", "login"}, method = RequestMethod.GET)
-    public String login() {
+    public String login(HttpServletRequest req) {
+        String userInfo = CookieUtils.getCookieValue(req,SessionConstant.SESSION_USER);
+        if(StringUtils.isNotBlank(userInfo)){
+            String[] userInfoArray = userInfo.split(":");
+            req.setAttribute("loginId",userInfoArray[0]);
+            req.setAttribute("loginPwd",userInfoArray[1]);
+            req.setAttribute("isRemember",true);
+        }
         return "login";
     }
 
     /**
-     * 登陆逻辑
+     * 登录逻辑
      * */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@RequestParam(required = true) String loginId,
                         @RequestParam(required = true) String loginPwd,
-                        HttpServletRequest httpServletRequest) {
+                        String isRemember, HttpServletRequest req,HttpServletResponse resp) {
+
+        boolean isCheck = "on".equals(isRemember);
         //查询用户信息
         User user = userService.login(loginId, loginPwd);
         //登录失败的处理
         if(user == null){
-            return login();
+            req.setAttribute("message","用户名或密码错误！");
+            return "login";
         }
         //登录成功的处理
         else {
-            httpServletRequest.getSession().setAttribute("user",user);
+            if(isCheck){
+                //设置Cookie键值对，以及生效时间为7天
+                CookieUtils.setCookie(req,resp,
+                        SessionConstant.SESSION_USER,String.format("%s:%s",loginId,loginPwd),
+                        7 * 24 * 60 * 60);
+            }else {
+                CookieUtils.deleteCookie(req,resp,SessionConstant.SESSION_USER);
+            }
+            req.setAttribute("message","登陆成功！");
+            req.getSession().setAttribute(SessionConstant.SESSION_USER,user);
             return "redirect:/main";
         }
+    }
+
+    /**
+     * 注销登录
+     * */
+    @RequestMapping(value = "logout",method = RequestMethod.GET)
+    public String logout(HttpServletRequest req){
+        req.getSession().invalidate();
+        return "login";
     }
 }
 ```
@@ -1397,9 +1424,25 @@ public class MainController {
 
 
 
+#### SessionConstant
+
+​	　新建SessionConstant类，并将常量`user`作为`SESSION_USER`。
+
+```java
+package com.shooter.funtl.common.constant;
+
+public class SessionConstant {
+
+    public static final String SESSION_USER = "user";
+
+}
+```
+
+
+
 ### SpringMVC拦截器
 
-​	　SpringMVC中不能使用Servlet过滤器，只能使用SpringMVC拦截器做日志记录、权限管理等。如，设置拦截器 ，实现  **未登陆的只能访问登录页**（登陆拦截器）和 **已经登陆的不能再访问登录页**（权限拦截器） 。
+​	　SpringMVC中不能使用Servlet过滤器，只能使用**SpringMVC拦截器**做日志记录、权限管理等。如实现  **未登陆的只能访问登录页**（登陆拦截器）和 **已经登陆的不能再访问登录页**（权限拦截器） 。
 
 #### 登录拦截器
 
@@ -1425,6 +1468,7 @@ public class MainController {
 ```java
 package com.shooter.funtl.module.web.interceptor;
 
+import com.shooter.funtl.common.constant.SessionConstant;
 import com.shooter.funtl.module.entity.User;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -1437,7 +1481,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        User user = (User)httpServletRequest.getSession().getAttribute("user");
+        User user = (User)httpServletRequest.getSession().getAttribute(SessionConstant.SESSION_USER);
         //未登录
         if(user == null){
             // 用户未登录，重定向到登录页
@@ -1489,9 +1533,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 ```java
 package com.shooter.funtl.module.web.interceptor;
 
+import com.shooter.funtl.common.constant.SessionConstant;
 import com.shooter.funtl.module.entity.User;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -1501,6 +1547,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PermissionIterceptorterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+
         //放行
         return true;
     }
@@ -1508,7 +1555,7 @@ public class PermissionIterceptorterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
 
         if(modelAndView.getViewName().endsWith("login")){
-            User user = (User)httpServletRequest.getSession().getAttribute("user");
+            User user = (User)httpServletRequest.getSession().getAttribute(SessionConstant.SESSION_USER);
             if(user != null){
                 httpServletResponse.sendRedirect("/main");
             }
@@ -1525,7 +1572,14 @@ public class PermissionIterceptorterceptor implements HandlerInterceptor {
 
 ### 测试运行
 
+① 未登录状态，访问http://localhost:8080/main 会自动跳转到 http://localhost:8080/login
+
+② 已登录状态，访问http://localhost:8080/login会自动跳转到 http://localhost:8080/main
+
+③ 已登录状态，访问http://localhost:8080/logout会退出登录
+
 
 
 ## v1.7 Mybatis
 
+​	　Mybatis数据持久化

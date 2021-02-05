@@ -48,16 +48,16 @@ module.exports = {
             title: '单体项目',
             collapsable: false,
             children: [
-                ['login-example.md','简单的登录功能'],
-                ['ssm-myshop.md','MyShop实战'],
+                ['myshop-frame.md','简单的登录功能'],
+                ['myshop-module.md','MyShop实战'],
             ]
         },
         {
             title: '微服务实战',
             collapsable: false,
             children: [
-                ['springclouditoken.md','Spring Cloud iToken'],
-                ['springcloudalibabamyshop.md','Spring Cloud Alibaba Myshop'],
+                ['itoken-springcloud.md','Spring Cloud iToken'],
+                ['myshop-springcloud.md','Spring Cloud Alibaba Myshop'],
             ]
         },
     ]
