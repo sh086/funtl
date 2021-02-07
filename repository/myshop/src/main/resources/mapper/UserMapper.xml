@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shooter.funtl.module.dao.UserDao">
+
+    <sql id="userSelect">
+        user.id,
+        user.user_name,
+        user.pass_word,
+        user.phone,
+        user.email,
+        user.create_time,
+        user.update_time
+    </sql>
+
+    <select id="selectUserByParams" resultType="User">
+        SELECT
+            <include refid="userSelect" />
+        FROM
+            tb_user AS user
+        <where>
+            <if test="id != null and id != ''">
+                AND user.id =  #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND user.user_name =  #{userName}
+            </if>
+            <if test="email != null and email != ''">
+                AND user.email =  #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND user.phone =  #{phone}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserByUserNameLike" resultType="User">
+        SELECT
+            <include refid="userSelect" />
+        FROM
+            tb_user AS user
+        <where>
+            AND user_name LIKE CONCAT ('%', #{userNameLike}, '%')
+        </where>
+    </select>
+
+    <select id="selectUserAll" resultType="User">
+        SELECT
+            <include refid="userSelect" />
+        FROM
+            tb_user AS user
+    </select>
+
+    <insert id="insert">
+        INSERT INTO tb_user  (
+            id,
+            user_name,
+            pass_word,
+            phone,
+            email,
+            create_time,
+            update_time
+        )
+        VALUES (
+            #{id},
+            #{userName},
+            #{passWord},
+            #{phone},
+            #{email},
+            now(),
+            now()
+        )
+    </insert>
+
+
+    <delete id="deleteById">
+        DELETE FROM tb_user WHERE id = #{id}
+    </delete>
+
+    <update id="updateById">
+        UPDATE
+            tb_user
+        SET
+            user_name = #{userName},
+            pass_word = #{passWord},
+            phone = #{phone},
+            email = #{email},
+            update_time = now()
+        WHERE id = #{id}
+    </update>
+
+</mapper>

@@ -271,6 +271,47 @@ webapp/assets目录
 
 
 
+### log4j日志
+
+#### 引入Jar包
+
+```xml
+<!--Log4j-->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.25</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-log4j12</artifactId>
+    <version>1.7.25</version>
+</dependency>
+```
+
+
+
+#### log4j.properties
+
+​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件，并指定`log4j.appender.file.File`的位置。
+
+```properties
+log4j.rootLogger=INFO, console, file
+
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d %p [%c] - %m%n
+
+log4j.appender.file=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.file.File=E:/WorkPlace/funtl/myshop/logs/log.log
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.A3.MaxFileSize=1024KB
+log4j.appender.A3.MaxBackupIndex=10
+log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
+```
+
+
+
 ### 编写业务代码
 
 #### 登录页面
@@ -413,17 +454,36 @@ webapp/assets目录
 
 #### 前端控制器
 
-​	　首先修改页面跳转逻辑，将登录失败跳转为`index.jsp`页面(`fail.jsp`可以删除了)。
+​	　首先修改页面跳转逻辑，将登录失败跳转为`index.jsp`页面(`fail.jsp`可以删除了)并显示错误信息。此外，还需打印登陆使用的loginId和loginPwd。
 
-```java{13,14,18,19}
+```java{16,26,32,33,37,38}
+package com.shooter.funtl.module.web.controller;
+
+import com.shooter.funtl.module.entity.User;
+import com.shooter.funtl.module.service.UserService;
+import com.shooter.funtl.module.service.impl.UserServiceImpl;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LoginController extends HttpServlet{
+
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     private UserService userService = new UserServiceImpl();
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         //获取参数
         String loginId = req.getParameter("loginId");
         String loginPwd = req.getParameter("loginPwd");
+        logger.info("email：{} passWord：{}",loginId,loginPwd);
+         
         //查询用户信息
         User user = userService.login(loginId, loginPwd);
         //登录失败的处理
@@ -456,105 +516,7 @@ public class LoginController extends HttpServlet{
 
 
 
-## v1.2 编写测试用例
-
-### Junit单元测试
-
-#### 引入Jar包
-
-```xml
-<!--Junit-->
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.12</version>
-</dependency>
-```
-
-#### 测试用例
-
-​	　在`test/java`目录下新建MyTest，用于测试junit是否已经正确引入了。
-
-```java
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-public class MyTest {
-    @Test
-    public void testHelloLog4j() {
-        System.out.println("Hello Log4j");
-    }
-}
-```
-
-
-
-### log4j日志
-
-#### 引入Jar包
-
-```xml
-<!--Log4j-->
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.25</version>
-</dependency>
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-log4j12</artifactId>
-    <version>1.7.25</version>
-</dependency>
-```
-
-
-
-#### log4j.properties
-
-​	　在`resources`资源目录下，新建`log4j.properties`日志配置文件，并指定`log4j.appender.file.File`的位置。
-
-```properties
-log4j.rootLogger=INFO, console, file
-
-log4j.appender.console=org.apache.log4j.ConsoleAppender
-log4j.appender.console.layout=org.apache.log4j.PatternLayout
-log4j.appender.console.layout.ConversionPattern=%d %p [%c] - %m%n
-
-log4j.appender.file=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.file.File=E:/WorkPlace/funtl/myshop/logs/log.log
-log4j.appender.file.layout=org.apache.log4j.PatternLayout
-log4j.appender.A3.MaxFileSize=1024KB
-log4j.appender.A3.MaxBackupIndex=10
-log4j.appender.file.layout.ConversionPattern=%d %p [%c] - %m%n
-```
-
-
-
-#### 测试用例
-
-​	　在`UserDaoImpl`中打印`email`和`passWord`信息。
-
-```java{6,10}
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class UserDaoImpl implements UserDao {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
-
-    public User getUser(String email, String passWord) {
-        
-         logger.info("email：{} passWord：{}",email,passWord);
-		// 其余代码省略
-    }
-}
-
-```
-
-
-
-## v1.3 Spring
+## v1.2 Spring
 
 ### 引入Jar包
 
@@ -564,6 +526,12 @@ public class UserDaoImpl implements UserDao {
     <groupId>org.springframework</groupId>
     <artifactId>spring-context</artifactId>
     <version>4.3.17.RELEASE</version>
+</dependency>
+<!--Junit-->
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
 </dependency>
 ```
 
@@ -624,7 +592,7 @@ public class SpringContextTest {
 
 
 
-## v1.4 SpringWeb
+## v1.3 SpringWeb
 
 ### Spring整合Web
 
@@ -820,7 +788,7 @@ public class LoginController extends HttpServlet
 
 
 
-## v1.5 记住我
+## v1.4 记住我
 
 ### CooickUtils
 
@@ -1047,22 +1015,6 @@ public final class CookieUtils {
 
 ### 编写业务代码
 
-#### 数据模型
-
-​	　在`User`中新增`isRemember`属性，用于保存`是否记住我`。
-
-```java{6}
-@Data
-public class User implements Serializable {
-    private String userName;
-    private String passWd;
-    private String email;
-    private Boolean isRemember;
-}
-```
-
-
-
 #### 设置Cooick
 
 ​	　在`LoginController`的`doPost`方法中，`icheck`在`选中时`设置Cooick键值对生效时间为7天；若`未选中`则删除原先的Cooick键值对。特别注意：**cookie不支持分号**。
@@ -1162,7 +1114,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
 
 
-## v1.6 SpringMVC
+## v1.5 SpringMVC
 
 ### Spring整合MVC
 
@@ -1296,7 +1248,7 @@ web.view.suffix=.jsp
 
 #### spring-context.xml
 
-```xml
+```xml{3,4}
 <context:component-scan base-package="com.shooter.funtl">
     <!--@Controller交于spring-mvc.xml管理，扫描配置在从spring-context.xml中排除-->
     <context:exclude-filter type="annotation" 
@@ -1310,11 +1262,13 @@ web.view.suffix=.jsp
 
 ​	　首先，在`webapp/WEB-INF`目录下新建`views`目录作为JSP页面目录，在`webapp`目录下新建`static`目录，用于存放静态资源。接着，删除`index.jsp`、修改`success.jsp`为`main.jsp`、并将`login.jsp`和`main.jsp`移至`webapp/WEB-INF/views/`下、以及将`assets`目录移至`webapp/static/`下。最后，还需要修改`index.jsp`中静态资源的引用路径地址(略)。
 
+![login_6](./images/login_6.png)
+
 
 
 ### SpringMVC控制器
 
-​	　目前，项目中有`login.jsp`和`main.jsp`，对应`LoginController`和`MainController`。使用SpringMVC重写记住我的功能，并新增退出登录的功能。
+​	　目前，项目中有`login.jsp`和`main.jsp`，对应`LoginController`和`MainController`。使用SpringMVC重写`记住我`的功能，并新增退出登录的功能。
 
 #### LoginController
 
@@ -1370,7 +1324,7 @@ public class LoginController {
         //登录失败的处理
         if(user == null){
             req.setAttribute("message","用户名或密码错误！");
-            return "login";
+            return login(req);
         }
         //登录成功的处理
         else {
@@ -1383,18 +1337,19 @@ public class LoginController {
                 CookieUtils.deleteCookie(req,resp,SessionConstant.SESSION_USER);
             }
             req.setAttribute("message","登陆成功！");
+            //将登陆信息放入Session
             req.getSession().setAttribute(SessionConstant.SESSION_USER,user);
             return "redirect:/main";
         }
     }
 
-    /**
+     /**
      * 注销登录
      * */
     @RequestMapping(value = "logout",method = RequestMethod.GET)
     public String logout(HttpServletRequest req){
         req.getSession().invalidate();
-        return "login";
+        return login(req);
     }
 }
 ```
@@ -1572,14 +1527,38 @@ public class PermissionIterceptorterceptor implements HandlerInterceptor {
 
 ### 测试运行
 
-① 未登录状态，访问http://localhost:8080/main 会自动跳转到 http://localhost:8080/login
+```
+- 未登录状态，访问http://localhost:8080/main 会自动跳转到 http://localhost:8080/login
+- 已登录状态，访问http://localhost:8080/login会自动跳转到 http://localhost:8080/main
+- 已登录状态，访问http://localhost:8080/logout会退出登录
+```
 
-② 已登录状态，访问http://localhost:8080/login会自动跳转到 http://localhost:8080/main
-
-③ 已登录状态，访问http://localhost:8080/logout会退出登录
 
 
-
-## v1.7 Mybatis
+## v1.6 Mybatis
 
 ​	　Mybatis数据持久化
+
+### Spring整合Druid
+
+Druid连接池
+
+### Spring整合Mybatis
+
+
+
+### 实现用户登陆
+
+#### 业务模型层
+
+#### 前端控制器
+
+#### 登陆页面
+
+
+
+### 测试运行
+
+#### Junit测试
+
+#### Web测试

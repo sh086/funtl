@@ -5,13 +5,10 @@ import com.shooter.funtl.module.entity.User;
 import com.shooter.funtl.module.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,7 +47,7 @@ public class LoginController {
         //登录失败的处理
         if(user == null){
             req.setAttribute("message","用户名或密码错误！");
-            return "login";
+            return login(req);
         }
         //登录成功的处理
         else {
@@ -74,6 +71,6 @@ public class LoginController {
     @RequestMapping(value = "logout",method = RequestMethod.GET)
     public String logout(HttpServletRequest req){
         req.getSession().invalidate();
-        return "login";
+        return login(req);
     }
 }
