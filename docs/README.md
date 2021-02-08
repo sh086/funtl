@@ -2,7 +2,7 @@
 home: true
 heroImage: /homepage.jpg
 actionText: 互联网Java全栈工程师 →
-actionLink: /guide/
+actionLink: /funtl/guide/
 features:
 - title: 走向单体地狱
   details: 搭建集成开发环境，并掌握Java轻量级框架（SSM）开发技术

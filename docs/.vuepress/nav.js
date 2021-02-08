@@ -1,6 +1,6 @@
 module.exports = [
-    {text: '指南', link: '/guide/'},
-    {text: '项目', link: '/project/'},
+    {text: '指南', link: '/funtl/guide/'},
+    {text: '项目', link: '/funtl/project/'},
     {
         text: '参考资源',
         items: [
@@ -26,5 +26,5 @@ module.exports = [
             {text: '在线对比文字', link: 'https://www.bejson.com/othertools/finddif3/)'},
         ]
     },
-    {text: '更新日志', link: 'https://github.com/sh086/funtl/blob/main/docs/changelog.md'},
+    {text: '更新日志', link: 'https://github.com/sh086/college/blob/main/docs/changelog.md'},
 ];

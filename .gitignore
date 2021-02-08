@@ -9,5 +9,6 @@ target
 assets
 *.iml
 resource
+repository
 example
 *.log

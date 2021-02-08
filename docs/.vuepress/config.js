@@ -4,9 +4,9 @@ module.exports = {
     title: '千锋教育',
     description: '有道无术，术尚可求，有术无道，止于术',
     port: '8001',
-    base:'/funtl/',
+    base:'/college/',
     themeConfig: {
-        repo: 'https://github.com/sh086/funtl',
+        repo: 'https://github.com/sh086/college',
         nav: nav,//导航栏
         sidebar: sidebar,//自动生产导航栏
         sidebarDepth: 2,//sidebar的最大深度
