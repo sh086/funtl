@@ -195,7 +195,7 @@ public class LoginController extends HttpServlet {
 
 #### 欢迎页面
 
-​	　`index.jsp`是Servlet项目默认的欢迎页面，无需在`web.xml`中显示配置，项目部署成功后，访问根路径会直接跳转到`index.jsp`页面。
+​	　`index.jsp`是Servlet项目默认的欢迎页面，无需在`web.xml`中显示配置。项目部署成功后，访问根路径会直接跳转到`index.jsp`页面。
 
 ```html
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -217,7 +217,7 @@ public class LoginController extends HttpServlet {
 
 #### 调转页面
 
-​	　success.jsp 和 fail.jsp登录跳转页面，登录失败的页面和这个是一样的，这里略过。
+​	　`success.jsp` 和 `fail.jsp`登录跳转页面，登录失败的页面和这个是一样的，这里略过。
 
 ```html
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -235,7 +235,7 @@ public class LoginController extends HttpServlet {
 
 ### 测试运行
 
-​	　最后，参考[Tomcat部署](https://sh086.github.io/funtl/guide/quickstart.html#tomcat%E9%83%A8%E7%BD%B2)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 <a href ="http://localhost:8080" target="view_window"> http://localhost:8080</a>
+​	　最后，参考[Tomcat部署](https://github.com/sh086/college/blob/main/docs/funtl/guide/quickstart.md#tomcat%E9%83%A8%E7%BD%B2)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 <a href ="http://localhost:8080" target="view_window"> http://localhost:8080</a>
 
 ![login_1](./images/login_1.png)
 
@@ -1537,28 +1537,593 @@ public class PermissionIterceptorterceptor implements HandlerInterceptor {
 
 ## v1.6 Mybatis
 
-​	　Mybatis数据持久化
+​	　**ORM**是指**对象关系映射**，可以将**数据库关系** 和 **Java原生对象** 关联起来。Mybatis具有三级缓存，具有幂等性的查询适合放缓存中，一级缓存空间最小，查询速度最快，三级最大，查询速度也最慢，若三级也查询不到，就会在数据库中查询。
+
+```
+L1 一级缓存 256K 内存缓存
+L2 二级缓存 2MB	 磁盘缓存
+L3 三级缓存 8MB  网络缓存
+```
+
+
 
 ### Spring整合Druid
 
-Druid连接池
+#### 引入Jar包
+
+```xml
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>druid</artifactId>
+    <version>1.1.6</version>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.46</version>
+</dependency>
+```
+
+
+
+#### 数据库连接配置
+
+​	　在`myshop.properties`中引入数据库连接配置。
+
+```properties{3-6,9-11,14}
+# JDBC
+# MySQL 8.x: com.mysql.cj.jdbc.Driver
+jdbc.driverClass=com.mysql.jdbc.Driver
+jdbc.connectionURL=jdbc:mysql://56.56.56.165:3306/myshop?useUnicode=true&characterEncoding=utf-8&useSSL=false
+jdbc.username=ywwl
+jdbc.password=T#UsF4vXHq6GIhJ$
+
+# JDBC Pool
+jdbc.pool.init=1
+jdbc.pool.minIdle=3
+jdbc.pool.maxActive=20
+
+# JDBC Test
+jdbc.testSql=SELECT 'x' FROM DUAL
+
+web.view.prefix=/WEB-INF/views/
+web.view.suffix=.jsp
+```
+
+
+
+#### spring-context-druid.xml
+
+​	　新建`spring-context-druid.xml`配置文件，完成Spring和druid的整合。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 加载配置属性文件 -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:myshop.properties"/>
+
+    <!-- 数据源配置, 使用 Druid 数据库连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${jdbc.connectionURL}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${jdbc.pool.init}"/>
+        <property name="minIdle" value="${jdbc.pool.minIdle}"/>
+        <property name="maxActive" value="${jdbc.pool.maxActive}"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <property name="validationQuery" value="${jdbc.testSql}"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat"/>
+    </bean>
+</beans>
+```
+
+
+
+#### 配置 Druid 监控中心
+
+​	　在 `web.xml` 中配置 Druid 提供的 Servlet，可以通过http://localhost:8080/druid/index.html 查看Druid 提供的监控数据。
+
+```xml
+<!--配置 Druid 监控中心 -->
+<servlet>
+    <servlet-name>DruidStatView</servlet-name>
+    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>DruidStatView</servlet-name>
+    <url-pattern>/druid/*</url-pattern>
+</servlet-mapping>
+```
+
+
 
 ### Spring整合Mybatis
+
+#### 引入Jar包
+
+```xml
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.2.8</version>
+</dependency>
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>1.3.1</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>4.3.17.RELEASE</version>
+</dependency>
+```
+
+#### mybatis-config.xml
+
+​	　新建`mybatis-config.xml`MyBatis 配置文件。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 全局参数 -->
+    <settings>
+        <!-- 打印 SQL 语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+
+        <!-- 使全局的映射器启用或禁用缓存。 -->
+        <setting name="cacheEnabled" value="false"/>
+
+        <!-- 全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载。 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+
+        <!-- 当启用时，有延迟加载属性的对象在被调用时将会完全加载任意属性。否则，每种属性将会按需要加载。 -->
+        <setting name="aggressiveLazyLoading" value="true"/>
+
+        <!-- 是否允许单条 SQL 返回多个数据集 (取决于驱动的兼容性) default:true -->
+        <setting name="multipleResultSetsEnabled" value="true"/>
+
+        <!-- 是否可以使用列的别名 (取决于驱动的兼容性) default:true -->
+        <setting name="useColumnLabel" value="true"/>
+
+        <!-- 允许 JDBC 生成主键。需要驱动器支持。如果设为了 true，这个设置将强制使用被生成的主键，有一些驱动器不兼容不过仍然可以执行。 default:false  -->
+        <setting name="useGeneratedKeys" value="false"/>
+
+        <!-- 指定 MyBatis 如何自动映射 数据基表的列 NONE：不映射 PARTIAL：部分 FULL:全部  -->
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+
+        <!-- 这是默认的执行类型 （SIMPLE: 简单； REUSE: 执行器可能重复使用prepared statements语句；BATCH: 执行器可以重复执行语句和批量更新） -->
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+
+        <!-- 使用驼峰命名法转换字段。 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+        <!-- 设置本地缓存范围 session:就会有数据的共享 statement:语句范围 (这样就不会有数据的共享 ) defalut:session -->
+        <setting name="localCacheScope" value="SESSION"/>
+
+        <!-- 设置 JDBC 类型为空时,某些驱动程序 要指定值, default:OTHER，插入空值时不需要指定类型 -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+</configuration>
+```
+
+
+
+#### spring-context-mybatis.xml
+
+​	　新建`spring-context-mybatis.xml`配置文件，完成Spring和mybatis的整合。`ref="dataSource"`指的是**mybatis实例是从druid获取**的。
+
+```xml{7}
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 配置 SqlSession -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 用于配置对应实体类所在的包，多个 package 之间可以用 ',' 号分割 -->
+        <property name="typeAliasesPackage" value="com.shooter.funtl.module.entity"/>
+        <!-- 用于配置对象关系映射配置文件所在目录 -->
+        <property name="mapperLocations" value="classpath:/mapper/**/*.xml"/>
+        <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+    </bean>
+
+    <!-- 扫描 Mapper -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.shooter.funtl.module.dao" />
+    </bean>
+</beans>
+```
 
 
 
 ### 实现用户登陆
 
-#### 业务模型层
+#### 定义实体类
 
-#### 前端控制器
+```java
+package com.shooter.funtl.module.entity;
 
-#### 登陆页面
+import lombok.Data;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Data
+public class User implements Serializable{
+    private Long id;
+    private String userName;
+    private String passWord;
+    private String email;
+    private Long phone;
+    private Date createTime;
+    private Date updateTime;
+}
+```
+
+
+
+#### 业务逻辑接口
+
+（1）UserService
+
+```java
+package com.shooter.funtl.module.service;
+
+import com.shooter.funtl.module.entity.User;
+import java.util.List;
+
+public interface UserService {
+    User selectUserById(Long id);
+    User selectUserByName(String userName);
+    List<User> selectUserByNameLike(String userNameLike);
+    User selectUserByEmail(String email);
+    List<User> selectUserAll();
+    void insert(User user);
+    void updateById(User user);
+    void deleteById(Long id);
+    User login(String email, String passWord);
+}
+```
+
+
+
+（2）UserServiceImpl
+
+```java
+package com.shooter.funtl.module.service.impl;
+
+import com.shooter.funtl.module.dao.UserDao;
+import com.shooter.funtl.module.entity.User;
+import com.shooter.funtl.module.service.UserService;
+import lombok.val;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserDao userDao;
+
+    @Override
+    public User login(String email, String passWord) {
+        val user = selectUserByEmail(email);
+        if( user != null){
+            // 名为密钥加盟
+            String md5PassWd = DigestUtils.md5DigestAsHex(passWord.getBytes());
+            if(md5PassWd.equals(user.getPassWord())){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User selectUserById(Long id) {
+        val params = new User();
+        params.setId(id);
+        return userDao.selectUserByParams(params);
+    }
+
+    @Override
+    public User selectUserByName(String userName) {
+        val params = new User();
+        params.setUserName(userName);
+        return userDao.selectUserByParams(params);
+    }
+
+    @Override
+    public List<User> selectUserByNameLike(String userNameLike) {
+        return userDao.selectUserByUserNameLike(userNameLike);
+    }
+
+    @Override
+    public User selectUserByEmail(String email) {
+        val params = new User();
+        params.setEmail(email);
+        return userDao.selectUserByParams(params);
+    }
+
+    @Override
+    public List<User> selectUserAll() {
+        return userDao.selectUserAll();
+    }
+
+    @Override
+    public void insert(User user) {
+        userDao.insert(user);
+    }
+
+    @Override
+    public void updateById(User user) {
+        userDao.updateById(user);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userDao.deleteById(id);
+    }
+}
+```
+
+
+
+#### 数据访问接口
+
+​	　Spring 集成 MyBatis 后，不需要手动实现 DAO 层的接口，所有的 SQL 执行语句都写在对应的关系映射配置文件中。所以此次还需要删除`UserDaoImpl.java`文件。
+
+```java
+package com.shooter.funtl.module.dao;
+
+import com.shooter.funtl.module.entity.User;
+import java.util.List;
+
+public interface UserDao {
+
+    /**按条件查询用户信息**/
+    User selectUserByParams(User params);
+
+    /**按条件查询用户信息**/
+    List<User> selectUserByUserNameLike(String userNameLike);
+
+    /**查询全部用户信息**/
+    List<User> selectUserAll();
+
+    /**新增用户信息**/
+    void insert(User user);
+
+    /**更新用户信息**/
+    void updateById(User user);
+
+    /**删除用户信息**/
+    void deleteById(Long id);
+}
+```
+
+
+
+#### 映射文件
+
+​	　在 `src/resources/mapper` 文件夹下新建`UserMapper.xml`映射文件用于完成 **DAO 层**中 **SQL 语句**的映射。
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shooter.funtl.module.dao.UserDao">
+
+    <sql id="userSelect">
+        user.id,
+        user.username as userName,
+        user.password as passWord,
+        user.phone,
+        user.email,
+        user.created as createTime,
+        user.updated as updateTime
+    </sql>
+
+    <select id="selectUserByParams" resultType="User">
+        SELECT
+            <include refid="userSelect" />
+        FROM
+            tb_user AS user
+        <where>
+            <if test="id != null and id != ''">
+                AND user.id =  #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND user.username =  #{userName}
+            </if>
+            <if test="email != null and email != ''">
+                AND user.email =  #{email}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND user.phone =  #{phone}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectUserByUserNameLike" resultType="User">
+        SELECT
+            <include refid="userSelect" />
+        FROM
+            tb_user AS user
+        <where>
+            AND username LIKE CONCAT ('%', #{userNameLike}, '%')
+        </where>
+    </select>
+
+    <select id="selectUserAll" resultType="User">
+        SELECT
+            <include refid="userSelect" />
+        FROM
+            tb_user AS user
+    </select>
+
+    <insert id="insert">
+        INSERT INTO tb_user  (
+            id,
+            username,
+            password,
+            phone,
+            email,
+            created,
+            updated
+        )
+        VALUES (
+            #{id},
+            #{userName},
+            #{passWord},
+            #{phone},
+            #{email},
+            now(),
+            now()
+        )
+    </insert>
+
+
+    <delete id="deleteById">
+        DELETE FROM tb_user WHERE id = #{id}
+    </delete>
+
+    <update id="updateById">
+        UPDATE
+            tb_user
+        SET
+            username = #{userName},
+            password = #{passWord},
+            phone = #{phone},
+            email = #{email},
+            updated = now()
+        WHERE id = #{id}
+    </update>
+
+</mapper>
+```
 
 
 
 ### 测试运行
 
-#### Junit测试
+#### 引入Jar包
 
-#### Web测试
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>4.3.17.RELEASE</version>
+</dependency>
+```
+
+
+
+#### UserServiceTest
+
+​	　在 `src/test/java` 文件夹下新建`UserServiceTest`测试用例，通过`@ContextConfiguration`注解引入所需的配置文件，测试的UserService的方法是否正确。
+
+```java
+import com.shooter.funtl.module.entity.User;
+import com.shooter.funtl.module.service.UserService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.DigestUtils;
+import java.util.List;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({"classpath:spring-context.xml", "classpath:spring-context-druid.xml", "classpath:spring-context-mybatis.xml"})
+public class UserServiceTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceTest.class);
+
+    @Autowired
+    private UserService userService;
+
+    @Test
+    public void testSelectUserById() {
+        User user = userService.selectUserById(7L);
+        logger.info("testSelectUserById : 用户名 {}",user.getUserName());
+    }
+
+    @Test
+    public void testSelectUserByName() {
+        User user = userService.selectUserByName("zhangsan1");
+        logger.info("testSelectUserByName : 用户名 {}",user.getUserName());
+    }
+
+    @Test
+    public void testSelectUserByNameLike() {
+        List<User> users = userService.selectUserByNameLike("zhangsan");
+        logger.info("testSelectUserByNameLike : 共计 {} 个",users.size());
+    }
+
+    @Test
+    public void selectUserByEmail() {
+        User user = userService.selectUserByEmail("admin@qq.com");
+        logger.info("selectUserByEmail : 用户名 {}",user.getUserName());
+    }
+
+    @Test
+    public void testSelectAll() {
+        List<User> users = userService.selectUserAll();
+        logger.info("testSelectAll : 共计 {} 个",users.size());
+    }
+
+    @Test
+    public void testInsert() {
+        User user = new User();
+        user.setEmail("admin@qq.com");
+        user.setPassWord(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        user.setPhone(15888888888L);
+        user.setUserName("admin");
+        userService.insert(user);
+    }
+
+    @Test
+    public void testUpdateById() {
+        User user = userService.selectUserById(37L);
+        user.setUserName("adminTest");
+        userService.updateById(user);
+    }
+
+    @Test
+    public void testDeleteById() {
+        userService.deleteById(37L);
+    }
+
+}
+```
+
+
+
