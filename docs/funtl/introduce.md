@@ -1,113 +1,30 @@
-# 开篇
+---
+sidebar: auto
+---
 
-> **Ref**：[讲义](https://www.funtl.com/zh/guide/%E8%B5%B0%E5%90%91%E5%8D%95%E4%BD%93%E5%9C%B0%E7%8B%B1.html) | [视频合辑](https://www.bilibili.com/video/av29299488) 
+# 互联网全栈工程师
 
+​	　互联网全栈工程师指可以独立完成产品的需求分析、开发、运营的软件工程师，需要掌握云计算、微服务、前后端分离、大数据、人工智能和区块链等必不可少的技术。
 
+## 课程安排
 
-### 开发技术栈
-
-​	　Java已从传统的SSM、SSH单体应用，逐渐转向采用**前后端分离**、**微服务架构**、**分布式系统**等具有高可用、高并发、高性能特性的**互联网应用**。
-
-​	　**互联网公司**的发展基本会历经如下四个阶段。**大数据**与**人工智能**是目前互联网公司的发展方向，**数学**与**算法**是获得更高offer的基石。
-
-```
-- 第一阶段：入门期，微服务架构
-- 第二阶段：发展期，利用大数据做精准营销、协同推荐
-- 第三阶段：大数据 + 人工智能
-- 第四阶段：人工智能 + 区块链(BAT)
-```
-
-​	　为此，我们需要在5-10年掌握如下技术栈成为**全栈开发工程师**，并需要保持持续学习的状态（简单框架或技术 1天之内、复杂框架或技术 3天之内），才能紧跟互联网发展需求，使自己不被淘汰。
-
-
-
-#### 分布式系统
-
-​	　**前后端分离**可以减少后端压力，使前端进行流程化、模块化开发，不仅增强了前端开发效率，也优化了用户体验，如用户界面的渐进式JavaScript框架Vue。
-
-​	　**微服务架构**主要解决了`客户端如何访问这些服务`、`每个服务之间如何通信`、`如何实现如此多的服务`、`如何解决服务挂了`这四个分布式开发时会存在的问题，目前存在三种解决方案：
-
-```
-Spring Boot + Spring Cloud Alibaba
-Spring Boot + Dubbo + Zookeeper 
-Spring Boot + Spring Cloud Netflix 目前已停止更新，只进行维护
-```
-
-​	　微服务架构可以更加快速的构建一个稳定、高速的系统，但是目前还不成熟，发展趋势是向**标准化**微服务框架发展，如**ServiceMesh**服务网格化、Istio。
-
-
-
-#### 大数据
-
-​	　**大数据**不仅是**数据量大**，而且**维度广**，可以挖掘用户行为数据，进行数据决策，实现 **精准推荐** 和 **协同推荐**，最终使得企业盈利。
-
-```
-- 计算引擎：Hadoop、Spark
-- 数据仓库：Hive、ElasticSearch、Hbase+Phoneix
-- ETL：Spoon、Kettle
-- 流式计算：Storm、Flink、Blink
-- 数据可视化：PowerBI
-```
-
-
-
-#### 云计算服务
-
-​	　运维分为桌面运维（网管）、服务器运维（系统安装、服务器软件安装、自动部署）、安全运维（即网络安全工程师）。开发者一般缺乏服务器安全经验，为了保证服务器安全、减少服务器运维成本，所以将服务器交给云计算服务商管理，建议不要单独部署。
-
-​	　**云计算**可以为微服务、大数据提供运维技术支持，云计算可以分为**基础设施即服务**（IaaS）、**平台即服务**（PaaS）**、软件即服务**（SaaS）、**区块链即服务**（BaaS）。云计算服务提供者分为私有云和公有云，**私有云**是指企业内部云系统，**公有云**是指阿里云、亚马逊云等云计算服务商。
-
-```
-- 运维：Linux、Docker
-```
-
-
-
-#### 人工智能
-
-​	　**人工智能**可以根据大数据训练不同的数据模型，预测未来用户行为，应用场景如股票分析、天气预测等。
-
-```
-- 数学：高等数学、线性代数、概率与统计
-- 智能算法：遗传算法、
-- 机器学习：Tensortflow
-- 自然语言处理
-- Python：Web、爬虫、运维
-```
-
-
-
-#### 区块链技术
-
-​	　**区块链**是异地多活**分布式存储系统**，可以将全球的计算机打造成一个超级计算机，提供数据存储技术、减少运营成本，应用场景如比特币可以解决国际贸易中货币交易问题（没有中间商赚差价）等。
-
-```
-- 区块链：Hyperledger、Ethereum
-```
-
-
-
-### 课程安排
-
-#### 走进单体地狱
+### 走进单体地狱
 
 ​	　本阶段课程对应千锋 Java 的第三阶段的学习内容，经过本轮学习，我们会掌握 Intellij IDEA、Maven、Bootstrap、Spring、Spring MVC、MyBatis、HttpClient 等工具与框架的使用，并开始引入架构的概念，为“微服务架构”阶段打下坚实的基础。
 
-#### 微服务架构
+### 微服务架构
 
 ​	　互联网开发真正需要的技术，也是我们高薪就业的保证，经过本轮学习，我们会掌握从底层 Linux 的安装到最终 DevOps 的所需技能。包括但不限于 Spring Boot、Spring Cloud、Spring Cloud Alibaba、Dubbo、Zookeeper、Redis、ELK、RabbitMQ、Ubuntu、Docker、Kubernetes、Jenkins 等全栈技能。
 
-#### 走进价值互联网
+### 走进价值互联网
 
 ​	　当下我们尚处在 “信息互联网” 时代，区块链技术的不断发展壮大为我们带来了 “价值互联网” 时代的新理念。为了不被时代淘汰，为了能够顺利进入 “价值互联网”、“工业革命 4.0” 时代，区块链的学习势在必行。课程整理中，敬请期待···
 
 
 
-### 互联网全栈工程师
+## 如何学习编程
 
-​	　互联网全栈工程师指可以独立完成产品的需求分析、开发、运营的软件工程师，需要掌握云计算、微服务、前后端分离、大数据、人工智能和区块链等必不可少的技术。
-
-#### 编程到底学什么
+### 编程到底学什么
 
 **1、站在更高的角度思考问题**
 
@@ -141,7 +58,7 @@ Spring Boot + Spring Cloud Netflix 目前已停止更新，只进行维护
 
 
 
-#### 技术选型要求
+### 技术选型要求
 
 1、搜索量，指数 （百度指数）<br/>
 2、社区活跃度，需要文档完备性<br/>
@@ -150,7 +67,7 @@ Spring Boot + Spring Cloud Netflix 目前已停止更新，只进行维护
 
 
 
-#### 软件开发思想
+### 软件开发思想
 
 **1、面向对象编程**
 
@@ -192,11 +109,9 @@ Spring Boot + Spring Cloud Netflix 目前已停止更新，只进行维护
 
 
 
-### 附录
+## 在线工具
 
-#### 在线工具
-
-##### 在线编辑
+**在线编辑：**
 
 - [PDF 转换器 ](https://smallpdf.com/cn/pdf-to-word)
 - [JSON 编辑器 ](https://www.bejson.com/jsoneditoronline)
@@ -211,35 +126,45 @@ Spring Boot + Spring Cloud Netflix 目前已停止更新，只进行维护
 - [在线电子书转换器](http://cn.epubee.com/)
 - [在线对比文字](https://www.bejson.com/othertools/finddif3/)
 
-##### 在线服务
+
+
+**在线服务：**
 
 - [Boot CDN ](https://www.bootcdn.cn/)
 - [百度 CDN ](http://cdn.code.baidu.com/)
 - [微信 CDN ](http://qydev.weixin.qq.com/cdn/cdnjs.html)
 - [tldr 命令手册 ](https://tldr.ostera.io/)
 
-##### 谷歌字体
+
+
+**谷歌字体：**
 
 - [科大谷歌字体加速 ](https://servers.ustclug.org/2014/06/blog-googlefonts-speedup/)
 - [谷歌字体库](https://cdn.baomitu.com/index/fonts)
 - [Google Fonts国内加速服务](https://sb.sb/blog/css-cdn/)
 
-##### 开源镜像
+
+
+**开源镜像：**
 
 - [OPSX ](https://opsx.alibaba.com/)
 - [AZURE ](https://mirror.azure.cn/)
 - [Docker HUB ](https://hub.docker.com/)
 
-##### 趋势分析
+
+
+**趋势分析：**
 
 - [谷歌趋势 ](https://trends.google.com/trends/?geo=US)
 - [百度指数 ](http://index.baidu.com/#/)
 - [百度流量研究院 ](https://tongji.baidu.com/data/browser)
 
-#### 在线文档
+
+
+**在线文档：**
 
 - [Vue ](https://cn.vuejs.org/v2/api/)
 - [Vuex ](https://vuex.vuejs.org/zh/api/#vuex-store)
 - [Axios ](https://www.kancloud.cn/yunye/axios/234845)
 - [jQuery ](https://www.jquery123.com/)
-- [Bootstrap ](http://www.runoob.com/bootstrap/bootstrap-tutorial.html)
+- [Bootstrap](http://www.runoob.com)

@@ -1,8 +1,8 @@
 const nav = require('./nav.js');
 const sidebar = require('./sidebar');
 module.exports = {
-    title: '千锋教育',
-    description: '有道无术，术尚可求，有术无道，止于术',
+    title: '学习笔记',
+    description: '学习笔记',
     port: '8001',
     base:'/college/',
     themeConfig: {

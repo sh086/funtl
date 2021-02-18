@@ -1,15 +1,10 @@
 module.exports = [
-    {text: '指南', link: '/funtl/guide/'},
-    {text: '项目', link: '/funtl/project/'},
+    {text: '指南', link: '/funtl/'},
+    {text: '项目', link: ''},
     {
         text: '参考资源',
         items: [
-            {text: 'funtl博客', link: 'https://www.funtl.com/zh/guide/'},
-            {text: '鲁斯菲尔', link: 'https://space.bilibili.com/31137138/channel/index'},
-            {text: '千峰达摩院', link: 'http://www.qfdmy.com/#/'},
-            {text: '课堂代码', link: 'https://github.com/funtl'},
-            {text: '撸帝GitHub', link: 'https://github.com/topsale'},
-            {text: 'funtl网址资源', link: 'https://github.com/sh086/funtl/releases/tag/v1.0-funtl'},
+            {text: '鲁斯菲尔-李卫民', link: 'https://www.funtl.com/zh/guide/'},
             {text: 'ECMAScript 6 入门', link: 'https://es6.ruanyifeng.com/'},
         ]
     },

@@ -1,29 +1,12 @@
-# 云计算服务
-
-​	　**云计算服务**可以为微服务、大数据提供运维技术支持，云计算可以分为基础设施即服务（IaaS）、平台即服务（PaaS）、软件即服务（SaaS）、区块链即服务（BaaS）。
-
-```
-基础设施即服务（IaaS）：Linux、Docker
-平台即服务（PaaS）：GitLab、Nexus、Registry
-```
-
-
-
-> **Ref**：[讲义](https://www.funtl.com/zh/guide/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%A7%A3%E5%86%B3%E5%A4%8D%E6%9D%82%E9%97%AE%E9%A2%98.html) | [视频合辑](https://www.bilibili.com/video/av29384041) 
-
-
-
-
-
-## Linux
+# Linux
 
 ​	　Linux 是一种自由和开放源码的类 UNIX 操作系统。Linux 本身只表示 Linux 内核，但广义上Linux 指整个基于 Linux 内核，并且使用 GNU 工程各种工具和数据库的操作系统。
 
 ​	　常见的Linux发行版有 `Ubuntu`（社区产物，更新频繁，多用于个人）、`CentOS`（有公司背景，稳定，更新缓慢，多用于互联网公司）、`RedHat`（多用于政府部门）。
 
-### Linux简介
+## Linux简介
 
-#### 安装Ubuntu
+### 安装Ubuntu
 
 ​	　首先，需要在[Ubuntu官网](https://ubuntu.com/download/server)选择`Ubuntu Server LTS`版本下载（**LTS**指长期支持版本），然后可以参照[此处](https://www.bilibili.com/video/av27095828/)在VMware上安装Ubuntu。安装完成后记得**开启root远程登录Linux的权限** 以及  **修改软件安装包数据源**。
 
@@ -43,7 +26,7 @@
 
 
 
-#### Linux远程控制管理 
+### Linux远程控制管理 
 
 （1） 开启root远程登录Linux的权限
 
@@ -80,11 +63,11 @@ apt-get install openssh-client
 
 
 
-#### Linux文件目录
+### Linux文件目录
 
 ​	　安装Linux成功后，可以看到在主目录 `/` 挂载的目录结构如下：
 
-![200_linux_file_patch](./images/cloudservice/1_linix_01.png)
+![200_linux_file_patch](./images/1_linix_01.png)
 
 **各目录的含义如下：**
 
@@ -107,7 +90,7 @@ apt-get install openssh-client
 
 
 
-#### 软件包管理
+### 软件包管理
 
 ​	　Linux系统分为`RedHat系列`（Redhat、Centos、Fedora等）和`Debian系列`（Debian、Ubuntu等）两种，RedHat系列的包管理工具是`yum`，Debian系列的包管理工具是`apt-get`。我们以Ubuntu吸引为例。
 
@@ -191,9 +174,9 @@ apt-get upgrade
 
 
 
-### Linux操作命令
+## Linux操作命令
 
-#### 操作文件目录
+### 操作文件目录
 
 | 命令  | 说明                               | 语法                                            | 参数说明                                                     |
 | :---- | :--------------------------------- | :---------------------------------------------- | :----------------------------------------------------------- |
@@ -217,7 +200,7 @@ apt-get upgrade
 
 
 
-####  系统命令
+###  系统命令
 
 （1）系统管理命令
 
@@ -273,7 +256,7 @@ shutdown -h now
 
 
 
-#### 解压缩命令
+### 解压缩命令
 
 （1）tar命令 -- 后缀是 `.tar.gz`
 
@@ -341,9 +324,9 @@ bzip2 [-cdz]
 
 
 
-### 权限管理
+## 权限管理
 
-#### 用户和组管理
+### 用户和组管理
 
 ​	　Linux用户分为 `root`、`系统用户` 和 `普通用户`。`root` 是**超级管理员账户**，可以对普通用户和整个系统进行管理；`系统用户`是指 `admin 组`中的用户，admin 组中的用户默认是可以使用 `sudo 命令`来执行只有管理员才能执行的命令的，特别的，安装时创建的系统用户会自动被添加到 admin 组中的；如果不使用 sudo 就是一个普通用户， 普通用户在Linux中仅可以进行普通操作。
 
@@ -413,7 +396,7 @@ groups (显示用户所属组)
 
 
 
-#### 文件权限管理
+### 文件权限管理
 
 ​	　`ls -l 文件名` 可以显示文件或目录的详细信息，包括**文件类型**、**文件权限** 、**文件所属用户**、**文件的所属组**、文件的大小（bytes）、文档最后被修改日期 和 文件的名称。
 
@@ -464,9 +447,9 @@ chmod u=rwx,g+r,o+r test.txt
 
 
 
-### 应用部署
+## 应用部署
 
-#### 安装Java
+### 安装Java
 
 ​	　首先，需要在[官网](https://www.oracle.com/java/technologies/javase-downloads.html)上下载JDK安装程序，然后根据如下步骤进行安装即可。安装完成后，还需要配置`JAVA_HOME`环境变量，特别的，如果既配置了系统环境变量，又配置了用户环境变量，最终会以用户环境变量的配置为准。
 
@@ -502,7 +485,7 @@ source 文件名
 
 
 
-#### 安装Tomcat
+### 安装Tomcat
 
 ​	　首先，需要在[官网](https://tomcat.apache.org/)上下载Tomcat 安装程序，然后根据如下步骤进行安装即可。
 
@@ -528,7 +511,7 @@ mv tomcat/ /usr/local/
 
 
 
-#### 安装MySQL
+### 安装MySQL
 
 （1）安装MySql
 
@@ -587,20 +570,4 @@ set global validate_password_length=1;
 ```
 
 
-
-## Docker
-
-Docker 对进程进行封装隔离，属于 操作系统层面的虚拟化技术。由于隔离的进程独立于宿主和其它的隔离的进程，因此也称其为容器。
-
-> Ref :  [Docker官网](https://www.docker.com/) | [GitHub](https://github.com/moby/moby)
-
- 
-
-## GitLab
-
-GitLab 是利用 Ruby on Rails 一个开源的版本管理系统，实现一个自托管的 Git 项目仓库，可通过 Web 界面进行访问公开的或者私人项目。它拥有与 Github 类似的功能，能够浏览源代码，管理缺陷和注释。可以管理团队对仓库的访问，它非常易于浏览提交过的版本并提供一个文件历史库。团队成员可以利用内置的简单聊天程序 (Wall) 进行交流。它还提供一个代码片段收集功能可以轻松实现代码复用，便于日后有需要的时候进行查找。
-
-## Nexus
-
-## Registry
 
