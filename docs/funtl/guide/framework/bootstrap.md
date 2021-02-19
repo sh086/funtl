@@ -1,3 +1,7 @@
+---
+sidebar: auto
+---
+
 # BootStrap
 
 ​	　Bootstrap是由Twitter开发的一个 `CSS/HTML` 框架。Bootstrap 不仅提供**网格系统**布局，还提供了**移动设备优先**、**响应式设计**的 CSS 样式，使Bootstrap 能够**自适应**于台式机、平板电脑和手机。
@@ -6,8 +10,7 @@
 
 **实战：**
 
-- [第一个bootstrap页面](../demo/第一个bootstrap页面.md)
-- [v1.1 AdminLTE模板]()
+- [第一个bootstrap页面](../../demo/第一个bootstrap页面.md)
 
 
 
@@ -17,68 +20,6 @@
 - [Bootstrap | 菜鸟教程](https://www.runoob.com/bootstrap/bootstrap-tutorial.html)
 - [BootCdn资源](https://www.bootcdn.cn/)
 
-
-
-
-## 快速开始
-
-​	　首先在[BootStrap官网](https://v3.bootcss.com/getting-started/#download)上下载Bootstrap 的**已编译版本**和在[JQuery官网](https://jquery.com/download/)下载JQuery**已编译版本**。由于Bootstrap4及以上不支持IE8，最低支持IE9，考虑到国内行情，我们下载`bootstrap-3.3.7`版本以支持IE8。
-
-​	　接着，将下载好的预编译的`bootstrap `和`jquery-3.3.1.min.js`放入到`asserts`目录下的`plugins`中，其中CSS和JS目录存放的是**已编译**的CSS和JS（`bootstrap.*`）*以及**已编译压缩**的CSS和JS*（`bootstrap.min.*`）； font目录里面存放的是Glyphicons 字体图标(`.ttf`微软字体、`.woff`苹果字体)，这是一个可选的 Bootstrap 主题。
-
-```html
-BootStrap
-------asserts
----------css			css目录
----------images			图片目录
----------js				js目录
----------plugins
-------------bootstrap            下载的BootStrap文件
-------------jquery-3.3.1.min.js  下载的JQuey文件
-------helloWord.html	欢迎页
-```
-
-​	　最后，在`helloWord.html`中引入 `jquery.js`、`bootstrap.min.js` 和 `bootstrap.min.css` 文件，用于让一个**常规的 HTML 文件变为使用了 Bootstrap 的模板**的Web项目。
-::: tip 提示
-也可通过[CDN](https://www.bootcdn.cn/)(内容分发网络)加载线上的bootstrap与jquery已编译文件
-:::
-
-​	　至此，BootStrap已经安装完毕，通过`Chrome`打开，即可看到带有浏览器中带BootStrap主题的`HelloWord`字样。
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Bootstrap 模板</title>
-    <!-- meta自适应屏幕:缩小浏览器宽、高时，里面的元素会自动适应屏幕排列显示-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 引入 Bootstrap -->
-    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/plugins/bootstrap/css/bootstrap-theme.min.css"
-          type="text/css" rel="stylesheet">
-
-    <!-- HTML5 Shiv 和 Respond.js 用于让 低于IE9的(IE8) 支持 HTML5元素和媒体查询 -->
-    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
-    </script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
-    </script>
-    <![endif]-->
-</head>
-<body>
-    <h1>Hello world!</h1>
-
-    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
-    <script src="assets/plugins/jquery-3.3.1.min.js"></script>
-    <!-- 包括所有已编译的插件 -->
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-</body>
-</html>
-```
-
-> 说明 ： `<!--[if lt IE 9]><![endif]-->`这个不是注释
 
 
 
@@ -114,7 +55,7 @@ BootStrap
 
 ​	　响应式网格系统随着`屏幕`或`视口`（viewport）尺寸的增加，系统会自动分为**最多 12 列**，但是可以少于12列的。
 
-![1](./images/monolith/21_bootstrap_1.png)
+![1](./images/21_bootstrap_1.png)
 
 
 

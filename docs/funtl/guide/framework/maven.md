@@ -1,157 +1,14 @@
-# 快速入门
-
-
-
-**实战：**
-
-- [v1.0 项目初始化]()
-
-
-
-## Intellij IDEA
-
-​	　IDEA 全称 IntelliJ IDEA，是互联网公司主流的 Java 集成开发环境，在智能代码助手、代码自动提示、重构、J2EE 支持、各类版本同步工具(`git`、`svn`、`github`等)、JUnit、CVS 整合、代码分析、 创新的 GUI 设计等方面的功能拥有着卓越的效率。
-
-### IDEA Setting
-
-​	　IDEA中的环境配置有`Setting`和`Default Setting`，两种配置项相同，只是作用范围不同。`Setting`用于特定的项目中，`Default Setting`是共用的配置。
-
-#### 快捷键简介
-
-```
-[代码编辑]
-- ctrl + w：智能选取，实现选取范围的不断扩充
-- crtl + alt + l：代码格式化
-- shift + alt + insert：列编辑
-- 双击选中 -> shift + F6 ：批量修改
-
-[自动生成代码]
-- alt + insert：自动代码生成
-- psvm + enter: 快捷生成main代码
-- sout + enter: 快捷生成System.out.println();
-- .val : 快捷生成变量名
-- div.container + tab : 自动生成div标签
-
-[常用功能]
-- ctrl + e： 显示最近打开过的文件
-- ctrl + n： 显示类名查找框
-- ctrl + q： 显示 JavaDoc 的结果
-- ctrl + shift + r：全局搜索
-- F2：定位下一个有问题的地方
-
-[编译运行]
-- ctrl + F9: build
-- shift + F9: debug
-- alt + f8: 查看debug中的变量值
-```
-
- 
-
-#### Plugins安装
-
-​	　在`File` -> `Plugins`中下载如下IDEA插件，有助于提升开发效率。
-
-```
-MyBatis Log Plugin 				  将Mybatis执行的sql脚本显示出来
-MybatisCodeHeplerPro 	          让你的mybatis.xml像java代码一样编辑
-Lombok Plugin				      代码注解插件
-Alibaba Java Coding Guidelines    阿里巴巴 Java代码规范插件
-jclasslib bytecode viewer 	      可视化的字节码查看插件
-```
-
-
-
-#### Maven设置
-
-​	　在IDEA中自定义配置Maven（建议配置在`Default Setting`中），需要**配置Maven主目录**、**勾选Override重置setting文件目录**、**勾选Override重置本地仓库**目录三步。
-
-![11_idea_01](./images/monolith/11_idea_01.png)
-
-
-
-
-
-### Project Struct
-
-#### ProjectSDK
-
-​	　选择 `File` -> `Project Structure`，在弹出的窗口中，设定**JDK 的安装路径**以及**项目语言级别**。
-
-![11_idea_02](./images/monolith/11_idea_02.png)
-
-
-
-#### Modules
-
-​	　需要将项目中目录`Mark As`不同的含义，`Sources`表示代码、`Resources`表示资源目录、`Test`表示测试用例、`Test Resources`表示测试资源。
-
-（1）标记文件目录
-
-![11_idea_03](./images/monolith/11_idea_03.png)
-
-
-
-（2）设置Web Resource Directory
-
-​	　对于**Servlet项目**或者**前后端未分离**的项目，资源是部署在`webapp`目录下的，此时，还需要点击`myshop`下的`Web`，在`Deployment Descriptors`中配置 `web.xml` 的位置 和 在`Web Resource Directories`中配置webapp资源目录位置、资源部署的根目录为 `/`才能正常加载资源 。
-
-![11_idea_09](./images/monolith/11_idea_09.png)
-
-
-
-（3） 配置Spring Context
-
-​	　若项目中包含`Spring`配置，还需要配置Spring的xml配置文件的位置。
-
-![11_idea_05](./images/monolith/11_idea_05.png)
-
-
-
-####  Artifacts
-
-​	　对于需要部署到Tomcat的项目，还需要`Web Application`。首先需要在`Artifacts`中点击 `+`  号，选择`Web Application:Exploded`，然后选择`Form Modules` ，在弹出的窗口中选择当前项目`myshop`即可。
-
-![11_idea_06](./images/monolith/11_idea_06.png)
-
-​	　新建完成后，可以得到如下图的配置结果，接着在Tomcat的`Deployment`中就可以配置`Artifacts`了。
-
-![11_idea_07](./images/monolith/11_idea_07.png)
-
-
-
-### Tomcat部署
-
-#### Server
-
-​	　对于需要部署在Tomcat中的项目，还需要配置Tomcat运行环境。首先在IDEA的顶部工具栏中选择 `Run` -> `Edit Configurations`，然后在弹出页面的左上方选择 `+` 号 -> `Tomcat Server` -> `Local`，最后填写Tomcat的名称、配置自动更新、选择 Tomcat 的安装、发布路径。
-
-![11_idea_08](./images/monolith/11_idea_08.png)
-
-​	　选择`Update class and resources` 是采用**热部署**的方式启动Tomcat，可以让在**变更java文件**或者**web资源**时，无需重启Tomcat。但是要注意新增java文件或者资源是不能生效的。
-
-
-
-#### Deployment
-
-​	　继续上一步，选择 [Deployment] ->[+] 号 ->[Artifact]后，点击[apply]保存配置，完成 Tomcat 本地部署
-
-![11_idea_10](./images/monolith/11_idea_10.png)
-
-​	　`artifact:war exploded`表示项目以**虚拟化目录**（即将 `/projectName` -> `Application context自定义的路径 / 上`）的形式发布到Web服务器上，如以上的配置通过<a>http://localhost:8080/</a>即可访问项目。而`artifact:war`是以真实目录进行发布的，发布路径是`/projectName`，不建议使用`artifact:war`进行部署。
-
-::: tip 注意
-若点击[+] 号后，没有exploded的Artifact，则需要在Project Structure的Artifacts中进行配置 或者 点击 `Fix`按钮自动添加
-:::
-
-
-
-## Maven
+---
+sidebar: auto
+---
+
+# Maven
 
 ​	　 Maven由Apache公司采用Java语言编写，是一个**项目管理和综合工具**，提供了可以构建一个完整的**生命周期**框架。Maven 使用**标准的目录结构**和**默认构建生命周期**，**简化**和**标准化**项目**自动构建过程**，增加`可重用性`并负责建立相关的任务，使编译、分配、文档、团队协作和其他任务可以无缝连接。
 
 
 
-### 快速开始
+## 快速开始
 
 ::: warning 环境准备
 确保JDK 为1.8 及以上版本，并已设置JAVA_HOME 环境变量
@@ -188,6 +45,8 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 ```
 
 
+
+## Maven依赖
 
 ### POM对象
 
@@ -291,7 +150,11 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 
 
-### Maven命令
+## Maven命令
+
+### Maven插件
+
+​	　Maven插件分为 **构建插件** 和 **报告插件** 两种类型插件。构建插件是在**生成过程中执行**，报告插件在**网站生成期间执行**。Maven插件首先需要在 `pom.xml` 中的 元素进行配置，才能使用。Maven 插件通常用于创建 jar 文件、创建 war文件、编译代码文件、进行代码单元测试、创建项目文档、创建项目报告。
 
 ​	　Maven 是一个**执行插件**的框架，每一个任务实际上是由插件完成的。一个Maven插件通常提供了一组目标，可使用以下语法来执行：
 
@@ -301,15 +164,7 @@ mvn [plugin-name]:[goal-name]
 
 
 
-（1）Maven插件
-
-​	　Maven插件分为 **构建插件** 和 **报告插件** 两种类型插件。构建插件是在**生成过程中执行**，报告插件在**网站生成期间执行**。Maven插件首先需要在 `pom.xml` 中的 元素进行配置，才能使用。
-
-​	　Maven 插件通常用于创建 jar 文件、创建 war文件、编译代码文件、进行代码单元测试、创建项目文档、创建项目报告。
-
-
-
-（2）常见的Maven命令
+### 常见的Maven命令
 
 ```
 mvn clean：调用maven-clean-plugin，删除根目录下target目录
@@ -325,7 +180,7 @@ mvn tomcat:run	通过maven命令将web项目发布到Tomcat
 
 
 
-（3）Maven生命周期
+### Maven生命周期
 
 ​	　 Maven在项目构建中存在`cleanLifeCycle`（清理生命周期）、`defaultLifeCycle`（默认生命周期)、`siteLifeCycle`（站点生命周期）三类生命周期，这三类生命周期间相互独立、互不影响，在一类生命周期之内，执行后面的命令前面的操作会自动执行。
 
@@ -333,33 +188,5 @@ mvn tomcat:run	通过maven命令将web项目发布到Tomcat
 - defaultLifeCycle：是默认生命周期，包含compile、test、package、install、deploy四个节点
 - siteLifeCycle：用于生成描述项目的javadoc文档。
 ```
-
-
-
-## MVC与三层架构
-
-### 三层架构
-
-​	　**三层架构**是视图层 `View`、服务层 `Service`，与持久层 `DAO`。它们分别完成不同的功能。**View 层**用于接收用户提交请求的代码，系统的业务逻辑主要在**Service 层**完成，**DAO 层**直接操作数据库的代码。
-
-![31_mvc_01](./images/monolith/31_mvc_01.png)
-
-​	　为了更好的降低各层间的耦合度，在三层架构程序设计中，采用**面向抽象编程**。即上层对下层的调用，是通过接口实现的。而下层对上层的真正服务提供者，是上层接口的实现类。服务标准（接口）是相同的，服务提供者（实现类）可以更换。这就实现了**层间解耦合**。
-
-
-
-### MVC模式
-
-​	　**MVC**即 Model模型、View视图，及 Controller控制器。`View`为用户提供使用界面，与用户直接进行交互。`Model`用于承载数据，并对用户提交请求进行计算的模块。其分为两类，一类称为**数据承载 Bean (DAO)**，一类称为**业务处理 Bean (Service)**。所谓数据承载 Bean 是指实体类，专门用户承载业务数据的，如 Student、User 等。而业务处理 Bean 则是指 Service 或 Dao 对象， 专门用于处理用户提交请求的。`Controller`用于将用户请求转发给相应的 Model 进行处理，并根据 Model 的计算结果向用户提供相应响应。
-
-![31_mvc_02](./images/monolith/31_mvc_02.png)
-
-
-
-### 三层架构 + MVC
-
-​	　`三层架构`与`MVC`这两种结构既有区别，又有联系。但这两种结构的使用，均是为了**降低系统模块间的耦合度**，将将业务与展示分离。
-
-![31_mvc_03](./images/monolith/31_mvc_03.png)
 
 

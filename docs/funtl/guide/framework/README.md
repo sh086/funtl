@@ -1,14 +1,63 @@
 # 走进单体地狱
 
-​	　本阶段课程会学习 Intellij IDEA、Maven、Bootstrap、Spring、Spring MVC、MyBatis、HttpClient 等工具与框架的使用，并开始引入架构的概念，为“微服务架构”阶段打下坚实的基础。
+​	　本阶段课程会学习 Intellij IDEA、Maven、Bootstrap、Spring、SpringWeb、Spring MVC、MyBatis、Spring事务、HttpClient、Junit单元测试、Log4j日志 等工具与框架的使用，为“微服务架构”阶段打下坚实的基础。
 
 > **Ref**：[讲义](https://www.funtl.com/zh/guide/%E8%B5%B0%E5%90%91%E5%8D%95%E4%BD%93%E5%9C%B0%E7%8B%B1.html) | [视频合辑](https://www.bilibili.com/video/av29299488) 
 
 
 
-**目录：**
+## 目录
 
-- [Intellij IDEA]
-- [Maven]
-- [MVC三层架构]
+**指南：**
+
+<table>
+    <tr>
+        <td colspan="2" align="center"><b>工具</b></td> 
+        <td colspan="2" ><a href="./idea.html" target="_blank">Intellij IDEA</a></td> 
+        <td><a href="./maven.html" target="_blank">Maven</a></td>
+        <td></td> 
+        <td></td> 
+   </tr>
+   <tr>
+        <td colspan="2" align="center"><b>前端</b></td> 
+        <td>JSP</td>
+        <td><a href="./bootstrap.html" target="_blank">BootStrap</a></td>
+        <td></td> 
+        <td></td> 
+        <td></td> 
+   </tr>
+    <tr>
+        <td rowspan="3"><b>后端</b></td>    
+        <td>基础</td>
+        <td >Servlet</td>  
+        <td ><a href="./mvc.html" target="_blank">MVC三层架构</a></td>  
+        <td></td> 
+        <td></td> 
+        <td></td> 
+    </tr>
+    <tr>
+    	<td>SSM</td>
+        <td><a href="./spring.html" target="_blank">Spring</a></td>
+        <td><a href="./springweb.html" target="_blank">SpringWeb</a></td>  
+        <td><a href="./springmvc.html" target="_blank">SpringMVC</a></td>  
+        <td><a href="./springtransaction.md.html" target="_blank">SpringTransaction</a></td>  
+        <td><a href="./mybatis.html" target="_blank">Mybatis</a></td> 
+    </tr>
+    <tr>
+    	<td>组件</td>
+        <td><a href="./junit.html" target="_blank">Junit</a></td>
+        <td><a href="./log4j.html" target="_blank">Log4j</a></td>  
+        <td><a href="./cache.html" target="_blank">Cache</a></td>  
+        <td>HttpClient</td> 
+        <td></td> 
+    </tr>
+</table>
+
+
+
+**实战：**
+
+- [简单的登陆功能]()
+- [项目实战MyShop]()
+
 
