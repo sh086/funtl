@@ -86,6 +86,7 @@ Spring Boot + Spring Cloud Netflix 目前已停止更新，只进行维护
 - [funtl博客](https://www.funtl.com/zh/guide/) 
 - [鲁斯菲尔](https://space.bilibili.com/31137138/channel/index) 
 - [千峰达摩院](http://www.qfdmy.com/#/)
-- [课堂代码](https://github.com/funtl)
+- [课堂代码GitHub](https://github.com/funtl)
 - [撸帝GitHub](https://github.com/topsale)
+- [千峰达摩院GitHub](https://github.com/qfdmy)
 - [funtl网址资源](https://github.com/sh086/funtl/releases/tag/v1.0-funtl)

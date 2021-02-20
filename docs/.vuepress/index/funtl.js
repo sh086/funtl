@@ -9,23 +9,21 @@ const index = [
             ['guide/cloudservice/', '云计算服务'],
             ['guide/microservice/', '微服务架构'],
             ['guide/datascience/', '价值互联网'],
-            ['guide/interview/','面试宝典'],
         ]
     },
     {
         title: '实战',
         collapsable: false,
         children: [
-            ['demo/','课堂示例代码'],
-            ['project/myshop-framework.html','MyShop实战'],
-            ['project/itoken-springcloud.html','微服务实战之iToken'],
-            ['project/myshop-springcloud.html','Spring Cloud Alibaba Myshop'],
+            ['project/myshop/','MyShop实战'],
+            ['project/itoken/','微服务实战之iToken'],
         ]
     },
     {
         title: '专题',
         collapsable: false,
         children: [
+            ['topic/interview.html','面试宝典'],
             ['topic/vue.html','Vue渐进式JavaScript框架'],
             ['topic/springsecurityoauth2.html','Spring Security Aauth2'],
         ]

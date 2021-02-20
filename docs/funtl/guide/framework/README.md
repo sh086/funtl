@@ -1,3 +1,6 @@
+---
+sidebarDepth: 0
+---
 # 走进单体地狱
 
 ​	　本阶段课程会学习 Intellij IDEA、Maven、Bootstrap、Spring、SpringWeb、Spring MVC、MyBatis、Spring事务、HttpClient、Junit单元测试、Log4j日志 等工具与框架的使用，为“微服务架构”阶段打下坚实的基础。
@@ -20,7 +23,7 @@
    </tr>
    <tr>
         <td colspan="2" align="center"><b>前端</b></td> 
-        <td>JSP</td>
+        <td><a href="./jsp.html" target="_blank">JSP</a></td>
         <td><a href="./bootstrap.html" target="_blank">BootStrap</a></td>
         <td></td> 
         <td></td> 
@@ -29,7 +32,7 @@
     <tr>
         <td rowspan="3"><b>后端</b></td>    
         <td>基础</td>
-        <td >Servlet</td>  
+        <td ><a href="./servlet.html" target="_blank">Servlet</a></td>  
         <td ><a href="./mvc.html" target="_blank">MVC三层架构</a></td>  
         <td></td> 
         <td></td> 
@@ -40,7 +43,7 @@
         <td><a href="./spring.html" target="_blank">Spring</a></td>
         <td><a href="./springweb.html" target="_blank">SpringWeb</a></td>  
         <td><a href="./springmvc.html" target="_blank">SpringMVC</a></td>  
-        <td><a href="./springtransaction.md.html" target="_blank">SpringTransaction</a></td>  
+        <td><a href="./springtransaction.html" target="_blank">SpringTransaction</a></td>  
         <td><a href="./mybatis.html" target="_blank">Mybatis</a></td> 
     </tr>
     <tr>
@@ -57,7 +60,7 @@
 
 **实战：**
 
-- [简单的登陆功能]()
-- [项目实战MyShop]()
+- <a href="../../project/myshop-login.html" target="_blank">简单的登录功能</a>
+- <a href="../../project/myshop-ssm.html" target="_blank">项目实战MyShop</a>
 
 

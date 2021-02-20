@@ -8,17 +8,150 @@ sidebar: auto
 
 
 
-**实战：**
-
-- [第一个bootstrap页面](../../demo/第一个bootstrap页面.md)
-
-
 
 **参考资料：**
 
 - [BootStrap中文网](https://www.bootcss.com/)
 - [Bootstrap | 菜鸟教程](https://www.runoob.com/bootstrap/bootstrap-tutorial.html)
 - [BootCdn资源](https://www.bootcdn.cn/)
+
+
+
+
+## 快速开始
+
+​	　新建一个`bootstrap目录`，然后在该目录下新建`helloWord.html`文件。接着，在`helloWord.html`中通过**本地引用** 或者 **通过[CDN](https://www.bootcdn.cn/)**(内容分发网络)加载 两种方式 引入**已编译压缩的BootStrap模板文件**，即可将**常规的 HTML 文件使用Bootstrap模板**进行渲染。
+
+### 引入BootStrap模板
+
+​	　首先在[BootStrap官网](https://v3.bootcss.com/getting-started/#download)下载Bootstrap 的**已编译版本** 和 在[JQuery官网](https://jquery.com/download/)下载JQuery**已编译版本**。由于Bootstrap4及以上不支持IE8，最低支持IE9，考虑到国内行情，我们下载`bootstrap-3.3.7`版本以支持IE8。并将下载好的`bootstrap `和`jquery-3.3.1.min.js`放入到`asserts`目录下的`plugins`中。
+
+```html
+BootStrap
+------plugins
+--------bootstrap            下载的BootStrap文件
+--------jquery-3.3.1.min.js  下载的JQuey文件
+------helloWord.html	欢迎页
+```
+
+​	　`bootstrap`目录中，CSS和JS目录存放的是**已编译**的CSS和JS（`bootstrap.*`）*以及**已编译压缩**的CSS和JS*（`bootstrap.min.*`）； font目录里面存放的是Glyphicons 字体图标(`.ttf`微软字体、`.woff`苹果字体)，这是一个可选的 Bootstrap 主题。
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap 模板</title>
+    <!-- meta自适应屏幕:缩小浏览器宽、高时，里面的元素会自动适应屏幕排列显示-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/plugins/bootstrap/css/bootstrap-theme.min.css"
+          type="text/css" rel="stylesheet">
+
+    <!-- HTML5 Shiv 和 Respond.js 用于让 低于IE9的(IE8) 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+    </script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
+    </script>
+    <![endif]-->
+</head>
+<body>
+    <h1>Hello world!</h1>
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="assets/plugins/jquery-3.3.1.min.js"></script>
+    <!-- 包括所有已编译的插件 -->
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
+```
+
+> 说明 ： `<!--[if lt IE 9]><![endif]-->`这个不是注释
+
+
+
+​	　最后，通过浏览器打开`helloWord.html`，可以看到`Hello world!`字样已经采用了BootStrap样式进行渲染显示了。
+
+
+
+### CDN加载资源
+
+​	　通过[CDN](https://www.bootcdn.cn/)(内容分发网络)加载**已编译压缩的BootStrap模板文件**。编写一个简单的使用BootStrap渲染的网页，支持 PC 和 手机端 访问。
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap 模板</title>
+    <!-- meta自适应屏幕:缩小浏览器宽、高时，里面的元素会自动适应屏幕排列显示-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+          type="text/css" rel="stylesheet">
+
+    <!-- HTML5 Shiv 和 Respond.js 用于让 低于IE9的(IE8) 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+    </script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
+    </script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-10 col-xs-6">
+            <h1>WelCome!</h1>
+        </div>
+        <div class="col-md-2 col-xs-6">
+            <span class="glyphicon glyphicon-search"></span> 搜索
+        </div>
+    </div>
+    <!-- 支持在台式电脑中展示两个相等的列的布局 -->
+    <div class="row">
+        <div class="col-md-3 col-xs-3">首页</div>
+        <div class="col-md-3 col-xs-3">新闻资源</div>
+        <div class="col-md-3 col-xs-3">本地生活</div>
+        <div class="col-md-3 col-xs-3">我的</div>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table active">
+        <caption>网址访问统计</caption>
+        <thead>
+            <tr>
+                <th>日期</th>
+                <th>次数</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2021-01-18</td>
+                <td>100次</td>
+            </tr>
+            <tr>
+                <td>2021-01-19</td>
+                <td>200次</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <!-- 包括所有已编译的插件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+```
+
 
 
 
@@ -43,15 +176,15 @@ sidebar: auto
 
 :::
 
-（1）优先展示内容
+**（1）优先展示内容**
 
 ​	　Bootstrap 优先展示内容，在保障内容可以正确显示的情况下，再根据**浏览器对Bootstrap 样式的支持情况**，引入所需的样式进行展示。
 
-（2）优先设计更小的宽度
+**（2）优先设计更小的宽度**
 
 ​	　Bootstrap 基础的 CSS 是**移动设备优先**，**媒体查询** 是针对于平板电脑、台式电脑设计的。
 
-（3）随着屏幕大小的增加而添加元素
+**（3）随着屏幕大小的增加而添加元素**
 
 ​	　响应式网格系统随着`屏幕`或`视口`（viewport）尺寸的增加，系统会自动分为**最多 12 列**，但是可以少于12列的。
 
@@ -63,7 +196,7 @@ sidebar: auto
 
 ​	　网格系统不仅包含了用于**简单的布局选项**的`预定义类`，还包含了用于生成更多语义布局的功能强大的`LESS混合类`。
 
-（1）基本的网格结构
+#### 基本的网格结构
 
 ​	　网格系统通过一系列**包含内容的行和列**来创建页面布局，通常使用`行`来创建列的水平组，行必须放置在 `.container` class 内，以便获得适当的对齐（alignment）和内边距（padding），否则将占据页面一整行。`内容`应该放置在`列`内，且唯有列可以是行的直接子元素。
 
@@ -95,7 +228,7 @@ sidebar: auto
 
 
 
-（2）网格选项
+#### 网格选项
 
 ​	　Bootstrap 支持的屏幕设备有手机、笔记本电脑、台式电脑等，可以配合简单的布局选项的`预定义类` 和 `媒体查询`，展示自定义样式。下表总结了 Bootstrap 网格系统如何跨多个设备工作：
 
@@ -156,7 +289,7 @@ sidebar: auto
 
 ### 使用媒体查询
 
-（1）最大宽度
+#### 最大宽度
 
 ​	　`max-width` 是媒体特性中最常用的一个特性，其意思是指媒体类型小于或等于指定的宽度时，样式生效。如：
 
@@ -169,7 +302,7 @@ sidebar: auto
 }
 ```
 
-（2） 最小宽度
+#### 最小宽度
 
 ​	　`min-width` 与 `max-width` 相反，指的是媒体类型大于或等于指定宽度时，样式生效。
 

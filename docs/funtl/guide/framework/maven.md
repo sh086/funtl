@@ -52,7 +52,7 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 ​	　POM（**项目对象模型**）位于**项目的基本目录**中，是 Maven 工作的**基本单位**。每个项目只有**一个** POM 文件，POM以XML方式配置Jar包、插件等的坐标信息。
 
-（1）POM主要节点
+#### POM主要节点
 
 ​	　POM的根元素是[**project**]，由`groupId`**，**`artifactId`和`version`三个主要节点（必填）组成，这三个属性是项目仓库的唯一标识，项目在仓库中的项目符号由`groupId:artifactId:version`表示。 
 
@@ -77,7 +77,7 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 
 
-（2）POM其他节点
+#### POM其他节点
 
 ​	　此外，POM的根元素是[**project**]下还有`packaging`（打包格式）、`name`（表示项目名称）、`description`（项目描述信息）、`dependencies`（项目依赖配置）和`properties` (自定义属性)等节点信息。
 
@@ -111,7 +111,7 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 
 
-（3）语义化版本规范
+#### 语义化版本规范
 
 ​	　Java版本号常使用**语义化版本规范**或者**逢十进一**的方式，建议使用语义化版本规范。如初始版本号为`1.0.0` ，接下来版本命名方式如下：
 
@@ -164,7 +164,7 @@ mvn [plugin-name]:[goal-name]
 
 
 
-### 常见的Maven命令
+### 常见Maven命令
 
 ```
 mvn clean：调用maven-clean-plugin，删除根目录下target目录

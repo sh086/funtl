@@ -4,9 +4,9 @@ sidebar: auto
 
 # SpringWeb
 
-​	　Spring中装配JavaBean的方式有两类，第一类通过**Spring在JavaSE容器中装配JavaBean**，这一类不常用；第二类是通过**SpringWeb在Web容器中装配JavaBean**，该类型有两种方法，第一种是通过**XML配置**的方式，第二种是通过**注解**的方式，目流行的是**通过SpringWeb注解的方式装配JavaBean**。
+​	　Spring中装配JavaBean的方式有两类，第一类通过**Spring在JavaSE容器中装配JavaBean**，这一类不常用（参见[这里](./spring.md#整合spring)）；第二类是通过**SpringWeb在Web容器中装配JavaBean**，该类型有两种方法，第一种是通过**XML配置**的方式，第二种是通过**注解**的方式，目流行的是**通过SpringWeb注解的方式装配JavaBean**。
 
-​	　注解方式 **配置方便、直观**，但以硬编码的方式写入到了 Java 代码中，其修改是需要重新编译代码的。XML 配置方式的最大好处是，对其所做修改**无需编译代码**，只需重启服务器即可将新的配置加载。若注解与 XML 同用，**XML 的优先级要高于注解**。
+​	　注解方式 **配置方便、直观**，但以硬编码的方式写入到了 Java 代码中，其修改是需要重新编译代码的。XML 配置方式的最大好处是对其所做修改**无需编译代码**，只需重启服务器即可将新的配置加载。若注解与 XML 同用，**XML 的优先级要高于注解**。
 
 
 
@@ -27,7 +27,7 @@ sidebar: auto
 
 ### ApplicationContext
 
-​	　在JavaSE中是通过`main`方法完成`ApplicationContext`初始化的，参见[这里](../demo/第一个Spring应用程序.md)。但是在Web容器中，入口是`web.xml`，所以，要将`ApplicationContext`的初始化工作交于`web.xml`。
+​	　在JavaSE中，是通过`main`方法`new`完成`ApplicationContext`初始化的。但是在Web容器中，入口是`web.xml`，所以，要将`ApplicationContext`的初始化工作交于`web.xml`。
 
 ```xml
 <!--spring-context*.xml配置了JavaBean与Class的对应关系-->
@@ -35,13 +35,15 @@ sidebar: auto
    <param-name>contextConfigLocation</param-name>
    <param-value>classpath:spring-context*.xml</param-value>
 </context-param>
-<!--Spring提供的ContextLoaderListener在启动容器时会自动装配ApplicationContext的配置信息-->
+<!--Spring提供的ContextLoaderListener在启动容器时，可以自动装配ApplicationContext-->
 <listener>
-   <listener-class>
-       org.springframework.web.context.ContextLoaderListener
-    </listener-class>
+      <listener-class>
+          org.springframework.web.context.ContextLoaderListener
+      </listener-class>
 </listener>
 ```
+
+​	　在启动Web容器时，首先会运行`web.xml`中配置的`listener`对象`ContextLoaderListener`，其会根据`spring-context*.xml`中配置的**JavaBean与Class的对应关系** 以及  **Bean的作用域**，适时**调用 Bean 类的无参构造器**，创建空值的实例对象，**自动装配**`ApplicationContext`。
 
 
 
@@ -59,24 +61,20 @@ sidebar: auto
        http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-     <!--SpringContext必须在第一行，否则调用getBean时，applicationContext仍为空-->
-    <bean id = "springContext" class="com.shooter.funtl.common.context.SpringContext"/>
+  <!--SpringContext必须在第一行，否则调用getBean时，applicationContext仍为空-->
+  <bean id = "springContext" class="com.shooter.funtl.common.context.SpringContext"/>
 
-    <!--DAO-->
-    <bean id = "userDao" class="com.shooter.funtl.module.dao.impl.UserDaoImpl"/>
+  <!--DAO-->
+  <bean id = "userDao" class="com.shooter.funtl.module.dao.impl.UserDaoImpl"/>
     
 </beans>
 ```
 
 ​	　`<bean/>`元素用于定义一个实例对象，**一个实例对应一个 bean 元素**；`id`属性是 Bean 实例的**唯一标识**，程序通过 id 属性访问 Bean，Bean 与 Bean 间的依赖关系也是通过 id 属性关联的；`class`属性指定该 Bean 所属的类，注意这里**只能是类**，不能是接口。
 
-
-
 ### SpringContext
 
- 　　`SpringContext`工具类通过实现`ApplicationContextAware`接口的`setApplicationContext`方法初始化`ApplicationContext`，通过实现`DisposableBean`接口的`destroy`方法销毁`ApplicationContext`。 
-
- 　　Bean 的装配方式可以通过`类名`或者`beanId`调用`getBean`的方式从容器获取指定的 Bean 实例，容器首先会调用 Bean 类的无参构造器，创建空值的实例对象。
+​	　`SpringContext`工具类通过实现`ApplicationContextAware`接口的`setApplicationContext`方法获取已经初始化完成的`ApplicationContext`对象；以及通过实现`DisposableBean`接口的`destroy`方法可以销毁该`ApplicationContext`对象。 
 
 ```java
 package com.shooter.funtl.common.context;
@@ -128,6 +126,8 @@ public class SpringContext implements ApplicationContextAware,DisposableBean{
 
 ### bean实例注入
 
+​	　Bean 的装配方式可以通过`类名`或者`beanId`调用`getBean`的方式从容器获取指定的 Bean 实例。特别的：项目已经使用`SpringWeb`修改了Bean的装配方式，原先`new`的方式已经不能正常使用了的。
+
 ```java
 /**
 * 根据类获取实例
@@ -158,7 +158,9 @@ public class UserServiceImpl implements UserService {
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd 
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--开始Spring注解-->
     <context:annotation-config />
@@ -170,9 +172,9 @@ public class UserServiceImpl implements UserService {
 
 
 
-### bean实例注入
+### Bean标注注解
 
-（1）指定class与bean之间关系的注解
+​	　SpringWeb通过在类上声明如下四个注解，来指定class与bean之间关系的注解，同样的这些class不能是抽象类或者接口。
 
 ```
 - @Component：用于 Component 或者 class 实现类进行注解
@@ -181,7 +183,7 @@ public class UserServiceImpl implements UserService {
 - @Controller：用于对 Controller 实现类进行注解
 ```
 
-​	　Spring 提供的这个四个注解除语义外，功能上是等效注解，只有例如SpringDataJpa等会对不同的注解做出区别。特别的，这些注解都具有默认属性 `value` 用于指定该 bean 的 id 值。
+​	　`@Controller`注解后续`SpringMvc`会对其单独做处理；其他的三个注解，除语义外功能上是等效注解（只有例如SpringDataJpa等会对不同的注解做出区别），但是建议不同的注解要标注在相应的类上。
 
 ```java
 /**
@@ -206,7 +208,7 @@ public class UserDaoImpl implements UserDao {}
 
 
 
-（2）Bean 的实例化注入
+### bean实例注入
 
 ```java
 - @Autowired: 按类型自动装配，可用于属性、方法或者构造器。
@@ -215,7 +217,7 @@ public class UserDaoImpl implements UserDao {}
 - @PostConstruct：在方法上使用 @PostConstruct 相当于初始化，会在构造器之前调用。
 ```
 
-​	　`@Autowired`和`@Resource`用于属性的**自动装配**，`@Value`和`@PostConstruct`用于**属性的初始化**。示例代码如下：
+​	　`@Autowired`和`@Resource`多用于**对象的自动装配**，`@Value`和`@PostConstruct`多用于**属性的初始化**。示例代码如下：
 
 ```java
 /**
@@ -273,7 +275,7 @@ public void setUser(User user) {
 
 ### 作用域实现方式
 
-​	　需要在类上使用注解 `@Scope`，其 value 属性用于指定作用域。默认为 `singleton`。
+​	　需要在类上使用 `@Scope` 注解 或者 在`spring-context.xml`中使用`scope` 属性，其 value 属性用于指定作用域，默认为 `singleton`。
 
 ```java
 /**

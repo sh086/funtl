@@ -2,6 +2,6 @@
 sidebar: auto
 ---
 
-# Servlet
+# JSP
 
 ## 快速开始

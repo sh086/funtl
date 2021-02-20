@@ -2,20 +2,11 @@
 sidebar: auto
 ---
 
-# Junit单元测试
+# Junit
 
-​	　JUnit 是用于编写和运行可重复的**自动化测试**的开源测试框架，这样可以保证我们的代码按预期工作。
+​	　`JUnit` 是用于编写和运行可重复的**自动化测试**的开源测试框架。`TDD`是**测试驱动**编程思想，提倡“**先编写测试用例，再完成编码**”，这样保证了代码质量，测试的覆盖率高，但是开发效率低。
 
-**实战：**
-
-- [第一个Junit单元测试](../../demo/第一个Junit单元测试.md)
-
-
-
-
-## TDD测试驱动
-
-​	　`TDD`是**测试驱动**编程思想，提倡“**先编写测试用例，再完成编码**”，这样保证了代码质量，测试的覆盖率高，但是开发效率低。测试时**按照不同的场景**分为有单元测试、压力测试、疲劳强度测试、冒烟测试、集成测试、回归测试等。
+​	　测试时**按照不同的场景**可以分为单元测试、压力测试、疲劳强度测试、冒烟测试、集成测试、回归测试等测试方式。
 
 ```
 单元测试：分为白盒测试、黑盒测试、灰盒测试
@@ -28,9 +19,77 @@ sidebar: auto
 
 
 
-## Junit注解
+## 整合Junit
 
-（1）@Test
+### 引入jar包
+
+​	　首先，在`pom.xml`文件中引入`junit`包。
+
+```xml
+<dependency>
+     <groupId>junit</groupId>
+     <artifactId>junit</artifactId>
+     <version>4.12</version>
+     <scope>test</scope>
+</dependency>
+```
+
+### JunitTest
+
+​	　编写一个简单的测试方类，然后运行`testHelloLog4j()`方法。
+
+```java
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class MyTest {
+
+    /**
+     * 执行测试方法前执行
+     */
+    @Before
+    public void before() {
+        System.out.println("执行 before() 方法");
+    }
+
+    /**
+     * 执行测试方法后执行
+     */
+    @After
+    public void after() {
+        System.out.println("执行 after() 方法");
+    }
+
+    /**
+     * 测试方法建议采用test作为方法名的开头
+     */
+    @Test
+    public void testHelloLog4j() {
+        System.out.println("Hello Log4j");
+    }
+}
+```
+
+**运行结果如下：**
+
+```
+执行 before() 方法
+Hello Log4j
+执行 after() 方法
+```
+
+
+
+### SpringTest
+
+
+
+## 单元测试
+
+### Junit注解
+
+（1）@Test 和 @Ignore
 
 ​	　`@Test`注解表明该方法是一个测试方法。当想暂时禁用特定的测试方法执行时，可以使用`@Ignore`注解。
 
@@ -79,7 +138,7 @@ public void static afterClass() {
 
 
 
-## Junit断言
+### Junit断言
 
 ​	　断言是指在可以**断定程序中的某个特定点的布尔表达式值**为true，则继续运行，若为false，则**中断**当前操作的话，可以使用断言。一般在 **测试** 或 **出现BUG**时**启用断言**，而在**部署时禁用断言**。使用断言可以创建更稳定、品质更好且 不易于出错的代码。
 
