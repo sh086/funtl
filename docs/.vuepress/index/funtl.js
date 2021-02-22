@@ -5,18 +5,17 @@ const index = [
         collapsable: false,
         children: [
             ['', '开篇'],
-            ['guide/framework/', '走进单体地狱'],
-            ['guide/cloudservice/', '云计算服务'],
-            ['guide/microservice/', '微服务架构'],
-            ['guide/datascience/', '价值互联网'],
+            ['framework/', '走进单体地狱'],
+            ['microservice/', '微服务解决复杂问题'],
+            ['datascience/', '价值互联网'],
         ]
     },
     {
         title: '实战',
         collapsable: false,
         children: [
-            ['project/myshop/','MyShop实战'],
-            ['project/itoken/','微服务实战之iToken'],
+            ['myshop/','MyShop实战'],
+            ['itoken/','微服务实战之iToken'],
         ]
     },
     {

@@ -4,10 +4,6 @@ sidebar: auto
 
 # SpringMVC
 
-
-
-## SpringMVC简介
-
 ​	　**Spring MVC** (或称Spring Web MVC)属于**Spring**中的**展示层框架**，其提供了**MVC模式**使得Web应用在输入逻辑、业务逻辑和 UI 逻辑实现**松散耦合**。Spring MVC通过**DispatcherServlet组件类**处理所有的 HTTP 请求和响应， 具体的工作流如下图所示：
 
 ![ssm_dispatcherservlet](./images/ssm_dispatcherservlet.jpg)
@@ -43,3 +39,6 @@ sidebar: auto
 
 ## SpringMVC拦截器
 
+
+
+## Spring标签
