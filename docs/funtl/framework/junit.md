@@ -21,9 +21,9 @@ sidebar: auto
 
 ## 整合Junit
 
-### 引入jar包
+### JunitTest
 
-​	　首先，在`pom.xml`文件中引入`junit`包。
+#### 引入jar包
 
 ```xml
 <dependency>
@@ -34,9 +34,7 @@ sidebar: auto
 </dependency>
 ```
 
-### JunitTest
-
-​	　编写一个简单的测试方类，然后运行`testHelloLog4j()`方法。
+#### 单元测试方法
 
 ```java
 import org.junit.After;
@@ -82,6 +80,53 @@ Hello Log4j
 
 
 ### SpringTest
+
+#### 引入Jar包
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>4.3.17.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+</dependency>
+```
+
+
+
+#### 单元测试方法
+
+```java
+import com.shooter.funtl.module.entity.User;
+import com.shooter.funtl.module.service.UserService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({"classpath:spring-context.xml", "classpath:spring-context-druid.xml", "classpath:spring-context-mybatis.xml"})
+public class UserServiceTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceTest.class);
+
+    @Autowired
+    private UserService userService;
+
+    @Test
+    public void testSelectUserById() {
+        User user = userService.selectUserById(7L);
+        logger.info("testSelectUserById : 用户名 {}",user.getUserName());
+    }
+}
+```
 
 
 
