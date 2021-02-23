@@ -1,5 +1,10 @@
 module.exports = [
-    {text: '指南', link: '/funtl/'},
+    {
+        text: '指南',
+        items: [
+            {text: '鲁斯菲尔-李卫民', link: '/funtl/'},
+        ]
+    },
     {text: '项目', link: ''},
     {
         text: '参考资源',

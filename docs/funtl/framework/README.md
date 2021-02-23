@@ -32,9 +32,8 @@ sidebarDepth: 0
     <tr>
         <td rowspan="3"><b>后端</b></td>    
         <td>基础</td>
-        <td ><a href="./servlet.html" target="_blank">Servlet</a></td>  
-        <td ><a href="./mvc.html" target="_blank">MVC三层架构</a></td>  
-        <td></td> 
+        <td colspan="2"><a href="./mvc.html" target="_blank">MVC三层架构</a></td> 
+	<td></td> 
         <td></td> 
         <td></td> 
     </tr>
@@ -60,7 +59,7 @@ sidebarDepth: 0
 
 **实战：**
 
-- <a href="../../project/myshop-login.html" target="_blank">简单的登录功能</a>
+- <a href="../myshop/myshop-login.html" target="_blank">简单的登录功能</a>
 - <a href="../../project/myshop-ssm.html" target="_blank">项目实战MyShop</a>
 
 

@@ -238,7 +238,7 @@ public class LoginController extends HttpServlet {
 
 ### 测试运行
 
-​	　最后，参考[Tomcat部署](https://github.com/sh086/college/blob/main/docs/funtl/guide/quickstart.md#tomcat%E9%83%A8%E7%BD%B2)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 <a href ="http://localhost:8080" target="view_window"> http://localhost:8080</a>
+​	　最后，参考[Tomcat部署](../framework/idea.md#tomcat部署)笔记，完成Tomcat的项目配置后，即可打开浏览器访问 <a href ="http://localhost:8080" target="view_window"> http://localhost:8080</a>
 
 ![login_1](./images/login_1.png)
 
@@ -772,7 +772,7 @@ private UserDao userDao
 
 （2）Service层的装配
 
-​	　由于目前项目还没有整合SpringMvc，所以在Controller中无法使用`@Autowired`获取UserService实例，只能先使用SpringContext的getBean方法。
+​	　由于目前项目**还没有整合SpringMVC，所以在Controller中无法使用`@Autowired`获取UserService实例**，只能先使用SpringContext的getBean方法。
 
 ```java
 @Service
@@ -1136,7 +1136,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 
 ​	　在`web.xml`中去除Servlet拦截器配置，并引入Spring MVC需要的`DispatcherServlet` 分发器 和 字符集过滤器`CharacterEncodingFilter`。
 
-```xml {21-54}
+```xml {21-37,39-54}
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1275,7 +1275,7 @@ web.view.suffix=.jsp
 
 #### LoginController
 
-```java
+```java{65,66,74-78}
 package com.shooter.funtl.module.web.controller;
 import com.shooter.funtl.common.constant.SessionConstant;
 import com.shooter.funtl.common.utils.CookieUtils;
@@ -1540,7 +1540,7 @@ public class PermissionIterceptorterceptor implements HandlerInterceptor {
 
 ## v1.6 Mybatis
 
-​	　**ORM**是指**对象关系映射**，可以将**数据库关系** 和 **Java原生对象** 关联起来。Mybatis具有三级缓存，具有幂等性的查询适合放缓存中，一级缓存空间最小，查询速度最快，三级最大，查询速度也最慢，若三级也查询不到，就会在数据库中查询。
+​	　**ORM**是指**对象关系映射**，可以将**数据库关系** 和 **Java原生对象** 关联起来。Mybatis具有**三级缓存**，具有**幂等性**的查询适合放缓存中，一级缓存空间最小，查询速度最快，三级最大，查询速度也最慢，若三级也查询不到，就会在数据库中查询。
 
 ```
 L1 一级缓存 256K 内存缓存
@@ -1647,7 +1647,7 @@ web.view.suffix=.jsp
 
 #### 配置 Druid 监控中心
 
-​	　在 `web.xml` 中配置 Druid 提供的 Servlet，可以通过http://localhost:8080/druid/index.html 查看Druid 提供的监控数据。
+​	　在 `web.xml` 中配置 Druid 提供的 Servlet，可以通过[http://localhost:8080/druid/index.html](http://localhost:8080/druid/index.html) 查看Druid 提供的监控数据。
 
 ```xml
 <!--配置 Druid 监控中心 -->

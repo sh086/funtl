@@ -4,11 +4,11 @@ sidebar: auto
 
 # Mybatis
 
-MyBatis是基于 Java 的数据持久层框架，内部封装了 JDBC，使开发者只需关注 SQL 语句本身，而不用再花费精力去处理诸如注册驱动、创建 Connection、配置 Statement 等繁杂过程。
+​	　MyBatis是基于 Java 的数据持久层框架，内部封装了 JDBC，使开发者只需关注 SQL 语句本身，而不用再花费精力去处理诸如注册驱动、创建 Connection、配置 Statement 等繁杂过程。
 
-Hibernate 框架是提供了全面的数据库封装机制的 **“全自动”** ORM，即实现了 POJO 和数据库表之间的映射，以及 SQL 的自动生成和执行。
+​	　MyBatis 是 **半自动ORM**，通过 **SQL 语句映射文件**，实现了在 `POJO 类` 和 `SQL语句` 之间的映射关系。不仅可以将**SQL 语句与代码的分离**，还可以**结合数据库自身的特点灵活控制 SQL 语句**，因此能够实现比 Hibernate 等全自动 ORM 框架**更高的查询效率**，能够完成**复杂查询**。
 
-相对于此，MyBatis 只能算作是 **“半自动”** ORM。其着力点，是在 POJO 类与 SQL 语句之间的映射关系。也就是说，MyBatis 并不会为程序员自动生成 SQL 语句。具体的 SQL 需要程序员自己编写，然后通过 SQL 语句映射文件，将 SQL 所需的参数，以及返回的结果字段映射到指定 POJO。因此，MyBatis 成为了“全自动”ORM 的一种有益补充。
+​	　Hibernate 是提供了全面的数据库封装机制的 **全自动ORM**，通过**HQL语言**，实现了 `POJO类` 和 `数据库表` 之间的映射，以及 SQL 的自动生成和执行。
 
 
 
@@ -37,7 +37,7 @@ Hibernate 框架是提供了全面的数据库封装机制的 **“全自动”*
 
 ​	　在`myshop.properties`中引入数据库连接配置。
 
-```properties{3-6,9-11,14}
+```properties
 # JDBC
 # MySQL 8.x: com.mysql.cj.jdbc.Driver
 jdbc.driverClass=com.mysql.jdbc.Driver
@@ -52,9 +52,6 @@ jdbc.pool.maxActive=20
 
 # JDBC Test
 jdbc.testSql=SELECT 'x' FROM DUAL
-
-web.view.prefix=/WEB-INF/views/
-web.view.suffix=.jsp
 ```
 
 
@@ -111,7 +108,7 @@ web.view.suffix=.jsp
 
 ### 配置 Druid 监控中心
 
-​	　在 `web.xml` 中配置 Druid 提供的 Servlet，可以通过http://localhost:8080/druid/index.html 查看Druid 提供的监控数据。
+​	　在 `web.xml` 中配置 Druid 提供的 Servlet，可以通过[http://localhost:8080/druid/index.html](http://localhost:8080/druid/index.html) 查看Druid 提供的监控数据。
 
 ```xml
 <!--配置 Druid 监控中心 -->
@@ -277,7 +274,7 @@ User selectUserById(Long id);
 
 对应的Mapper：
 
-```java
+```xml
 <select id="selectUserById" resultType="User">
         SELECT
             user.id,
@@ -341,4 +338,206 @@ void updateById(User user);
 
 
 ## 动态SQL
+
+​	　动态 SQL是指通过Mybatis提供的**动态 SQL 标签**，编写**OGNL 表达式**对条件作出判断，以实现**动态拼接 SQL 语句**。
+
+​	　在 mapper 的动态 SQL 中若出现大于号`>`、小于号`<`、大于等于号`>=`，小于等于号`<=`等符号，最好将其转换为实体符号。否则，XML 可能会出现解析出错问题。特别是对于小于号`<`，在 XML 中是绝对不能出现的。否则，一定出错。
+
+![mybatis_01](./images/mybatis_01.png)
+
+
+
+### if标签
+
+​	　仅当`test 表达式`的值为 true 时，才会将 `if标签` 包含的 SQL 片断拼接到其所在的 SQL 语句中，所以，需要通过`WHERE 1=1`防止where没有任何可拼接的条件的不完整 SQL 语句的情况。
+
+```xml
+<select id="selectUserById" resultType="User">
+    SELECT
+        user.id,
+        user.username as userName,
+        user.age as age
+    FROM
+   	    tb_user AS user
+    WHERE 1=1
+    <if test="id != null and id != ''">
+        AND user.id =  #{id}
+    </if>
+    <if test="age != null and age > 0">
+        AND user.age > #{age}
+    </if>
+</select>
+```
+
+
+
+### where标签
+
+​	　若`where标签`中全部的`if标签`的`test表达式`都为false时，**不会**添加`where关键字`；**至少存在一个表达式为true时，才会将where关键字加入到SQL语句中**。
+
+```xmL
+<select id="selectUserById" resultType="User">
+    SELECT
+        user.id,
+        user.username as userName
+    FROM
+    	tb_user AS user
+    <where>
+        <if test="id != null and id != ''">
+            AND user.id =  #{id}
+        </if>
+    </where>
+</select>
+```
+
+
+
+### choose标签
+
+​	　`choose标签`包含一个或多个 `<when/>` 和`<otherwise/>`标签，可以实现类似于Java 中开关语句switch的功能。
+
+```xml
+<select id="selectUserById" resultType="User">
+    SELECT
+        user.id,
+        user.username as userName,
+        user.age as age
+    FROM
+      tb_user AS user
+    <where>
+        <choose>
+            <when test="name != null and name != ''">
+                AND user.name LIKE concat('%', #{name}, '%')
+            </when>
+            <when test="age != null and age > 0">
+                AND user.age > #{age}
+            </when>
+            <otherwise>
+                AND 1 != 1
+            </otherwise>
+        </choose>
+    </where>
+</select>
+```
+
+
+
+### foreach标签
+
+​	　`<foreach/>` 标签用于实现对于数组与集合的遍历。`collection` 表示要遍历的集合类型（`array`表示数组，`list`表示集合），`open`、`close`、`separator` 为对遍历内容的 SQL 拼接。
+
+#### 遍历数组
+
+```xml
+<!-- foreach -->
+<select id="selectByForeach" resultType="Student">
+    <!-- select * from student where id in (2, 4) -->
+    SELECT
+        id,
+        name,
+        age,
+        score
+    FROM
+      student
+    <!-- OGNL 表达式中的数组使用 array 表示，数组长度使用 array.length 表示。 -->
+    <if test="array != null and array.length > 0">
+        WHERE id IN
+        <foreach collection="array" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </if>
+</select>
+```
+
+
+
+#### 遍历集合
+
+##### 基本类型的List
+
+```java
+public List<Student> selectByForeachWithListBase(List<Long> ids);
+```
+
+对应的Mapper：
+
+```xml
+<!-- foreach -->
+<select id="selectByForeachWithListBase" resultType="Student">
+    <!-- select * from student where id in (2, 4) -->
+    SELECT
+        id,
+        name,
+        age,
+        score
+    FROM
+      student
+    <!-- OGNL 表达式中的列表使用 list 表示，大小使用 list.size 表示。 -->
+    <if test="list != null and list.size > 0">
+        WHERE id IN
+        <foreach collection="list" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </if>
+</select>
+```
+
+
+
+##### 自定义类型List
+
+```java
+public List<Student> selectByForeachWithListCustom(List<Student> students);
+```
+
+对应的Mapper：
+
+```xml
+<!-- foreach -->
+<select id="selectByForeachWithListCustom" resultType="Student">
+    <!-- select * from student where id in (2, 4) -->
+    SELECT
+        id,
+        name,
+        age,
+        score
+    FROM
+      student
+     <!-- OGNL 表达式中的列表使用 list 表示，大小使用 list.size 表示。 -->
+    <if test="list != null and list.size > 0">
+        WHERE id IN
+        <foreach collection="list" open="(" close=")" item="student" separator=",">
+            #{student.id}
+        </foreach>
+    </if>
+</select>
+```
+
+
+
+### sql标签
+
+​	　`<sql/>` 标签可以定义 SQL 语句中的任何部分为 **SQL 片断**，该SQL片段可以被`<include/>` 标签在动态 SQL 的任何位置**复用**。
+
+#### 定义SQL片段
+
+```xml
+<sql id="userSelect">
+    user.id,
+    user.username as userName,
+    user.password as passWord,
+    user.phone
+</sql>
+```
+
+#### 引用SQL片段
+
+```xml
+<select id="selectUserAll" resultType="User">
+    SELECT
+    	<include refid="userSelect" />
+    FROM
+    	tb_user AS user
+</select>
+```
 
