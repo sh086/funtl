@@ -60,6 +60,6 @@ sidebarDepth: 0
 **实战：**
 
 - <a href="../myshop/myshop-login.html" target="_blank">简单的登录功能</a>
-- <a href="../../project/myshop-ssm.html" target="_blank">项目实战MyShop</a>
+- <a href="../myshop/myshop-ssm.html" target="_blank">项目实战MyShop</a>
 
 
