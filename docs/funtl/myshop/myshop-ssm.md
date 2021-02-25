@@ -69,14 +69,6 @@ sidebar: auto
 </header>
 ```
 
-​	　登录时，会首先调用`LoginController`中的`login`方法，若登录成功，会在`HttpServletRequest`对象`req`放入`键值对user`。
-
-```java
-//关键代码如下：
-req.getSession().setAttribute(SessionConstant.SESSION_USER,user);
-return "redirect:/main";
-```
-
 
 
 #### menu.jsp
@@ -240,6 +232,14 @@ folder instead of downloading all of them to reduce the load. -->
         <jsp:include page="../includes/foot.jsp"/>
     </body>
 </html>
+```
+
+​	　登录时，会首先调用`LoginController`中的`login`方法，若登录成功，会在`HttpServletRequest`对象`req`放入`键值对user`，`nav.jsp`页面就可以显示登录用户名、用户创建时间等信息了。
+
+```java
+//关键代码如下：
+req.getSession().setAttribute(SessionConstant.SESSION_USER,user);
+return "redirect:/main";
 ```
 
 
@@ -585,6 +585,82 @@ public String form(){
 
 ## 保存新用户
 
+### 保存用户页面
+
+​	　首先，在`user_form.jsp`中新增保存失败时，错误信息的显示。接着，再`<form>标签`中的`<input>标签`中添加`name="phone" value="${user.phone}"`属性，name属性用于设置提交时的变量名，value用于保存失败数据回显。
+
+```xml
+<!-- 第一步：添加jstl标签库 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!-- 第二步：新增保存失败时，错误信息的显示-->
+<!-- 添加位置： <div class="row"><div class="col-xs-12">-->
+ <c:if test="${saveResult != null}">
+     <div class="alert 
+         alert-${saveResult.status ==  true ? "success" : "danger"} alert-dismissible">
+        <button type="button" 
+        	class="close" data-dismiss="alert" aria-hidden="true">&times;
+        </button>
+        ${saveResult.messages}
+     </div>
+</c:if> 
+
+<!-- 第三步：在form中，为各个input标签添加 name 和 value 属性 -->
+<input type="email" class="form-control" 
+	id="email" name="email" value="${user.email}" placeholder="请输入邮箱"/>
+```
+
+​	　最后，按照和`user_form.jsp`的**第一步、第二步**的代码，完成`user_list.jsp`中对新增成功后，操作成功信息的提示。
+
+
+
+### Form表单验证
+
+#### RegexpUtils
+
+```java
+package com.shooter.funtl.common.utils;
+
+/**
+ * 正则表达式工具类
+ */
+public class RegexpUtils {
+    /**
+     * 验证手机号
+     */
+    public static final String PHONE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+
+    /**
+     * 验证邮箱地址
+     */
+    public static final String EMAIL = "\\w+(\\.\\w)*@\\w+(\\.\\w{2,3}){1,3}";
+
+    /**
+     * 验证手机号
+     * @param phone
+     * @return
+     */
+    public static boolean checkPhone(String phone) {
+        return phone.matches(PHONE);
+    }
+
+    /**
+     * 验证邮箱
+     * @param email
+     * @return
+     */
+    public static boolean checkEmail(String email) {
+        return email.matches(EMAIL);
+    }
+}
+```
+
+
+
+#### jQuery Validation
+
+
+
 ### 编写业务代码
 
 #### UserController
@@ -722,36 +798,9 @@ public class BaseResult implements Serializable {
 
 
 
-### 保存用户页面
-
-​	　首先，在`user_form.jsp`中新增保存失败时，错误信息的显示。接着，再`<form>标签`中的`<input>标签`中添加`name="phone" value="${user.phone}"`属性，name属性用于设置提交时的变量名，value用于保存失败数据回显。
-
-```xml
-<!-- 第一步：添加jstl标签库 -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<!-- 第二步：新增保存失败时，错误信息的显示-->
-<!-- 添加位置： <div class="row"><div class="col-xs-12">-->
- <c:if test="${saveResult != null}">
-     <div class="alert 
-         alert-${saveResult.status ==  true ? "success" : "danger"} alert-dismissible">
-        <button type="button" 
-        	class="close" data-dismiss="alert" aria-hidden="true">&times;
-        </button>
-        ${saveResult.messages}
-     </div>
-</c:if> 
-
-<!-- 第三步：在各个input标签中添加 name 和 value 属性 -->
-<input type="email" class="form-control" 
-	id="email" name="email" value="${user.email}" placeholder="请输入邮箱"/>
-```
-
-​	　最后，按照和`user_form.jsp`的**第一步、第二步**的代码，完成`user_list.jsp`中对新增成功后，操作成功信息的提示。
-
 ### SpringMVC标签库
 
-​	　通过[spring标签库](../framework/jsp.md#springmvc表单标签库)可以简化`<form>标签`中`<input>`的写法，通过`modelAttribute`可以获取`/user/save`请求操作失败后的`user`属性，并自动回显到各个控件中。
+​	　通过[spring标签库](../framework/jsp.md#springmvc表单标签库)不仅可以简化`<form>标签`中`<input>`的写法，还可以通过`modelAttribute`属性获取`/user/save`请求操作失败后回传的`user`值，并**自动回显**到各个控件中。
 
 ```xml{2,7,12,18,24,30}
 <!-- 第一步：添加springmvc标签库 -->
@@ -796,9 +845,34 @@ public class BaseResult implements Serializable {
 </form:form>
 ```
 
+​	　特别的，SpringMVC标签库要求`modelAttribute` **属性名必须设置** ，以及 **属性值必须为非空对象**，否则无法加载页面。示例： `跳转用户表单页面` 时没有设置`modelAttribute属性值`（如下），则加载`user_form`页面时页面就会报错，（解决办法参照[这里](#编写业务代码-2)）。
+
+```java
+/**
+* UserController 跳转用户表单页面
+* */
+@RequestMapping(value = "form",method = RequestMethod.GET)
+public String form(){
+    //未在model空中设置user对象
+    return "user_form";
+}
+```
+
 
 
 ### 测试运行
+
+（1）若保存失败，显示失败原因，并且填写的用户信息会回显，特别的，**密码是不会回显的**。
+
+![1614181810753](./images/1614181810753.png)
+
+
+
+（2）保存成功后，重定向到用户列表页面，并提示保存成功。
+
+![1614181982444](./images/1614181982444.png)
+
+
 
 
 
