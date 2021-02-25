@@ -32,6 +32,10 @@ sidebar: auto
 - ctrl + q： 显示 JavaDoc 的结果
 - ctrl + shift + r：全局搜索
 - F2：定位下一个有问题的地方
+- F8：单步调试
+- Alt + 鼠标左键 ： 列编辑模式
+- F5：刷新
+- ctrl + F5：强制刷新 ，清除缓存
 
 [编译运行]
 - ctrl + F9: build

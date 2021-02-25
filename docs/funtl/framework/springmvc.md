@@ -31,7 +31,7 @@ sidebar: auto
 
 ### web.xml
 
-​	　在`web.xml`中配置`Spring MVC`需要的`DispatcherServlet` 分发器 （需要**去掉原来配置了Servlet拦截器**）和 字符集过滤器`CharacterEncodingFilter`。
+​	　首先，需要在`web.xml`中配置`Spring MVC`需要的`DispatcherServlet` 拦截器 ，与Servlet拦截器可以直接访问`JSP页面`不同，SpringMvc提供的拦截器，访问`视图`和`业务请求`时，都需要经过`controller`转发给`视图解析器`，视图文件解析器会找到`视图名`的`前缀`和`后缀`，然后找到对应的页面，返回给用户。接着，还需要继续配置字符集过滤器`CharacterEncodingFilter`。
 
 #### DispatcherServlet
 
@@ -80,7 +80,7 @@ sidebar: auto
 </filter-mapping>
 ```
 
-
+​	　特别的，`UTF-8`中文字符占3-4个字节，英文占1个自字节；`GBK`一个字符占2个字节，是专门支持中文的字符集；`ISO-8859-1`一个字符占一个字节，仅能支持英文等；`utf8mb4`是UTF-8的扩展，一个字符占4个字节，可以用于存储emoji表情。
 
 ### spring-mvc.xml
 
@@ -242,7 +242,7 @@ public String login(@RequestParam(required = true) String loginId,
 
 ### @ResponseBody
 
-​	　仅使用`@RequestMapping` 注解，返回值通常会被解析为**跳转路径**；`@ResponseBody` 注解可以将返回的对象，通过适当的 `HttpMessageConverter` 转换为指定格式（JSON、XML）后，写入到  `Response` 对象的 `body` 数据区。
+​	　仅使用`@RequestMapping` 注解，方法返回值通常会被解析为**视图**，例如：`return "main"`表示**跳转视图**，`return "redirect:/user/list"` 表示**重定向视图**。若`@RequestMapping`和`@ResponseBody`同时注解方法，可以将返回的对象，通过适当的 `HttpMessageConverter` 转换为指定格式（JSON、XML）后，写入到  `Response` 对象的 `body` 数据区。
 
 ```java
 @RequestMapping(value = "login", method = RequestMethod.POST)

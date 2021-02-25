@@ -556,7 +556,9 @@ public String form(User user){
 }
 
 /**
-* 写法三：通过@ModelAttribute在form()执行之前添加，不建议。
+* 写法三：不推荐
+* ① @ModelAttribute注解的方法会在@RequestMapping注解的方法之前执行
+* ② @ModelAttribute注解的方法会自动将返回值user 自动放到Model中
 * */
 @ModelAttribute
 public User getUser(Long id){
@@ -587,13 +589,13 @@ public String form(){
 
 ### 保存用户页面
 
-​	　首先，在`user_form.jsp`中新增保存失败时，错误信息的显示。接着，再`<form>标签`中的`<input>标签`中添加`name="phone" value="${user.phone}"`属性，name属性用于设置提交时的变量名，value用于保存失败数据回显。
+​	　首先，在`user_form.jsp`中新增，保存失败时错误信息的显示。接着，再`<form>标签`中的`<input>标签`中添加`name="phone" value="${user.phone}"`属性，`name属性`设置**提交时的参数名**，`value属性`是用于**保存失败数据回显**，`id属性`设置**操作DOM的元素编号**。
 
 ```xml
 <!-- 第一步：添加jstl标签库 -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- 第二步：新增保存失败时，错误信息的显示-->
+<!-- 第二步：保存失败时显示错误信息-->
 <!-- 添加位置： <div class="row"><div class="col-xs-12">-->
  <c:if test="${saveResult != null}">
      <div class="alert 
@@ -800,7 +802,7 @@ public class BaseResult implements Serializable {
 
 ### SpringMVC标签库
 
-​	　通过[spring标签库](../framework/jsp.md#springmvc表单标签库)不仅可以简化`<form>标签`中`<input>`的写法，还可以通过`modelAttribute`属性获取`/user/save`请求操作失败后回传的`user`值，并**自动回显**到各个控件中。
+​	　通过[spring标签库](../framework/jsp.md#springmvc表单标签库)不仅可以简化`<form>标签`中`<input>`的写法，还可以通过`modelAttribute`属性获取`/user/save`请求操作失败后回传的`user`对象，并**自动回显**到各个控件中。
 
 ```xml{2,7,12,18,24,30}
 <!-- 第一步：添加springmvc标签库 -->
@@ -845,7 +847,7 @@ public class BaseResult implements Serializable {
 </form:form>
 ```
 
-​	　特别的，SpringMVC标签库要求`modelAttribute` **属性名必须设置** ，以及 **属性值必须为非空对象**，否则无法加载页面。示例： `跳转用户表单页面` 时没有设置`modelAttribute属性值`（如下），则加载`user_form`页面时页面就会报错，（解决办法参照[这里](#编写业务代码-2)）。
+​	　特别的，SpringMVC标签库要求`modelAttribute` **属性名必须设置** （否则会使用默认值），以及 **属性值必须为非空对象**，否则无法加载页面。示例： `跳转用户表单页面` 时没有在model中设置`modelAttribute`属性值（如下），则加载`user_form`页面时页面就会报错，（解决办法参照[这里](#编写业务代码-2)）。
 
 ```java
 /**
