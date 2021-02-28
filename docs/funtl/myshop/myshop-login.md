@@ -1512,7 +1512,8 @@ public class PermissionIterceptorterceptor implements HandlerInterceptor {
 
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
 
-        if(modelAndView.getViewName().endsWith("login")){
+        //当返回JSON数据时，modelAndView为空
+         if(modelAndView != null && modelAndView.getViewName()!=null && modelAndView.getViewName().endsWith("login")){
             User user = (User)httpServletRequest.getSession().getAttribute(SessionConstant.SESSION_USER);
             if(user != null){
                 httpServletResponse.sendRedirect("/main");
@@ -1801,6 +1802,7 @@ import com.shooter.funtl.module.entity.User;
 import java.util.List;
 
 public interface UserService {
+    List<User> selectByUserLike(User user);
     User selectUserById(Long id);
     User selectUserByName(String userName);
     List<User> selectUserByNameLike(String userNameLike);
@@ -1894,6 +1896,11 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Long id) {
         userDao.deleteById(id);
     }
+    
+     @Override
+    public List<User> selectByUserLike(User user) {
+        return userDao.selectByUserLike(user);
+    }
 }
 ```
 
@@ -1913,6 +1920,9 @@ public interface UserDao {
 
     /**按条件查询用户信息**/
     User selectUserByParams(User params);
+    
+    /**根据用户信息进行模糊查询**/
+    List<User> selectByUserLike(User params);
 
     /**按条件查询用户信息**/
     List<User> selectUserByUserNameLike(String userNameLike);
@@ -1969,6 +1979,24 @@ public interface UserDao {
             </if>
             <if test="phone != null and phone != ''">
                 AND user.phone =  #{phone}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectByUserLike" resultType="User">
+        SELECT
+            <include refid="userSelect" />
+        FROM
+            tb_user AS user
+        <where>
+            <if test="userName != null and userName != ''">
+                AND user.username LIKE CONCAT ('%', #{userName}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                AND user.email LIKE CONCAT ('%', #{email}, '%')
+            </if>
+            <if test="phone != null and phone != ''">
+                AND user.phone LIKE CONCAT ('%', #{phone}, '%')
             </if>
         </where>
     </select>

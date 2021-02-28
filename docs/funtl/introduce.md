@@ -111,7 +111,7 @@ sidebar: auto
 
 ## 在线工具
 
-**在线编辑：**
+### 在线编辑
 
 - [PDF 转换器 ](https://smallpdf.com/cn/pdf-to-word)
 - [JSON 编辑器 ](https://www.bejson.com/jsoneditoronline)
@@ -128,16 +128,12 @@ sidebar: auto
 
 
 
-**在线服务：**
+### 在线服务
 
 - [Boot CDN ](https://www.bootcdn.cn/)
 - [百度 CDN ](http://cdn.code.baidu.com/)
 - [微信 CDN ](http://qydev.weixin.qq.com/cdn/cdnjs.html)
 - [tldr 命令手册 ](https://tldr.ostera.io/)
-
-
-
-**谷歌字体：**
 
 - [科大谷歌字体加速 ](https://servers.ustclug.org/2014/06/blog-googlefonts-speedup/)
 - [谷歌字体库](https://cdn.baomitu.com/index/fonts)
@@ -145,7 +141,7 @@ sidebar: auto
 
 
 
-**开源镜像：**
+### 开源镜像
 
 - [OPSX ](https://opsx.alibaba.com/)
 - [AZURE ](https://mirror.azure.cn/)
@@ -153,7 +149,7 @@ sidebar: auto
 
 
 
-**趋势分析：**
+### 趋势分析
 
 - [谷歌趋势 ](https://trends.google.com/trends/?geo=US)
 - [百度指数 ](http://index.baidu.com/#/)
@@ -161,7 +157,7 @@ sidebar: auto
 
 
 
-**在线文档：**
+### 在线文档
 
 - [Vue ](https://cn.vuejs.org/v2/api/)
 - [Vuex ](https://vuex.vuejs.org/zh/api/#vuex-store)

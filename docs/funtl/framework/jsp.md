@@ -6,6 +6,8 @@ sidebar: auto
 
 ## 快速开始
 
+### HelloWord
+
 ```html
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -20,29 +22,74 @@ sidebar: auto
 
 
 
-## JSTL标签库
-
-
-
-### 引入JSTL
+### 模板页面
 
 ```xml
-<!-- 第一步： 需要引入JSTL的Jar包 -->
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
+    <head>
+        <title>我的商城 | 控制面板</title>
+        <jsp:include page="../includes/header.jsp"/>
+    </head>
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+
+            <jsp:include page="../includes/nav.jsp"/>
+
+            <jsp:include page="../includes/menu.jsp"/>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        控制面板
+                        <small></small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                        <li class="active">控制面板</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+
+                </section>
+            </div>
+
+            <jsp:include page="../includes/copyright.jsp"/>
+
+        </div>
+        <jsp:include page="../includes/foot.jsp"/>
+    </body>
+</html>
+```
+
+
+
+## JSTL标准标签库
+
+```xml
+<!-- 需要引入JSTL的Jar包 -->
 <dependency>
     <groupId>javax.servlet</groupId>
     <artifactId>jstl</artifactId>
     <version>1.2</version>
 </dependency>
-
-<!-- 第二步： 需要在index.jsp的头部引入jstl表达式的支持。 -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 ```
 
 
 
-### 条件判断
+### 核心标签
 
 ```xml
+<!-- 引入JSTL的core标签库 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ 
+<!-- 使用案例 -->
 <c:if test="${message != null}">
    ${message}
 </c:if>
@@ -50,16 +97,63 @@ sidebar: auto
 
 
 
-### 时间格式转换
-
-​	　使用JSTL标签库的时间格式转换，除了需要引入core标签外，还需要引入fmt标签。
+### 格式化标签
 
 ```xml
-<!-- 第一步： 需要继续引入JSTL的fmt标签库 -->
+<!-- 引入JSTL的fmt标签库 -->
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!-- 第二步： 指定时间格式 -->
+<!-- 使用案例： 指定时间格式 -->
 <fmt:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+```
+
+
+
+### 自定义标签
+
+
+
+```
+<%@ tag pageEncoding="UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ attribute name="title" type="java.lang.String" required="false" description="模态框的标题" %>
+<%@ attribute name="message" type="java.lang.String" required="false" description="模态框的消息" %>
+<%@ attribute name="opts" type="java.lang.String" required="true" description="操作类型：info 信息提示 confirm 确认对话框" %>
+<%@ attribute name="url" type="java.lang.String" required="false" description="调转链接，主要用于确认对话框" %>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">${title == null ? "提示" : title}</h4>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">${message}&hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                <button id="btnModalOk" type="button" class="btn btn-primary">确认</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    $(function () {
+        $("#btnModalOk").bind("click",function () {
+            <c:if test="${opts != 'confirm'}">
+                $("modal-default").modal("hide")
+            </c:if>
+            <c:if test="${opts == 'confirm'}">
+                console.log("${url}")
+            </c:if>
+        })
+    });
+</script>
 ```
 
 
@@ -74,11 +168,9 @@ sidebar: auto
 
 
 
-### 常用标签
+### 文本标签
 
-​	　使用 Spring MVC 的 `<form:form />` 标签主要有两个作用，第一是它会**自动的绑定**来自 Model 中的一个属性值到当前 `form` 对应的实体对象，默认是 `command` 属性，可以通过`modelAttribute`属性指定绑定的对象名；第二是**支持 GET 、 POST  、DELETE 和 PUT 等方法提交表单**。
-
-​	　常用的标签有表单标签`<form:form />`、文本框`<form:input />`、密码框`<form:password />`、文本域`<form:textarea />`、隐藏字段域`<form:hidden />`等。特别注意，**model模型中必须有User对象实例**。
+​	　使用 Spring MVC 的 `<form:form />` 标签主要有两个作用，第一是它会**自动的绑定**来自 Model 中的一个属性值到当前 `form` 对应的实体对象，默认是 `command` 属性，可以通过`modelAttribute`属性指定绑定的对象名；第二是**支持 GET 、 POST  、DELETE 和 PUT 等方法提交表单**。特别注意，**model模型中必须有user对象实例**。
 
 ```xml
 <form:form action="form.do" method="post" modelAttribute="user">
@@ -105,11 +197,9 @@ sidebar: auto
 
 
 
-### 复合标签
+### 单选框
 
-#### 单选框
-
-##### 单个单选框
+#### 单个单选框
 
 ```html
 <form:radiobutton path="gender" value="M" label="男" />
@@ -128,7 +218,7 @@ sidebar: auto
 
 
 
-##### 单选框组
+#### 单选框组
 
 ```html
 <form:radiobuttons path="favoriteNumber" items="${numbersList}" />
@@ -149,9 +239,9 @@ sidebar: auto
 
 
 
-#### 复选框
+### 复选框
 
-##### 单个复选框
+#### 单个复选框
 
 ```html
 <form:checkbox path="receivePaper" /> 
@@ -166,7 +256,7 @@ sidebar: auto
 
 
 
-##### 复选框组
+#### 复选框组
 
 ```html
 <form:checkboxes items="${webFrameworkList}" path="favoriteFrameworks" />
@@ -188,11 +278,11 @@ sidebar: auto
 
 
 
-#### 下拉列表
+### 下拉列表
 
 ​	　使用 `<form:select />`, `<form:option />`，`<form:options />` 标签可以渲染一个 HTML 下拉列表，接下来以 `<form:select />`为例。
 
-##### 单个下拉列表
+#### 单个下拉列表
 
 ```html
 <form:select path="country">
@@ -215,7 +305,7 @@ sidebar: auto
 
 
 
-##### 下拉列表组
+#### 下拉列表组
 
 ```html
 <form:select path="skills" items="${skillsList}" multiple="true" />

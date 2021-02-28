@@ -25,7 +25,7 @@ sidebarDepth: 0
         <td colspan="2" align="center"><b>前端</b></td> 
         <td><a href="./jsp.html" target="_blank">JSP</a></td>
         <td><a href="./bootstrap.html" target="_blank">BootStrap</a></td>
-        <td></td> 
+        <td><a href="./plugin.html" target="_blank">Plugin</a></td>
         <td></td> 
         <td></td> 
    </tr>
@@ -49,8 +49,8 @@ sidebarDepth: 0
     	<td>组件</td>
         <td><a href="./junit.html" target="_blank">Junit</a></td>
         <td><a href="./log4j.html" target="_blank">Log4j</a></td>  
-        <td><a href="./cache.html" target="_blank">Cache</a></td>  
-        <td>HttpClient</td> 
+        <td><a href="./common.html" target="_blank">Common</a></td>  
+        <td></td> 
         <td></td> 
     </tr>
 </table>

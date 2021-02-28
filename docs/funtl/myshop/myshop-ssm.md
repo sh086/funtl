@@ -131,6 +131,8 @@ sidebar: auto
 
 #### header.jsp
 
+​	　`header.jsp`存放的是需要引入的CSS文件。
+
 ```html
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -154,7 +156,9 @@ folder instead of downloading all of them to reduce the load. -->
 
 
 
-#### nav.jsp
+#### foot.jsp
+
+​	　`foot.jsp`存放的是需要引入的JS文件。
 
 ```html
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -252,38 +256,11 @@ return "redirect:/main";
 
 
 
-## 查询用户列表
-
-### 编写业务代码
-
-​	　新建`UserController`，并编写跳转用户列表页面的请求`/user/list`。
-
-```java
-/**
- * 用户管理
- * */
-@Controller
-@RequestMapping("/user/")
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    /**
-     * 跳转用户列表页面
-     * */
-    @RequestMapping(value = "list",method = RequestMethod.GET)
-    public String list(Model model){
-        val users = userService.selectUserAll();
-        model.addAttribute("users",users);
-        return "user_list";
-    }
-}
-```
-
-
+## 用户列表
 
 ### 用户列表页面
+
+#### 分页查询
 
 ​	　首先，在`menu.jsp`中新增用户列表下拉项。
 
@@ -301,6 +278,7 @@ public class UserController {
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <head>
@@ -333,24 +311,61 @@ public class UserController {
             <!-- /.row -->
             <div class="row">
                 <div class="col-xs-12">
+
+                    <div class="box box-info box-info-search" style="display: none">
+                        <div class="box-header">
+                            <h3 class="box-title">高级搜索</h3>
+                        </div>
+                        <form:form cssClass="form-horizontal" action="/user/search" method="post" modelAttribute="user">
+                           <div class="box-body">
+                               <div class="row">
+                                   <div class="col-xs-12 col-sm-3">
+                                       <div class="form-group">
+                                           <label for="userName" class="col-sm-4 control-label">姓名</label>
+                                           <div class="col-sm-8">
+                                               <form:input class="form-control" path="userName"  placeholder="请输入用户姓名"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="col-xs-12 col-sm-3">
+                                       <div class="form-group">
+                                           <label for="phone" class="col-sm-4 control-label">电话</label>
+                                           <div class="col-sm-8">
+                                               <form:input class="form-control" path="phone"  placeholder="请输入电话"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="col-xs-12 col-sm-3">
+                                       <div class="form-group">
+                                           <label for="email" class="col-sm-4 control-label">邮箱</label>
+                                           <div class="col-sm-8">
+                                               <form:input class="form-control" path="email"  placeholder="请输入邮箱"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="box-footer">
+                                   <button type="submit" class="btn btn-info pull-right">搜索</button>
+                                   <button type="reset" class="btn btn-default pull-right">重置</button>
+                               </div>
+                           </div>
+                        </form:form>
+                    </div>
+
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">用户列表</h3>
-
-                            <div class="row" style="padding-left: 12px;padding-top: 10px">
-                                <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> 新增</a> &nbsp&nbsp&nbsp&nbsp
-                                <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> 删除</a>&nbsp&nbsp&nbsp&nbsp
-                                <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-download"></i> 导入</a>&nbsp&nbsp&nbsp&nbsp
-                                <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-upload"></i> 导出</a>&nbsp&nbsp&nbsp&nbsp
-                            </div>
-
-                            <div class="box-tools">
-                                <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
-                                    <input type="text" name="table_search" class="form-control pull-right" placeholder="搜索">
-
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
+                            <div class="row" style="padding-top: 10px">
+                                <div class="col-xs-12">
+                                    <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> 新增</a> &nbsp&nbsp&nbsp&nbsp
+                                    <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-trash-o"></i> 删除</a>&nbsp&nbsp&nbsp&nbsp
+                                    <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-download"></i> 导入</a>&nbsp&nbsp&nbsp&nbsp
+                                    <a href="#" type="button" class="btn btn-sm btn-default"><i class="fa fa-upload"></i> 导出</a>&nbsp&nbsp&nbsp&nbsp
+                                    <button type="button" class="btn btn-sm btn-primary"
+                                            onclick="$('.box-info-search').css('display') == 'none' ?
+                                                    $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')">
+                                        <i class="fa fa-search"></i> 搜索
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -401,13 +416,50 @@ public class UserController {
 </html>
 ```
 
+#### 高级搜索
+
+
+
+### 编写业务代码
+
+​	　新建`UserController`，并编写跳转用户列表页面的请求`/user/list`。
+
+```java
+/**
+ * 用户管理
+ * */
+@Controller
+@RequestMapping("/user/")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+   /**
+     * 查询用户信息
+     * */
+    @RequestMapping(value = "search",method = RequestMethod.POST)
+    public String search(User user,Model model){
+        val userResult = userService.selectByUserLike(user);
+        model.addAttribute("users",userResult);
+        return "user_list";
+    }
+}
+```
+
+
+
 
 
 ### 测试运行
 
 ​	　重新运行项目，可以看到`用户列表`页面，已经将数据库中的全部用户都查询出来，并可以在页面上展示用户列表信息了。
 
-![1614175065276](./images/1614175065276.png)
+![1614497459649](./images/1614497459649.png)
+
+​	　	接着，点击搜索按钮，即可展示高级搜索，进行模糊查询用户信息。
+
+![1614497877061](./images/1614497877061.png)
 
 
 
@@ -428,7 +480,7 @@ public class UserController {
 
 ​	　然后，在`user_list.jsp`中为`新增`用户按钮，添加请求路径`/user/form`。
 
-```html{2-4}
+```html{2}
 <div class="row" style="padding-left: 12px;padding-top: 10px">
      <a href="/user/form" type="button" class="btn btn-sm btn-default">
          <i class="fa fa-plus"></i> 新增
@@ -533,30 +585,16 @@ public class UserController {
 
 
 
+
+
+
+
 ### 编写业务代码
 
 ​	　由于，将`user_form.jsp`作为`新增或编辑`的页面，并通过 `${user.id == null ? "新增" : "编辑"}用户`进行区分。所以，必须在**页面跳转**中将**非空的user对象**传到`user_form.jsp`页面上。`UserController`中，页面跳转方法有如下方法：
 
 ```java
 /**
-* 写法一：通过addAttribute显式添加（推荐）
-* */
-@RequestMapping(value = "form",method = RequestMethod.GET)
-public String form(Model model){
-    model.addAttribute("user",new User());
-    return "user_form";
-}
-
-/**
-* 写法二：自动会将形参user放入model中属性的（隐式添加）
-* */
-@RequestMapping(value = "form",method = RequestMethod.GET)
-public String form(User user){
-    return "user_form";
-}
-
-/**
-* 写法三：不推荐
 * ① @ModelAttribute注解的方法会在@RequestMapping注解的方法之前执行
 * ② @ModelAttribute注解的方法会自动将返回值user 自动放到Model中
 * */
@@ -570,6 +608,7 @@ public User getUser(Long id){
     }
     return user;
 }
+
 @RequestMapping(value = "form",method = RequestMethod.GET)
 public String form(){
     return "user_form";
@@ -588,6 +627,8 @@ public String form(){
 ## 保存新用户
 
 ### 保存用户页面
+
+#### form表单回显
 
 ​	　首先，在`user_form.jsp`中新增，保存失败时错误信息的显示。接着，再`<form>标签`中的`<input>标签`中添加`name="phone" value="${user.phone}"`属性，`name属性`设置**提交时的参数名**，`value属性`是用于**保存失败数据回显**，`id属性`设置**操作DOM的元素编号**。
 
@@ -616,7 +657,161 @@ public String form(){
 
 
 
+#### SpringMVC标签库
+
+​	　通过[spring标签库](../framework/jsp.md#springmvc表单标签库)不仅可以简化`<form>标签`中`<input>`的写法，还可以通过`modelAttribute`属性获取`/user/save`请求操作失败后回传的`user`对象，并**自动回显**到各个控件中。
+
+```xml{2,7,12,18,24,30}
+<!-- 第一步：添加springmvc标签库 -->
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<!-- 第二步：新增保存失败时，错误信息的显示-->
+<!-- form start -->
+<form:form id="inputForm" class="form-horizontal" 
+           action="/user/save" method="post" modelAttribute="user">
+  <div class="box-body">
+     <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">邮箱</label>
+        <div class="col-sm-10">
+            <form:input class="form-control" path="email"  placeholder="请输入邮箱"/>
+        </div>
+      </div>
+   <div class="form-group">
+       <label for="passWord" class="col-sm-2 control-label">密码</label>
+        <div class="col-sm-10">
+           <form:password class="form-control" path="passWord"  placeholder="请输入密码"/>
+        </div>
+    </div>
+    <div class="form-group">
+         <label for="userName" class="col-sm-2 control-label">姓名</label>
+         <div class="col-sm-10">
+            <form:input class="form-control" path="userName"  placeholder="请输入用户姓名"/>
+         </div>
+     </div>
+     <div class="form-group">
+         <label for="phone" class="col-sm-2 control-label">手机</label>
+         <div class="col-sm-10">
+             <form:input class="form-control" path="phone"  placeholder="请输入手机号"/>
+         </div>
+     </div>
+   </div>
+   <!-- /.box-body -->
+   <div class="box-footer">
+      <button type="button" class="btn btn-default" onclick="history.go(-1)">返回</button>
+      <button type="submit" class="btn btn-info pull-right">提交</button>
+    </div>
+    <!-- /.box-footer -->
+</form:form>
+```
+
+​	　特别的，SpringMVC标签库要求`modelAttribute` **属性名必须设置** （否则会使用默认值），以及 **属性值必须为非空对象**，否则无法加载页面。示例： `跳转用户表单页面` 时没有在model中设置`modelAttribute`属性值（如下），则加载`user_form`页面时页面就会报错，（解决办法参照[这里](#编写业务代码-2)）。
+
+```java
+/**
+* UserController 跳转用户表单页面（错误写法）
+* */
+@RequestMapping(value = "form",method = RequestMethod.GET)
+public String form(){
+    //未在model空中设置user对象
+    return "user_form";
+}
+```
+
+
+
 ### Form表单验证
+
+#### jQuery Validation
+
+​	　首先，点击[这里](https://www.jsdelivr.com/package/npm/jquery-validation?version=1.14.0)，下载`jQuery Validation`，然后解压，并将解压后的`dist目录`下的内容，放入到`webapp/static/assets/plugins/jquery-validation/js/`目录下。然后，在`foot.jsp`页面中，按照如下方式，即可引入`jQuery Validation`前端表单验证框架。
+
+```xml
+<!-- Jquery validation Plugin -v1.14.0 -->
+<script src="/static/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/static/assets/plugins/jquery-validation/js/additional-methods.min.js"></script>
+<script src="/static/assets/plugins/jquery-validation/js/localization/messages_zh.min.js"></script>
+```
+
+​	　接着，在`asserts`目录下新建`app`目录，并在`app`目录下新建`validation.js`文件。
+
+```js
+/**
+ * jQuery 有效性验证
+ * @constructor
+ */
+var Validate = function () {
+
+    /**
+     * 初始化校验规则
+     */
+    var handlerInit = function () {
+        $.validator.addMethod("mobile", function (value, element) {
+            var length = value.length;
+            var mobile = /^(((13[0-9]{1})|(15[0-9]{1}))+\d{8})$/;
+            return this.optional(element) || (length == 11 && mobile.test(value));
+        }, "手机号码格式错误");
+    };
+
+    /**
+     * 表单验证
+     * @param formId
+     */
+    var handlerValidate = function (formId) {
+        $("#" + formId).validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                element.parent().parent().attr("class", "form-group has-error");
+                error.insertAfter(element);
+            }
+        });
+    };
+
+    return {
+        /**
+         * 初始化校验规则
+         */
+        init: function () {
+            handlerInit();
+        },
+
+        /**
+         * 表单验证
+         * @param formId
+         */
+        validateForm: function (formId) {
+            handlerValidate(formId);
+        }
+    }
+}();
+
+$(function () {
+    Validate.init();
+});
+```
+
+​	　然后，在`foot.jsp`页面中，引入`validation.js`。
+
+```xml
+<script src="/static/assets/app/validation.js"></script>
+```
+
+​	　最后，在 `user_form.jsp` 页面中，添加`required（必填）`、`email和mobile（验证格式）`，即可验证`form表单`用户填写的内容。
+
+```xml
+<!-- 第一步：在 user_form.jsp 页面中，验证inputForm中的内容 -->
+<form:input class="form-control required email" path="email"  placeholder="请输入邮箱"/>
+<form:password class="form-control required" path="passWord"  placeholder="请输入密码"/>
+<form:input class="form-control required" path="userName"  placeholder="请输入用户姓名"/>
+<form:input class="form-control required mobile" path="phone"  placeholder="请输入手机号"/>
+
+<!-- 第二步：在 user_form.jsp 页面中，验证inputForm表单中的内容 -->
+<script>
+    Validate.validateForm("inputForm");
+</script>
+```
+
+
 
 #### RegexpUtils
 
@@ -656,10 +851,6 @@ public class RegexpUtils {
     }
 }
 ```
-
-
-
-#### jQuery Validation
 
 
 
@@ -800,81 +991,174 @@ public class BaseResult implements Serializable {
 
 
 
-### SpringMVC标签库
-
-​	　通过[spring标签库](../framework/jsp.md#springmvc表单标签库)不仅可以简化`<form>标签`中`<input>`的写法，还可以通过`modelAttribute`属性获取`/user/save`请求操作失败后回传的`user`对象，并**自动回显**到各个控件中。
-
-```xml{2,7,12,18,24,30}
-<!-- 第一步：添加springmvc标签库 -->
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<!-- 第二步：新增保存失败时，错误信息的显示-->
-<!-- form start -->
-<form:form id="inputForm" class="form-horizontal" 
-           action="/user/save" method="post" modelAttribute="user">
-  <div class="box-body">
-     <div class="form-group">
-        <label for="email" class="col-sm-2 control-label">邮箱</label>
-        <div class="col-sm-10">
-            <form:input class="form-control" path="email"  placeholder="请输入邮箱"/>
-        </div>
-      </div>
-   <div class="form-group">
-       <label for="passWord" class="col-sm-2 control-label">密码</label>
-        <div class="col-sm-10">
-           <form:password class="form-control" path="passWord"  placeholder="请输入密码"/>
-        </div>
-    </div>
-    <div class="form-group">
-         <label for="userName" class="col-sm-2 control-label">姓名</label>
-         <div class="col-sm-10">
-            <form:input class="form-control" path="userName"  placeholder="请输入用户姓名"/>
-         </div>
-     </div>
-     <div class="form-group">
-         <label for="phone" class="col-sm-2 control-label">手机</label>
-         <div class="col-sm-10">
-             <form:input class="form-control" path="phone"  placeholder="请输入手机号"/>
-         </div>
-     </div>
-   </div>
-   <!-- /.box-body -->
-   <div class="box-footer">
-      <button type="button" class="btn btn-default" onclick="history.go(-1)">返回</button>
-      <button type="submit" class="btn btn-info pull-right">提交</button>
-    </div>
-    <!-- /.box-footer -->
-</form:form>
-```
-
-​	　特别的，SpringMVC标签库要求`modelAttribute` **属性名必须设置** （否则会使用默认值），以及 **属性值必须为非空对象**，否则无法加载页面。示例： `跳转用户表单页面` 时没有在model中设置`modelAttribute`属性值（如下），则加载`user_form`页面时页面就会报错，（解决办法参照[这里](#编写业务代码-2)）。
-
-```java
-/**
-* UserController 跳转用户表单页面
-* */
-@RequestMapping(value = "form",method = RequestMethod.GET)
-public String form(){
-    //未在model空中设置user对象
-    return "user_form";
-}
-```
-
-
-
 ### 测试运行
 
-（1）若保存失败，显示失败原因，并且填写的用户信息会回显，特别的，**密码是不会回显的**。
+（1）输入错误的邮箱、错误的手机、不输入密码和姓名，点击提交，可以显示验证提示错误信息。
+
+![1614431846604](./images/1614431846604.png)
+
+（2）若保存失败，显示失败原因，并且填写的用户信息会回显，特别的，**密码是不会回显的**。
 
 ![1614181810753](./images/1614181810753.png)
 
 
 
-（2）保存成功后，重定向到用户列表页面，并提示保存成功。
+（3）保存成功后，重定向到用户列表页面，并提示保存成功。
 
 ![1614181982444](./images/1614181982444.png)
 
 
+
+
+
+## 删除用户
+
+### 删除用户页面
+
+#### jQuery iCheck
+
+​	　首先，引入jQuery iCheck需要的CSS和JS文件。
+
+```xml
+<!-- 第一步：在header.js中引入CSS部分 -->
+<link rel="stylesheet" href="/static/assets/plugins/iCheck/all.css">
+<!-- 第二步：在foot.js中引入js部分 -->
+<script src="/static/assets/plugins/iCheck/icheck.min.js"></script>
+```
+
+​	　接着，在`asserts`目录下新建`app`目录，并在`app`目录下新建`icheck.js`文件。
+
+```js
+var Icheck = function (){
+
+    var _checkbox;
+    var _masterCheckbox;
+
+    /**
+     * 激活 iCheck
+     * */
+    var handlerInitCheckbox = function () {
+        // 激活 iCheck
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass   : 'iradio_minimal-blue'
+        });
+
+        //加载使用checkbox-master标记的主icheck 和 checkbox列表
+        _masterCheckbox = $('input[type = "checkbox"].minimal.checkbox-master');
+        _checkbox =  $('input[type = "checkbox"].minimal').not("[disabled]");
+    };
+
+    /**
+     * 全选
+     * */
+    var handleCheckboxAll = function(){
+        _masterCheckbox.on("ifClicked", function (e) {
+            // true当前状态已选中，点击后应取消选择
+            if (e.target.checked) {
+                _checkbox.iCheck("uncheck");
+            }
+
+            // 当前状态未选中，点击后应全选
+            else {
+                _checkbox.iCheck("check");
+            }
+        });
+    }
+
+    /**
+     * 获取被选中的ID
+     * */
+    var handleCheckId = function(){
+        var _idArray = new Array();
+        _checkbox.each(function () {
+            var _id = $(this).attr("id");
+            if(_id != null && _id !== "undefine" && $(this).is(":checked")){
+                _idArray.push(_id);
+            }
+        })
+        return _idArray;
+    }
+
+    return{
+        init: function () {
+            handlerInitCheckbox();
+            handleCheckboxAll();
+        },
+        handleCheckId : function () {
+            return handleCheckId();
+        }
+    }
+
+}();
+
+//JS引用时执行
+$(document).ready(function (){
+    Icheck.init();
+})
+```
+
+​	　然后，在`foot.jsp`页面中，引入`icheck.js`。
+
+```xml
+<script src="/static/assets/app/icheck.js"></script>
+```
+
+​	　然后，在 `user_list.jsp` 页面中添加`checkbox`控件，通过`Icheck.handleCheckId()`方法即可获取被选中控件的编号数组。
+
+```html{4,13}
+<thead>
+  <tr>
+     <!-- 设置主checkbox选择器，可以使用checkbox-master获取主选择器 -->
+     <th><input type="checkbox" class="minimal checkbox-master" /></th>
+     <th>编号</th>
+     <!-- 以下部分省略 -->
+   </tr>
+</thead>
+<tbody>
+   <c:forEach items="${users}" var="user">
+       <tr>
+         <!-- 设置子checkbox选择器，并新增id属性 -->
+          <td><input id="${user.id}" type="checkbox" class="minimal" /></td>
+          <!-- 以下部分省略 -->
+       </tr>
+    </c:forEach>
+</tbody>
+```
+
+
+
+#### JSP自定义标签
+
+
+
+### 编写业务代码
+
+#### 引入jackson包
+
+```xml
+<!-- Json Begin -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.9.5</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.5</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>2.9.5</version>
+</dependency>
+<!-- Json End -->
+```
+
+
+
+### 测试运行
 
 
 

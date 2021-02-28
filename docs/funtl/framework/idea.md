@@ -24,7 +24,7 @@ sidebar: auto
 - psvm + enter: 快捷生成main代码
 - sout + enter: 快捷生成System.out.println();
 - .val : 快捷生成变量名
-- div.container + tab : 自动生成div标签
+- div.container + tab : 自动生成div标签,并设置class
 
 [常用功能]
 - ctrl + e： 显示最近打开过的文件
@@ -125,7 +125,7 @@ jclasslib bytecode viewer 	      可视化的字节码查看插件
 
 ![11_idea_08](./images/11_idea_08.png)
 
-​	　选择`Update class and resources` 是采用**热部署**的方式启动Tomcat，可以让在**变更java文件**或者**web资源**时，无需重启Tomcat。但是要注意新增java文件或者资源是不能生效的。
+​	　选择`Update class and resources` 是采用**热部署**的方式启动Tomcat，可以让在**变更java文件**或者**web资源**时，无需重启Tomcat。但是要注意新增java文件或者资源是不能生效的。也可以使用热部署插件`JRbel`实现完全的热部署。
 
 
 

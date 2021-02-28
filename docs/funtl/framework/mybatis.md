@@ -148,7 +148,7 @@ jdbc.testSql=SELECT 'x' FROM DUAL
 
 ### mybatis-config.xml
 
-​	　新建`mybatis-config.xml`MyBatis 配置文件。
+​	　新建`mybatis-config.xml`MyBatis 配置文件。特别的，配置文件中的`<setting name="logImpl" value="STDOUT_LOGGING" />`是用于打印SQL语句的，该**配置只能在开发环境中开启**。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -313,6 +313,8 @@ List<User> selectUserByUserNameLike(String userNameLike);
 </select>
 ```
 
+> 注意：`xml`中不能使用`+`完成字符连接，只能使用`CONCAT()函数`进字符串连接。
+
 
 
 ### UPDATE更新
@@ -373,7 +375,7 @@ void updateById(User user);
 
 ### where标签
 
-​	　若`where标签`中全部的`if标签`的`test表达式`都为false时，**不会**添加`where关键字`；**至少存在一个表达式为true时，才会将where关键字加入到SQL语句中**。
+​	　首先，若`where标签`中全部的`if标签`的`test表达式`都为false时，**不会**添加`where关键字`；**至少存在一个表达式为true时，才会将where关键字加入到SQL语句中**。其次，第一个`AND`也会被where标签自动去掉。
 
 ```xmL
 <select id="selectUserById" resultType="User">
@@ -385,6 +387,9 @@ void updateById(User user);
     <where>
         <if test="id != null and id != ''">
             AND user.id =  #{id}
+        </if>
+        <if test="username != null and username != ''">
+            AND user.username=  #{username}
         </if>
     </where>
 </select>
