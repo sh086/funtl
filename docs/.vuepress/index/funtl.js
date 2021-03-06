@@ -6,8 +6,10 @@ const index = [
         children: [
             ['', '开篇'],
             ['framework/', '走进单体地狱'],
+            ['cloudservice/', '云计算服务'],
             ['microservice/', '微服务解决复杂问题'],
             ['datascience/', '价值互联网'],
+            ['topic/', '专题'],
         ]
     },
     {
@@ -19,50 +21,13 @@ const index = [
         ]
     },
     {
-        title: '专题',
+        title: '文档',
         collapsable: false,
         children: [
-            ['topic/interview.html','面试宝典'],
-            ['topic/vue.html','Vue渐进式JavaScript框架'],
-            ['topic/springsecurityoauth2.html','Spring Security Aauth2'],
+            ['tools','在线工具'],
+            ['https://www.runoob.com/docker/docker-tutorial.html','Docker'],
         ]
     },
 ]
-
-// const guide = [
-//     {
-//         title: '走进单体地狱',
-//         collapsable: false,
-//         children: [
-//             ['introduce.md', '开篇'],
-//             ['quickstart.md', '快速入门'],
-//             ['bootstrap.md', 'BootStrap'],
-//             ['common.md', '基础框架入门'],
-//             ['ssm.md', 'SpringFrame'],
-//         ]
-//     },
-//     {
-//         title: '微服务解决复杂问题',
-//         collapsable: false,
-//         children: [
-//             ['microservice.md', '微服务简介'],
-//             ['cloudservice.md', '云计算服务'],
-//             ['springboot.md', 'Spring Boot'],
-//             ['springcloudnetflix.md', 'Spring Cloud Netflix'],
-//             ['apachedubbozookeeper.md', 'Apache Dubbo Zookeeper'],
-//             ['springcloudalibaba.md', 'Spring Cloud Alibaba'],
-//             ['springcloudalibabadubbo.md', 'Spring Cloud Alibaba Dubbo'],
-//         ]
-//     },{
-//         title: '价值互联网',
-//         collapsable: false,
-//         children: [
-//             ['servicemesh.md', '服务网格化'],
-//             ['blockchain.md', '区块链即未来'],
-//         ]
-//     },
-// ]
-
-
 
 module.exports.index = index

@@ -248,7 +248,7 @@ var Icheck = function (){
      * 获取被选中的ID
      * */
     var handleCheckId = function(){
-        var _idArray = new Array();
+        var _idArray = [];
         _checkbox.each(function () {
             var _id = $(this).attr("id");
             if(_id != null && _id !== "undefine" && $(this).is(":checked")){
