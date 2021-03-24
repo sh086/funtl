@@ -7,7 +7,7 @@ const index = [
             ['', '开篇'],
             ['framework/', '走进单体地狱'],
             ['cloudservice/', '云计算服务'],
-            ['microservice/', '微服务解决复杂问题'],
+            ['microservice/', '微服务架构'],
             ['datascience/', '价值互联网'],
             ['topic/', '专题'],
         ]

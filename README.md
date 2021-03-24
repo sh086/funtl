@@ -6,7 +6,7 @@
 
 ```shell
 # 初始化项目文档
-startup.bat -init
+./startup.bat -init
 # 启动命令
 yarn dev
 ```

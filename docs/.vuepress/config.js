@@ -1,8 +1,8 @@
 const nav = require('./nav.js');
 const sidebar = require('./sidebar');
 module.exports = {
-    title: '学习笔记',
-    description: '学习笔记',
+    title: 'NoteBook',
+    description: 'NoteBook',
     port: '8001',
     base:'/college/',
     themeConfig: {

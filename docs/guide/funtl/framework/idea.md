@@ -51,7 +51,7 @@ sidebar: auto
 
 ```
 MyBatis Log Plugin 				  将Mybatis执行的sql脚本显示出来
-MybatisCodeHeplerPro 	          让你的mybatis.xml像java代码一样编辑
+MyBatisCodeHelperPro 	          让你的mybatis.xml像java代码一样编辑
 Lombok Plugin				      代码注解插件
 Alibaba Java Coding Guidelines    阿里巴巴 Java代码规范插件
 jclasslib bytecode viewer 	      可视化的字节码查看插件
