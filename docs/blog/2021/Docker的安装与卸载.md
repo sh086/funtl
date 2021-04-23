@@ -14,7 +14,7 @@
 
 ```shell
 # 使用官方安装脚本自动安装
-url -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 
 # 或使用daocloud命令 
 curl -sSL https://get.daocloud.io/docker | sh
