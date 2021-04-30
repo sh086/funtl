@@ -1,3 +1,7 @@
+---
+sidebar: auto
+---
+
 # Linux
 
 ​	　Linux 是一种自由和开放源码的类 UNIX 操作系统。Linux 本身只表示 Linux 内核，但广义上Linux 指整个基于 Linux 内核，并且使用 GNU 工程各种工具和数据库的操作系统。
