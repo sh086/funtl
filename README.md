@@ -17,12 +17,10 @@ yarn dev
 # 推送文件到GitHub Pages中
 # -push :固定参数 
 # git@github.com:sh086 :仓库的SSH地址
-startup.bat -push git@github.com:sh086
+./startup.bat -push git@github.com:sh086/college
 ```
 
-
-
-​	　**特别注意**：项目中`repository`目录是练习代码，可以通过WebStom的`Make as Directory As` 为`Excluded`，这样就可以避免被IDEA索引该目录了。
+​	　项目中可以通过`WebStom`的`Make as Directory As` 将目录标记为`Excluded`，以避免被IDEA索引。特别注意，若发布过程中，可以编译成功，但是部署失败，请参考[这里](https://blog.csdn.net/qq_43768946/article/details/90411154)；
 
 
 
