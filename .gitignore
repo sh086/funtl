@@ -12,3 +12,4 @@ resource
 repository
 example
 *.log
+record
