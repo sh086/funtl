@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CRM工单迁移专有云 | 学习笔记</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/college/favicon.ico">
+    <meta name="description" content="学习笔记">
+    
+    <link rel="preload" href="/college/assets/css/0.styles.145c1abc.css" as="style"><link rel="preload" href="/college/assets/js/app.4791414c.js" as="script"><link rel="preload" href="/college/assets/js/2.3514b59d.js" as="script"><link rel="preload" href="/college/assets/js/82.1c1aaea8.js" as="script"><link rel="prefetch" href="/college/assets/js/10.cbf00236.js"><link rel="prefetch" href="/college/assets/js/100.09dcb188.js"><link rel="prefetch" href="/college/assets/js/101.49a8160a.js"><link rel="prefetch" href="/college/assets/js/102.dbb19677.js"><link rel="prefetch" href="/college/assets/js/103.69753e3c.js"><link rel="prefetch" href="/college/assets/js/104.833bc029.js"><link rel="prefetch" href="/college/assets/js/105.fabdc0d1.js"><link rel="prefetch" href="/college/assets/js/106.af5b3811.js"><link rel="prefetch" href="/college/assets/js/107.cac99e47.js"><link rel="prefetch" href="/college/assets/js/108.1c6fe39a.js"><link rel="prefetch" href="/college/assets/js/109.381ad06a.js"><link rel="prefetch" href="/college/assets/js/11.59b7f971.js"><link rel="prefetch" href="/college/assets/js/110.15187e07.js"><link rel="prefetch" href="/college/assets/js/111.2eaeaf78.js"><link rel="prefetch" href="/college/assets/js/112.90123e8a.js"><link rel="prefetch" href="/college/assets/js/113.9a717e93.js"><link rel="prefetch" href="/college/assets/js/114.4e5678c0.js"><link rel="prefetch" href="/college/assets/js/115.f1064289.js"><link rel="prefetch" href="/college/assets/js/116.9418cec3.js"><link rel="prefetch" href="/college/assets/js/117.7f13c84b.js"><link rel="prefetch" href="/college/assets/js/118.806299cf.js"><link rel="prefetch" href="/college/assets/js/119.6511ac1e.js"><link rel="prefetch" href="/college/assets/js/12.7b688d63.js"><link rel="prefetch" href="/college/assets/js/120.b4e66a48.js"><link rel="prefetch" href="/college/assets/js/121.6f2105d8.js"><link rel="prefetch" href="/college/assets/js/122.59c5daa6.js"><link rel="prefetch" href="/college/assets/js/123.8b5516ee.js"><link rel="prefetch" href="/college/assets/js/124.61754680.js"><link rel="prefetch" href="/college/assets/js/13.639398c0.js"><link rel="prefetch" href="/college/assets/js/14.ae220b00.js"><link rel="prefetch" href="/college/assets/js/15.6030cc2c.js"><link rel="prefetch" href="/college/assets/js/16.bcad66cb.js"><link rel="prefetch" href="/college/assets/js/17.283b46b9.js"><link rel="prefetch" href="/college/assets/js/18.ba480fb5.js"><link rel="prefetch" href="/college/assets/js/19.2fb7b239.js"><link rel="prefetch" href="/college/assets/js/20.8fc3969c.js"><link rel="prefetch" href="/college/assets/js/21.0d611247.js"><link rel="prefetch" href="/college/assets/js/22.11358e02.js"><link rel="prefetch" href="/college/assets/js/23.6459e5d7.js"><link rel="prefetch" href="/college/assets/js/24.c7d26776.js"><link rel="prefetch" href="/college/assets/js/25.0c78bb81.js"><link rel="prefetch" href="/college/assets/js/26.f0211dcd.js"><link rel="prefetch" href="/college/assets/js/27.b6005405.js"><link rel="prefetch" href="/college/assets/js/28.17977fe7.js"><link rel="prefetch" href="/college/assets/js/29.0c0a2cae.js"><link rel="prefetch" href="/college/assets/js/3.6a48563e.js"><link rel="prefetch" href="/college/assets/js/30.81932840.js"><link rel="prefetch" href="/college/assets/js/31.8058ab26.js"><link rel="prefetch" href="/college/assets/js/32.beb55a34.js"><link rel="prefetch" href="/college/assets/js/33.56069543.js"><link rel="prefetch" href="/college/assets/js/34.34f2199e.js"><link rel="prefetch" href="/college/assets/js/35.1950aa3e.js"><link rel="prefetch" href="/college/assets/js/36.7baf6d24.js"><link rel="prefetch" href="/college/assets/js/37.82e81f94.js"><link rel="prefetch" href="/college/assets/js/38.855f7247.js"><link rel="prefetch" href="/college/assets/js/39.2eb85a4f.js"><link rel="prefetch" href="/college/assets/js/4.fca25402.js"><link rel="prefetch" href="/college/assets/js/40.a429c9c5.js"><link rel="prefetch" href="/college/assets/js/41.e3e08432.js"><link rel="prefetch" href="/college/assets/js/42.5dd13a60.js"><link rel="prefetch" href="/college/assets/js/43.e2dd01c6.js"><link rel="prefetch" href="/college/assets/js/44.6354106c.js"><link rel="prefetch" href="/college/assets/js/45.92adf809.js"><link rel="prefetch" href="/college/assets/js/46.bdb9c838.js"><link rel="prefetch" href="/college/assets/js/47.b6892422.js"><link rel="prefetch" href="/college/assets/js/48.6102d27a.js"><link rel="prefetch" href="/college/assets/js/49.736c69e9.js"><link rel="prefetch" href="/college/assets/js/5.72d0dbe2.js"><link rel="prefetch" href="/college/assets/js/50.8d15425f.js"><link rel="prefetch" href="/college/assets/js/51.5cd305ba.js"><link rel="prefetch" href="/college/assets/js/52.afea97df.js"><link rel="prefetch" href="/college/assets/js/53.44dbfb0c.js"><link rel="prefetch" href="/college/assets/js/54.4f51faec.js"><link rel="prefetch" href="/college/assets/js/55.82dab1bd.js"><link rel="prefetch" href="/college/assets/js/56.99ec3010.js"><link rel="prefetch" href="/college/assets/js/57.5305c097.js"><link rel="prefetch" href="/college/assets/js/58.0604a19b.js"><link rel="prefetch" href="/college/assets/js/59.b8cb8e40.js"><link rel="prefetch" href="/college/assets/js/6.1960beed.js"><link rel="prefetch" href="/college/assets/js/60.83d20ed0.js"><link rel="prefetch" href="/college/assets/js/61.cb196b72.js"><link rel="prefetch" href="/college/assets/js/62.ef5d01e7.js"><link rel="prefetch" href="/college/assets/js/63.325b8085.js"><link rel="prefetch" href="/college/assets/js/64.2e096163.js"><link rel="prefetch" href="/college/assets/js/65.7aa7398c.js"><link rel="prefetch" href="/college/assets/js/66.5282c09a.js"><link rel="prefetch" href="/college/assets/js/67.a14e5efd.js"><link rel="prefetch" href="/college/assets/js/68.69a4fd20.js"><link rel="prefetch" href="/college/assets/js/69.46f28258.js"><link rel="prefetch" href="/college/assets/js/7.2eb08b64.js"><link rel="prefetch" href="/college/assets/js/70.aade3054.js"><link rel="prefetch" href="/college/assets/js/71.be945a0f.js"><link rel="prefetch" href="/college/assets/js/72.7b52821c.js"><link rel="prefetch" href="/college/assets/js/73.64d1f9aa.js"><link rel="prefetch" href="/college/assets/js/74.7dd9b1bd.js"><link rel="prefetch" href="/college/assets/js/75.7d15ffe6.js"><link rel="prefetch" href="/college/assets/js/76.7d70176a.js"><link rel="prefetch" href="/college/assets/js/77.6764da83.js"><link rel="prefetch" href="/college/assets/js/78.65c27b1d.js"><link rel="prefetch" href="/college/assets/js/79.d0e04172.js"><link rel="prefetch" href="/college/assets/js/8.17542ebe.js"><link rel="prefetch" href="/college/assets/js/80.ca480228.js"><link rel="prefetch" href="/college/assets/js/81.34ecf148.js"><link rel="prefetch" href="/college/assets/js/83.54d671df.js"><link rel="prefetch" href="/college/assets/js/84.07968dea.js"><link rel="prefetch" href="/college/assets/js/85.333efd08.js"><link rel="prefetch" href="/college/assets/js/86.a68d6803.js"><link rel="prefetch" href="/college/assets/js/87.0aeb5f7c.js"><link rel="prefetch" href="/college/assets/js/88.531e4015.js"><link rel="prefetch" href="/college/assets/js/89.febee893.js"><link rel="prefetch" href="/college/assets/js/9.6a0ccc8b.js"><link rel="prefetch" href="/college/assets/js/90.3b63e3ef.js"><link rel="prefetch" href="/college/assets/js/91.dddb6f4b.js"><link rel="prefetch" href="/college/assets/js/92.b8c1fcaa.js"><link rel="prefetch" href="/college/assets/js/93.23f7f5b1.js"><link rel="prefetch" href="/college/assets/js/94.42cf4b48.js"><link rel="prefetch" href="/college/assets/js/95.1f97ed62.js"><link rel="prefetch" href="/college/assets/js/96.1db054ab.js"><link rel="prefetch" href="/college/assets/js/97.e5b19789.js"><link rel="prefetch" href="/college/assets/js/98.ac598659.js"><link rel="prefetch" href="/college/assets/js/99.9e701d80.js">
+    <link rel="stylesheet" href="/college/assets/css/0.styles.145c1abc.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/college/" class="home-link router-link-active"><!----> <span class="site-name">学习笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/college/blog/" class="nav-link">
+  博客
+</a></div><div class="nav-item"><a href="/college/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><a href="/college/project/" class="nav-link">
+  项目
+</a></div><div class="nav-item"><a href="/college/data/" class="nav-link">
+  数据科学
+</a></div><div class="nav-item"><a href="/college/workflow/" class="nav-link">
+  工作流
+</a></div> <a href="https://github.com/sh086/college" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/college/blog/" class="nav-link">
+  博客
+</a></div><div class="nav-item"><a href="/college/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><a href="/college/project/" class="nav-link">
+  项目
+</a></div><div class="nav-item"><a href="/college/data/" class="nav-link">
+  数据科学
+</a></div><div class="nav-item"><a href="/college/workflow/" class="nav-link">
+  工作流
+</a></div> <a href="https://github.com/sh086/college" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>CRM工单迁移专有云</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#环境准备" class="sidebar-link">环境准备</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#测试环境" class="sidebar-link">测试环境</a></li><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#生产环境" class="sidebar-link">生产环境</a></li></ul></li><li><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#crm服务迁移" class="sidebar-link">CRM服务迁移</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#生成war包" class="sidebar-link">生成war包</a></li><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#定制镜像" class="sidebar-link">定制镜像</a></li></ul></li><li><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#工单服务迁移" class="sidebar-link">工单服务迁移</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#生成war包-2" class="sidebar-link">生成war包</a></li><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#定制镜像-2" class="sidebar-link">定制镜像</a></li></ul></li><li><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#长期未发货服务迁移" class="sidebar-link">长期未发货服务迁移</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#生成jar包" class="sidebar-link">生成JAR包</a></li><li class="sidebar-sub-header"><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#定制镜像-3" class="sidebar-link">定制镜像</a></li></ul></li><li><a href="/college/record/cmhb/devops/20210524-CRM%E5%B7%A5%E5%8D%95%E8%BF%81%E7%A7%BB%E4%B8%93%E6%9C%89%E4%BA%91.html#附录" class="sidebar-link">附录</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="crm工单迁移专有云"><a href="#crm工单迁移专有云" class="header-anchor">#</a> CRM工单迁移专有云</h1> <h2 id="环境准备"><a href="#环境准备" class="header-anchor">#</a> 环境准备</h2> <h3 id="测试环境"><a href="#测试环境" class="header-anchor">#</a> 测试环境</h3> <p>​	　首先，申请测试环境需要使用到的资源。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>- EXT私有云测试地址： http://10.10.98.152
+- CRM工单测试服务器：FAT-CRM工单2-APP（10.10.144.6）
+- CRM工单测试数据库：
+  	域名：rm-0jz4xquq115q2lrxg.mysql.rds.ops.yanwentech.cn
+  	IP： 10.10.148.66:3306
+  	普通账号 crm  密码 v1PBy!Z@Pl*pmOoJ
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>​	　接着，需要给如下IP开通访问CRM工单测试数据库（10.10.148.66）的权限。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 专有云测试:</span>
+<span class="token number">10.10</span>.144.200
+<span class="token number">10.10</span>.144.201
+<span class="token number">10.10</span>.144.202
+<span class="token number">10.10</span>.144.207
+<span class="token number">10.10</span>.144.208
+<span class="token number">10.10</span>.144.211
+<span class="token number">10.10</span>.144.210
+<span class="token comment"># 杭州分公司出口IP</span>
+<span class="token number">112.17</span>.122.139
+<span class="token comment"># CRM工单测试机器IP</span>
+<span class="token number">10.10</span>.144.6
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>​	　此外，对于测试环境的的法大大签约地址（10.10.144.15:9090），目前还需给CRM工单测试环境服务器（10.10.144.6）开通访问权限。开通后，可以通过如下命令测试，若有返回值，则表明权限开通成功。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 需要开通的权限</span>
+<span class="token number">10.10</span>.144.6 访问 <span class="token number">10.10</span>.144.15:9090
+<span class="token comment"># 112.17.122.139（杭州分公司Ip）需要开通访问</span>
+<span class="token number">10.10</span>.144.6的8095（工单）、8080（CRM）、8093<span class="token punctuation">(</span>长期未发货<span class="token punctuation">)</span>的端口权限
+<span class="token comment"># 测试命令</span>
+<span class="token function">curl</span> <span class="token number">10.10</span>.144.15:9090
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>​	　最后，项目迁移完成后，记得需要请允许做一下域名映射。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>http://10.10.144.6:8080/crmapitest 对应域名 https://crm.yanwentech.com/crmapitest
+http://10.10.144.6:8093/custworkordertest 对应域名 https://crm.yanwentech.com/custworkordertest
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="生产环境"><a href="#生产环境" class="header-anchor">#</a> 生产环境</h3> <p>​	　首先，申请生产环境需要使用到的资源。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>- EXT私有云正式地址：http://10.10.98.34
+- CRM生产服务器：PRO-CRM-APP（10.10.132.176）
+- 工单生产服务器：PRO-工单系统APP（10.10.132.177）
+- CRM生产环境数据库：
+	域名：rm-bp1z9d62d5mt1lnj3.mysql.rds.aliyuncs.com
+	IP: 10.11.141.226:3306
+	普通账号 ywcrm 密码 JK1@29#ie8Yc*34
+- 工单生产环境数据库：
+	域名：rm-bp1h1a5jrppnk6zp6.mysql.rds.aliyuncs.com
+	IP: 10.11.141.224:3306
+	普通账号 ywwl 密码 S!aDKN2GIR!zfW%C
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>​	　接着，需要给如下IP开通访问CRM生产数据库和工单生产数据库的访问权限。特别的，生产和测试环境的机器是不能访问的。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment">#专有云正式（开通访问CRM、工单生产数据库权限）</span>
+<span class="token number">10.10</span>.132.213
+<span class="token number">10.10</span>.132.214
+<span class="token number">10.10</span>.132.215
+<span class="token number">10.10</span>.132.216
+<span class="token number">10.10</span>.132.217
+<span class="token number">10.10</span>.132.218
+<span class="token comment"># CRM工单生产机器IP（仅开通访问CRM生产数据库权限）</span>
+<span class="token number">10.10</span>.132.176
+<span class="token comment"># 工单生产机器IP（仅开通访问工单生产数据库权限）</span>
+<span class="token number">10.10</span>.132.177
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>​	　最后，项目迁移完成后，记得需要请允许做一下域名映射。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>http://10.10.132.176:8080/crmapi 对应域名 https://crm.yanwentech.com/crmapi
+http://10.10.132.177:8093/custworkorder 对应域名 https://crm.yanwentech.com/custworkorder
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h2 id="crm服务迁移"><a href="#crm服务迁移" class="header-anchor">#</a> CRM服务迁移</h2> <h3 id="生成war包"><a href="#生成war包" class="header-anchor">#</a> 生成war包</h3> <p>​	　首先，需要修改YML配置文件中测试 CRM数据库地址 和 测试工单地址、长期未发货的服务地址。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 修改测试数据库地址</span>
+url: jdbc:mysql://10.10.148.66:3306/customerinfo?characterEncoding<span class="token operator">=</span>utf8<span class="token operator">&amp;</span><span class="token assign-left variable">useSSL</span><span class="token operator">=</span>true
+username: crm
+password: v1PBy<span class="token operator">!</span>Z@Pl*pmOoJ     
+<span class="token comment"># 修改测试工单测试地址</span>
+https://crm.yanwentech.com/custworkordertest/api/
+<span class="token comment"># 修改长期未发货测试地址</span>
+http://10.10.144.6:8095/api/customer/CustomerCodeBetweenLatestOrderDate
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>​	　然后打包项目生成可部署的war包，并通过FTP上传到服务器中即可。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 打包命令</span>
+mvn package -Dmaven.test.skip<span class="token operator">=</span>true
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="定制镜像"><a href="#定制镜像" class="header-anchor">#</a> 定制镜像</h3> <p>​	　首先，运行如下命令，新建<code>crm-api</code>目录，并将<code>crmapitest.war</code>从FTP拉取到当前目录。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 新建crm-api目录</span>
+<span class="token builtin class-name">cd</span> /home
+<span class="token function">mkdir</span> crm-api
+<span class="token builtin class-name">cd</span> crm-api
+<span class="token comment"># 新建功能目录</span>
+<span class="token function">mkdir</span> docker app logs
+<span class="token builtin class-name">cd</span> docker
+<span class="token comment"># 将crmapitest.war从FTP拉取到docker目录</span>
+<span class="token function">ftp</span> ftp.yanwentech.com
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>​	　然后，新建<code>Dockerfile</code>自定义工单服务镜像。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">vi</span> Dockerfile
+<span class="token comment"># 编辑Dockerfile内容</span>
+FROM tomcat:8.5.32
+WORKDIR /usr/local/tomcat/webapps/
+RUN <span class="token function">rm</span> -rf *
+COPY crm*.war <span class="token builtin class-name">.</span>
+RUN <span class="token function">mkdir</span> ROOT
+RUN <span class="token builtin class-name">echo</span> <span class="token string">&quot;CRM已启动&quot;</span> <span class="token operator">&gt;</span> ROOT/index.html
+RUN <span class="token function">unzip</span> -o crm*.war -d crmapitest
+RUN <span class="token function">rm</span> -rf crm*.war
+EXPOSE <span class="token number">8080</span>
+CMD <span class="token punctuation">[</span><span class="token string">&quot;catalina.sh&quot;</span>,<span class="token string">&quot;run&quot;</span><span class="token punctuation">]</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>​	　再着，新建<code>backups.sh</code>启动命令，完成后，执行<code>./backups.sh</code>即可保留部署的war包和日志。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">vi</span> backups.sh
+
+<span class="token comment"># 编辑backups.sh的内容</span>
+<span class="token comment"># 保留部署的war包和日志</span>
+<span class="token function">cp</span> crmapitest.war <span class="token punctuation">..</span>/app/crm-<span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> +%Y%m%d%H%M%S<span class="token variable">)</span></span>.war
+<span class="token function">cp</span> <span class="token punctuation">..</span>/logs/catalina.*.log <span class="token punctuation">..</span>/app/catalina-<span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> +%Y%m%d%H%M%S<span class="token variable">)</span></span>.log
+<span class="token comment"># war包保留3天，日志保留半年</span>
+<span class="token function">rm</span> -rf <span class="token punctuation">..</span>/app/crm-<span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> <span class="token string">&quot;+%Y%m%d&quot;</span> -d  <span class="token string">'3 day ago'</span><span class="token variable">)</span></span>*
+<span class="token function">rm</span> -rf <span class="token punctuation">..</span>/app/catalina-<span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> <span class="token string">&quot;+%Y%m&quot;</span> -d  <span class="token string">'6 month ago'</span><span class="token variable">)</span></span>*
+<span class="token comment"># 清理无效的镜像</span>
+y <span class="token operator">|</span> docker image prune
+
+<span class="token comment"># 增加backups.sh可执行权限</span>
+<span class="token function">chmod</span> +x startup.sh
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>​	　接着，新建<code>startup.sh</code>启动命令，完成后，执行<code>./startup.sh</code>即可自动生成镜像并启动服务。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">vi</span> startup.sh
+
+<span class="token comment"># 编辑startup.sh内容</span>
+docker build -t crm-api <span class="token builtin class-name">.</span>
+docker stop  crm-api
+docker <span class="token function">rm</span> crm-api
+docker run -d   <span class="token punctuation">\</span>
+-e <span class="token assign-left variable">TZ</span><span class="token operator">=</span>Asia/Shanghai   <span class="token punctuation">\</span>
+--restart always   <span class="token punctuation">\</span>
+-v /home/crm-api/logs:/usr/local/tomcat/logs  <span class="token punctuation">\</span>
+-e <span class="token assign-left variable">JAVA_OPTS</span><span class="token operator">=</span><span class="token string">'-server -Xms2000m -Xmx6000m'</span> <span class="token punctuation">\</span>
+--name crm-api   <span class="token punctuation">\</span>
+-p <span class="token number">8080</span>:8080 crm-api
+
+<span class="token comment"># 增加可执行权限</span>
+<span class="token function">chmod</span> +x startup.sh
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>​	　最后，运行<code>startup.sh</code>脚本，完成后，可以通过如下命令验证CRM是否启动成功。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">curl</span> -i -k  -H <span class="token string">&quot;Content-type: application/json&quot;</span> -X POST -d <span class="token string">' {&quot;merchantCode&quot;: &quot;30068590&quot;}'</span> http://10.10.132.176:8080/crmapi/api/workOrder/thawApplication/searchBankCard
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h2 id="工单服务迁移"><a href="#工单服务迁移" class="header-anchor">#</a> 工单服务迁移</h2> <h3 id="生成war包-2"><a href="#生成war包-2" class="header-anchor">#</a> 生成war包</h3> <p>​	　首先，需要修改YML配置文件中测试 工单数据库地址 和 测试CRM地址。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 修改测试数据库地址</span>
+url: jdbc:mysql://10.10.148.66:3306/workorder?characterEncoding<span class="token operator">=</span>utf8<span class="token operator">&amp;</span><span class="token assign-left variable">serverTimezone</span><span class="token operator">=</span>GMT%2B8
+username: crm
+password: v1PBy<span class="token operator">!</span>Z@Pl*pmOoJ     
+<span class="token comment"># 修改测试CRM地址</span>
+https://crm.yanwentech.com/crmapitest/api/
+<span class="token comment"># 定义context-path</span>
+context-path: /custworkordertest/
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>​	　然后打包项目生成可部署的war包，并通过FTP上传到服务器中即可。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 打包命令</span>
+mvn package -Dmaven.test.skip<span class="token operator">=</span>true
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="定制镜像-2"><a href="#定制镜像-2" class="header-anchor">#</a> 定制镜像</h3> <p>​	　首先，运行如下命令，新建<code>work-order</code>目录，并将<code>WorkOrder-1.0.0.jar</code>从FTP拉取到当前目录。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 新建work-order目录</span>
+<span class="token builtin class-name">cd</span> /home
+<span class="token function">mkdir</span> work-order
+<span class="token builtin class-name">cd</span> work-order
+<span class="token comment"># 将WorkOrder-1.0.0.jar从FTP拉取到当前目录</span>
+<span class="token function">ftp</span> ftp.yanwentech.com
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>​	　然后，新建Dockerfile自定义工单服务镜像。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">vi</span> Dockerfile
+<span class="token comment"># 编辑Dockerfile内容</span>
+FROM openjdk:8
+WORKDIR /app
+COPY WorkOrder-1.0.0.jar <span class="token builtin class-name">.</span>
+EXPOSE <span class="token number">8093</span>
+CMD java -jar -Dserver.port<span class="token operator">=</span><span class="token number">8093</span> ./WorkOrder-1.0.0.jar.jar
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>​	　接着，新建<code>startup.sh</code>启动命令，用于支持自动部署。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">vi</span> startup.sh
+<span class="token comment"># 编辑startup.sh内容</span>
+docker build -t work-order <span class="token builtin class-name">.</span>
+docker stop work-order
+docker <span class="token function">rm</span> work-order
+docker run -d --restart always -e <span class="token assign-left variable">TZ</span><span class="token operator">=</span>Asia/Shanghai  --name work-order -p <span class="token number">8093</span>:8093 work-order
+<span class="token comment"># 增加可执行权限</span>
+<span class="token function">chmod</span> +x startup.sh
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>​	　最后，运行<code>startup.sh</code>脚本，完成后，可以通过如下命令验证工单是否启动成功。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">curl</span> -i -k  -H <span class="token string">&quot;Content-type: application/json&quot;</span> -X POST -d <span class="token string">' {&quot;type&quot;: &quot;1&quot;}'</span> http://10.10.132.177:8093/custworkorder/api/workOrder/generateId
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h2 id="长期未发货服务迁移"><a href="#长期未发货服务迁移" class="header-anchor">#</a> 长期未发货服务迁移</h2> <h3 id="生成jar包"><a href="#生成jar包" class="header-anchor">#</a> 生成JAR包</h3> <p>​	　首先，打包项目生成可部署的JAR包，并通过FTP上传到服务器中即可。特别注意：长期未发货服务生产测试使用的数据库地址是一样的。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 打包命令</span>
+mvn package -Dmaven.test.skip<span class="token operator">=</span>true
+<span class="token comment"># FTP命令</span>
+<span class="token function">ftp</span> ftp.yanwentech.com
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h3 id="定制镜像-3"><a href="#定制镜像-3" class="header-anchor">#</a> 定制镜像</h3> <p>​	　首先，运行如下命令，新建<code>inactive-customer</code>目录，并将<code>inactive-customer-0.0.1.jar</code>从FTP拉取到当前目录。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 新建inactive-customer目录</span>
+<span class="token builtin class-name">cd</span> /home
+<span class="token function">mkdir</span> inactive-customer
+<span class="token builtin class-name">cd</span> inactive-customer
+<span class="token comment"># 将inactive-customer-0.0.1.jar从FTP拉取到当前目录</span>
+<span class="token function">ftp</span> ftp.yanwentech.com
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>​	　然后，新建Dockerfile自定义长期未发货服务镜像。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">vi</span> Dockerfile
+<span class="token comment"># 编辑Dockerfile内容</span>
+FROM openjdk:8
+WORKDIR /app
+COPY inactive-customer-0.0.1.jar <span class="token builtin class-name">.</span>
+EXPOSE <span class="token number">8095</span>
+CMD java -jar -Dserver.port<span class="token operator">=</span><span class="token number">8095</span> ./inactive-customer-0.0.1.jar
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>​	　接着，新建<code>startup.sh</code>启动命令，用于支持自动部署。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token function">vi</span> startup.sh
+<span class="token comment"># 编辑startup.sh内容</span>
+docker build -t inactive-customer <span class="token builtin class-name">.</span>
+docker stop inactive-customer
+docker <span class="token function">rm</span> inactive-customer
+docker run -d --name inactive-customer -p <span class="token number">8095</span>:8095 inactive-customer
+<span class="token comment"># 增加可执行权限</span>
+<span class="token function">chmod</span> +x startup.sh
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>​	　至此，长期长期未发货服务已部署完成，可以通过如下命令检测是否部署成功。</p> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 展示8095端口是否启动，若没有8095端口，则表明启动失败</span>
+ss -nultp
+<span class="token comment"># 本机上执行如下curl会有返回值的</span>
+<span class="token function">curl</span> -i -k  -H <span class="token string">&quot;Content-type: application/json&quot;</span> -X POST -d <span class="token string">'{
+	&quot;dateFrom&quot;: &quot;2021-01-01&quot;,
+	&quot;dateTo&quot;: &quot;2021-05-01&quot;
+}'</span> http://10.10.144.6:8095/api/customer/CustomerCodeBetweenLatestOrderDate
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h2 id="附录"><a href="#附录" class="header-anchor">#</a> 附录</h2> <div class="language-shell line-numbers-mode"><pre class="language-shell"><code><span class="token comment"># 查询服务是否启动</span>
+<span class="token function">netstat</span> -utnalp <span class="token operator">|</span> <span class="token function">grep</span> LISTEN
+<span class="token comment"># 查看端口是否启动</span>
+ss -nultp
+<span class="token comment"># 查询端口是否开发</span>
+telnet IP:Port
+<span class="token comment"># 判断地址是否可以访问</span>
+<span class="token function">curl</span> <span class="token number">10.10</span>.144.15:9090
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/college/assets/js/app.4791414c.js" defer></script><script src="/college/assets/js/2.3514b59d.js" defer></script><script src="/college/assets/js/82.1c1aaea8.js" defer></script>
+  </body>
+</html>
